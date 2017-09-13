@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +35,56 @@ namespace WpfApp2
             MenuItem menuItem = (MenuItem)sender;
             if( menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
             {
-               this.Close();
+               this.Close();}
+        }
+
+        private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            // Get the DataRow corresponding to the DataGridRow that is loading.
+            DataGridRow row = e.Row;
+            var item = row.DataContext as order;
+            if (item != null)
+            {
+                switch( item.isArchive.Value )
+                {
+                    case 1:
+                        e.Row.Background = new SolidColorBrush(Colors.Gray);
+                        break;
+                    case 2:
+                        e.Row.Background = new SolidColorBrush(Colors.Blue);
+                        break;
+                    case 3:
+                        e.Row.Background = new SolidColorBrush(Colors.Green);
+                        break;
+                }
+            }
+        }
+        private void DataGridRow_EditEnding1( object sender, DataGridRowEditEndingEventArgs e)
+        {
+            var Row = "";
+        }
+        private void BindingSource_CurrentItemChanged( object sender, EventArgs e)
+        {
+            /*DataRow ThisDataRow = ((DataRowView)((BindingSource)sender).Current).Row;
+            if (ThisDataRow.RowState == DataRowState.Modified)
+            {
+                TableAdapter.Update(ThisDataRow);
+            }*/
+        }
+
+        private void Grid_change_background( object sender, RoutedEventArgs e )
+        {
+            order order = OrdersGrid.SelectedItem as order;
+
+            if( order.isArchive.Equals( 1 ) )
+            {
+                OrdersGrid.RowBackground = new SolidColorBrush(Colors.WhiteSmoke);
+            }
+            if (order.isArchive.Equals(2))
+            {
+                OrdersGrid.RowBackground = new SolidColorBrush(Colors.WhiteSmoke);
             }
         }
     }
+   
 }

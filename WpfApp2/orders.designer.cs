@@ -23,10 +23,18 @@ namespace WpfApp2
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
-
-    public partial class ordersDataContext : System.Data.Linq.DataContext
+	public partial class OrdersDataContext : System.Data.Linq.DataContext
 	{
-        //Коллекция для заказов
+		
+		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+		
+    #region Extensibility Method Definitions
+    partial void OnCreated();
+    partial void Insertorder(order instance);
+    partial void Updateorder(order instance);
+    partial void Deleteorder(order instance);
+        #endregion
+
         public IEnumerable<order> GetAllOrders()
         {
             var items = this.orders.Select(item => item).OrderBy(item => item.Number);
@@ -34,41 +42,31 @@ namespace WpfApp2
             return items;
         }
 
-        //Автоматически генерируемый код 
-        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-		
-    #region Extensibility Method Definitions
-    partial void OnCreated();
-    partial void Insertorder(order instance);
-    partial void Updateorder(order instance);
-    partial void Deleteorder(order instance);
-    #endregion
-		
-		public ordersDataContext() : 
+        public OrdersDataContext() : 
 				base(global::WpfApp2.Properties.Settings.Default.auto76ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public ordersDataContext(string connection) : 
+		public OrdersDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public ordersDataContext(System.Data.IDbConnection connection) : 
+		public OrdersDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public ordersDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public OrdersDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public ordersDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public OrdersDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -81,9 +79,12 @@ namespace WpfApp2
 				return this.GetTable<order>();
 			}
 		}
+
+
 	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
+
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
 	public partial class order : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -103,6 +104,8 @@ namespace WpfApp2
 		
 		private string _Comment;
 		
+		private System.Nullable<int> _isArchive;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -121,6 +124,8 @@ namespace WpfApp2
     partial void OncountChanged();
     partial void OnCommentChanging(string value);
     partial void OnCommentChanged();
+    partial void OnisArchiveChanging(System.Nullable<int> value);
+    partial void OnisArchiveChanged();
     #endregion
 		
 		public order()
@@ -128,7 +133,7 @@ namespace WpfApp2
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -264,6 +269,26 @@ namespace WpfApp2
 					this._Comment = value;
 					this.SendPropertyChanged("Comment");
 					this.OnCommentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isArchive", DbType="Int")]
+		public System.Nullable<int> isArchive
+		{
+			get
+			{
+				return this._isArchive;
+			}
+			set
+			{
+				if ((this._isArchive != value))
+				{
+					this.OnisArchiveChanging(value);
+					this.SendPropertyChanging();
+					this._isArchive = value;
+					this.SendPropertyChanged("isArchive");
+					this.OnisArchiveChanged();
 				}
 			}
 		}

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="508" Width="801" >
     <Window.Resources>
-        <ObjectDataProvider x:Key="getOrders" ObjectType="{x:Type local:ordersDataContext}" MethodName="GetAllOrders"></ObjectDataProvider>
+        <ObjectDataProvider x:Key="getOrders" ObjectType="{x:Type local:OrdersDataContext}" MethodName="GetAllOrders"></ObjectDataProvider>
     </Window.Resources>
 
     <Grid>
@@ -17,7 +17,11 @@
         <TabControl HorizontalAlignment="Left" Height="439" Margin="0,28,0,0" VerticalAlignment="Top" Width="783">
             <TabItem Header="Заказы">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777"  ItemsSource="{Binding Source={StaticResource getOrders}}" IsSynchronizedWithCurrentItem="True"/>
+                    <DataGrid Name="OrdersGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
+                                ItemsSource="{Binding Source={StaticResource getOrders}}" IsSynchronizedWithCurrentItem="True" Margin="10,10,-10,-10"
+                              LoadingRow="DataGrid_LoadingRow"
+                              RowEditEnding="DataGridRow_EditEnding1">
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Поставщики">

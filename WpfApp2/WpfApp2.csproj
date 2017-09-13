@@ -74,10 +74,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="orders.designer.cs">
+    <Compile Include="Orders.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>orders.dbml</DependentUpon>
+      <DependentUpon>Orders.dbml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -107,13 +107,13 @@
     <None Include="auto76DataSet.xss">
       <DependentUpon>auto76DataSet.xsd</DependentUpon>
     </None>
-    <None Include="orders.dbml">
+    <None Include="Orders.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>orders.designer.cs</LastGenOutput>
+      <LastGenOutput>Orders.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="orders.dbml.layout">
-      <DependentUpon>orders.dbml</DependentUpon>
+    <None Include="Orders.dbml.layout">
+      <DependentUpon>Orders.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
