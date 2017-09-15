@@ -21,7 +21,7 @@
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
         </Menu>
         <TabControl Grid.Row="1" HorizontalAlignment="Left" Height="439" Margin="0,0,0,0" VerticalAlignment="Top" Width="783" GotFocus="Get_Focus"  SelectionChanged="TabControl_SelectChange" >
-            <TabItem Header="Заказы">
+            <TabItem Name="Order" Header="Заказы">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -59,7 +59,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Поставщики">
+            <TabItem Name="Supl" Header="Поставщики">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -95,7 +95,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Покупатель">
+            <TabItem Name="Cust" Header="Покупатель">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>

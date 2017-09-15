@@ -51,8 +51,12 @@ namespace WpfApp2
 
         private void Get_Focus(object sender, EventArgs e)
         {
-            TabControl item = new TabControl();
-            item = (TabControl) sender;
+            TabControl tabs = new TabControl();
+            TabItem item = new TabItem();
+
+            tabs = (TabControl) sender;
+            item = (TabItem) tabs.SelectedItem;
+            string name = item.Name;
             //TabControl tab = ;
             //active_tab_item = e.
         }
