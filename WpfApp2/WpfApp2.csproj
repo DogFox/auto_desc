@@ -68,12 +68,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>auto76DataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Customers.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Customers.dbml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Orders.cs">
+      <DependentUpon>Orders.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Orders.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,6 +115,14 @@
     <None Include="auto76DataSet.xss">
       <DependentUpon>auto76DataSet.xsd</DependentUpon>
     </None>
+    <None Include="Customers.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Customers.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Customers.dbml.layout">
+      <DependentUpon>Customers.dbml</DependentUpon>
+    </None>
     <None Include="Orders.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Orders.designer.cs</LastGenOutput>
@@ -125,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="db_script.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

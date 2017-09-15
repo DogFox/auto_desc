@@ -25,24 +25,23 @@ namespace WpfApp2
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
 	public partial class OrdersDataContext : System.Data.Linq.DataContext
 	{
-		
-		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+        public IEnumerable<order> GetAllOrders()
+        {
+            var items = this.orders.Select(item => item).OrderBy(item => item.number);
+
+            return items;
+        }
+
+        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
     partial void Insertorder(order instance);
     partial void Updateorder(order instance);
     partial void Deleteorder(order instance);
-        #endregion
-
-        public IEnumerable<order> GetAllOrders()
-        {
-            var items = this.orders.Select(item => item).OrderBy(item => item.Number);
-
-            return items;
-        }
-
-        public OrdersDataContext() : 
+    #endregion
+		
+		public OrdersDataContext() : 
 				base(global::WpfApp2.Properties.Settings.Default.auto76ConnectionString, mappingSource)
 		{
 			OnCreated();
@@ -79,12 +78,9 @@ namespace WpfApp2
 				return this.GetTable<order>();
 			}
 		}
-
-
 	}
-
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
 	public partial class order : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -92,19 +88,19 @@ namespace WpfApp2
 		
 		private int _id;
 		
-		private int _Number;
+		private string _number;
 		
-		private int _customer_id;
+		private int _cust_id;
 		
-		private int _supplier_id;
-		
-		private System.Nullable<double> _Summ;
+		private System.Nullable<double> _summ;
 		
 		private System.Nullable<int> _count;
 		
-		private string _Comment;
+		private string _comment;
 		
-		private System.Nullable<int> _isArchive;
+		private System.Nullable<int> _status;
+		
+		private System.Nullable<System.DateTime> _date;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -112,20 +108,20 @@ namespace WpfApp2
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnNumberChanging(int value);
-    partial void OnNumberChanged();
-    partial void Oncustomer_idChanging(int value);
-    partial void Oncustomer_idChanged();
-    partial void Onsupplier_idChanging(int value);
-    partial void Onsupplier_idChanged();
-    partial void OnSummChanging(System.Nullable<double> value);
-    partial void OnSummChanged();
+    partial void OnnumberChanging(string value);
+    partial void OnnumberChanged();
+    partial void Oncust_idChanging(int value);
+    partial void Oncust_idChanged();
+    partial void OnsummChanging(System.Nullable<double> value);
+    partial void OnsummChanged();
     partial void OncountChanging(System.Nullable<int> value);
     partial void OncountChanged();
-    partial void OnCommentChanging(string value);
-    partial void OnCommentChanged();
-    partial void OnisArchiveChanging(System.Nullable<int> value);
-    partial void OnisArchiveChanged();
+    partial void OncommentChanging(string value);
+    partial void OncommentChanged();
+    partial void OnstatusChanging(System.Nullable<int> value);
+    partial void OnstatusChanged();
+    partial void OndateChanging(System.Nullable<System.DateTime> value);
+    partial void OndateChanged();
     #endregion
 		
 		public order()
@@ -153,82 +149,62 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string number
 		{
 			get
 			{
-				return this._Number;
+				return this._number;
 			}
 			set
 			{
-				if ((this._Number != value))
+				if ((this._number != value))
 				{
-					this.OnNumberChanging(value);
+					this.OnnumberChanging(value);
 					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
+					this._number = value;
+					this.SendPropertyChanged("number");
+					this.OnnumberChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_customer_id", DbType="Int NOT NULL")]
-		public int customer_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cust_id", DbType="Int NOT NULL")]
+		public int cust_id
 		{
 			get
 			{
-				return this._customer_id;
+				return this._cust_id;
 			}
 			set
 			{
-				if ((this._customer_id != value))
+				if ((this._cust_id != value))
 				{
-					this.Oncustomer_idChanging(value);
+					this.Oncust_idChanging(value);
 					this.SendPropertyChanging();
-					this._customer_id = value;
-					this.SendPropertyChanged("customer_id");
-					this.Oncustomer_idChanged();
+					this._cust_id = value;
+					this.SendPropertyChanged("cust_id");
+					this.Oncust_idChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_supplier_id", DbType="Int NOT NULL")]
-		public int supplier_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_summ", DbType="Float")]
+		public System.Nullable<double> summ
 		{
 			get
 			{
-				return this._supplier_id;
+				return this._summ;
 			}
 			set
 			{
-				if ((this._supplier_id != value))
+				if ((this._summ != value))
 				{
-					this.Onsupplier_idChanging(value);
+					this.OnsummChanging(value);
 					this.SendPropertyChanging();
-					this._supplier_id = value;
-					this.SendPropertyChanged("supplier_id");
-					this.Onsupplier_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Summ", DbType="Float")]
-		public System.Nullable<double> Summ
-		{
-			get
-			{
-				return this._Summ;
-			}
-			set
-			{
-				if ((this._Summ != value))
-				{
-					this.OnSummChanging(value);
-					this.SendPropertyChanging();
-					this._Summ = value;
-					this.SendPropertyChanged("Summ");
-					this.OnSummChanged();
+					this._summ = value;
+					this.SendPropertyChanged("summ");
+					this.OnsummChanged();
 				}
 			}
 		}
@@ -253,42 +229,62 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="VarChar(MAX)")]
-		public string Comment
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_comment", DbType="VarChar(MAX)")]
+		public string comment
 		{
 			get
 			{
-				return this._Comment;
+				return this._comment;
 			}
 			set
 			{
-				if ((this._Comment != value))
+				if ((this._comment != value))
 				{
-					this.OnCommentChanging(value);
+					this.OncommentChanging(value);
 					this.SendPropertyChanging();
-					this._Comment = value;
-					this.SendPropertyChanged("Comment");
-					this.OnCommentChanged();
+					this._comment = value;
+					this.SendPropertyChanged("comment");
+					this.OncommentChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isArchive", DbType="Int")]
-		public System.Nullable<int> isArchive
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int")]
+		public System.Nullable<int> status
 		{
 			get
 			{
-				return this._isArchive;
+				return this._status;
 			}
 			set
 			{
-				if ((this._isArchive != value))
+				if ((this._status != value))
 				{
-					this.OnisArchiveChanging(value);
+					this.OnstatusChanging(value);
 					this.SendPropertyChanging();
-					this._isArchive = value;
-					this.SendPropertyChanged("isArchive");
-					this.OnisArchiveChanged();
+					this._status = value;
+					this.SendPropertyChanged("status");
+					this.OnstatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> date
+		{
+			get
+			{
+				return this._date;
+			}
+			set
+			{
+				if ((this._date != value))
+				{
+					this.OndateChanging(value);
+					this.SendPropertyChanging();
+					this._date = value;
+					this.SendPropertyChanged("date");
+					this.OndateChanged();
 				}
 			}
 		}

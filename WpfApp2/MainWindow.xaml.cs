@@ -14,21 +14,66 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
 namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
-        string leftop = ""; // Левый операнд
-        string operation = ""; // Знак операции
-        string rightop = ""; // Правый операнд
-
+        bool isAdd = false;
+        string active_tab_item = "";
+        private BindingListCollectionView OrdersView;
+        OrdersDataContext dc = new OrdersDataContext();
         public MainWindow()
         {
             InitializeComponent();
+
+            //var items = dc.GetAllOrders();
+            //this.DataContext = items;
+            //this.OrdersView = (BindingListCollectionView)(CollectionViewSource.GetDefaultView(items));
             // Добавляем обработчик для всех кнопок на гриде
         }
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+           // this.dc.SubmitChanges();
+           // isAdd = false;
+        }
 
+        private void TabControl_SelectChange( object sender, SelectionChangedEventArgs e )
+        {
+            // ... Get TabControl reference.
+            TabControl item = new TabControl();
+            item = (TabControl)sender;
+            // ... Set Title to selected tab header.
+            var selected = item.SelectedItem as TabItem;
+            //this.Title = selected.Header.ToString();
+            //TabControl tab = ;
+            //ctive_tab_item = e.
+        }
+
+        private void Get_Focus(object sender, EventArgs e)
+        {
+            TabControl item = new TabControl();
+            item = (TabControl) sender;
+            //TabControl tab = ;
+            //active_tab_item = e.
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            //TabControl tab = (TabControl) this
+            //TabItem ti = Tabs1.SelectedItem as TabItem;
+            // this.dc.SubmitChanges();
+            // isAdd = false;
+        }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            // this.dc.SubmitChanges();
+            // isAdd = false;
+        }
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            // this.dc.SubmitChanges();
+            // isAdd = false;
+        }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
@@ -45,7 +90,7 @@ namespace WpfApp2
             var item = row.DataContext as order;
             if (item != null)
             {
-                switch( item.isArchive.Value )
+                switch( item.status.Value )
                 {
                     case 1:
                         e.Row.Background = new SolidColorBrush(Colors.Gray);
@@ -70,20 +115,6 @@ namespace WpfApp2
             {
                 TableAdapter.Update(ThisDataRow);
             }*/
-        }
-
-        private void Grid_change_background( object sender, RoutedEventArgs e )
-        {
-            order order = OrdersGrid.SelectedItem as order;
-
-            if( order.isArchive.Equals( 1 ) )
-            {
-                OrdersGrid.RowBackground = new SolidColorBrush(Colors.WhiteSmoke);
-            }
-            if (order.isArchive.Equals(2))
-            {
-                OrdersGrid.RowBackground = new SolidColorBrush(Colors.WhiteSmoke);
-            }
         }
     }
    
