@@ -33,6 +33,13 @@ namespace WpfApp2
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+           switch( active_tab_item )
+           {
+                case "Cust":
+                    break;
+                case "Order":
+                    break;
+           }
            // this.dc.SubmitChanges();
            // isAdd = false;
         }
@@ -56,9 +63,7 @@ namespace WpfApp2
 
             tabs = (TabControl) sender;
             item = (TabItem) tabs.SelectedItem;
-            string name = item.Name;
-            //TabControl tab = ;
-            //active_tab_item = e.
+            active_tab_item = item.Name;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
