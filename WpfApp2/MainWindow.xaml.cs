@@ -23,6 +23,8 @@ namespace WpfApp2
         string active_tab_item = "Order"; // так как начинаем с окна заказов
         OrdersDataContext odc = new OrdersDataContext();
         CustomersDataContext cdc = new CustomersDataContext();
+        private IEnumerable<customer> cust_list;
+        private IEnumerable<order> order_list;
 
         public MainWindow()
         {
@@ -36,12 +38,12 @@ namespace WpfApp2
 
         private void CustGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            IEnumerable<customer> cust_list = cdc.GetAllCustomers();
+            cust_list = cdc.GetAllCustomers();
             CustGrid.ItemsSource = cust_list;
         }
         private void OrderGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            IEnumerable<order> order_list = odc.GetAllOrders();
+            order_list = odc.GetAllOrders();
             OrderGrid.ItemsSource = order_list;
         }
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -50,9 +52,11 @@ namespace WpfApp2
            {
                 case "Cust":
                     this.cdc.SubmitChanges();
+                    CustGrid.Items.Refresh();
                     break;
                 case "Order":
                     this.odc.SubmitChanges();
+                    OrderGrid.Items.Refresh();
                     break;
            }
            // this.dc.SubmitChanges();
@@ -82,11 +86,10 @@ namespace WpfApp2
                     new_cust.addres = "11";
                     new_cust.price_level = 1;
                     new_cust.id = 1;
-
                     this.cdc.customers.InsertOnSubmit(new_cust);
                     this.cdc.SubmitChanges();
 
-                    IEnumerable<customer> cust_list = cdc.GetAllCustomers();
+                    cust_list = cdc.GetAllCustomers();
                     CustGrid.ItemsSource = cust_list;
 
                     CustGrid.Items.Refresh();
@@ -104,7 +107,7 @@ namespace WpfApp2
                     this.odc.orders.InsertOnSubmit(new_order);
                     this.odc.SubmitChanges();
 
-                    IEnumerable<order> order_list = odc.GetAllOrders();
+                    order_list = odc.GetAllOrders();
                     OrderGrid.ItemsSource = order_list;
 
                     OrderGrid.Items.Refresh();
@@ -114,21 +117,57 @@ namespace WpfApp2
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            // this.dc.SubmitChanges();
-            // isAdd = false;
+            switch (active_tab_item)
+            {
+                case "Cust":
+                    if (MessageBox.Show("Do you want to delete this customer?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    {
+                        customer item = CustGrid.SelectedItem as customer;
+                        this.cdc.customers.DeleteOnSubmit(item);
+                        this.cdc.SubmitChanges();
+
+                        cust_list = cdc.GetAllCustomers();
+                        CustGrid.ItemsSource = cust_list;
+                        CustGrid.Items.Refresh();
+                    }
+                    isAdd = false;
+                    break;
+
+                case "Order":
+                    if (MessageBox.Show("Do you want to delete this customer?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    {
+                        order item = OrderGrid.SelectedItem as order;
+                        this.odc.orders.DeleteOnSubmit(item);
+                        this.odc.SubmitChanges();
+
+                        order_list = odc.GetAllOrders();
+                        OrderGrid.ItemsSource = order_list;
+                        OrderGrid.Items.Refresh();
+                    }
+                    isAdd = false;
+                    break;
+            }
         }
         private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            // this.dc.SubmitChanges();
-            // isAdd = false;
+        {/*
+            if (isAdd)
+            {
+                CustomerView.CancelNew();
+                CustomerView.Remove(this.CustomerView.CurrentItem);
+            }
+            else
+            {
+                CustomerView.CancelEdit();
+                dc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues);
+                CustomerView.Refresh();
+            }*/
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
             MenuItem menuItem = (MenuItem)sender;
             if( menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
-            {
-               this.Close();}
+               this.Close();
         }
 
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
