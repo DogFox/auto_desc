@@ -12,7 +12,7 @@ namespace WpfApp2.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,8 +26,8 @@ namespace WpfApp2.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;Use" +
-            "r ID=SA;Password=29016879")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=KUROVD\\SQL2016;Initial Catalog=auto76;Persist Security Info=True;User" +
+            " ID=SA;Password=8GjblNpd")]
         public string auto76ConnectionString {
             get {
                 return ((string)(this["auto76ConnectionString"]));

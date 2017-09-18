@@ -27,9 +27,10 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="OrderGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
-                               ItemsSource="{Binding  Source={StaticResource getOrders}}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              LoadingRow="DataGrid_LoadingRow" >
+                    <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
+                                IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
+                                IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
+                              Loaded="OrderGrid_Loaded" LoadingRow="DataGrid_LoadingRow" >
                     </DataGrid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -99,9 +100,10 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="CustGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
-                                ItemsSource="{Binding Source={StaticResource getCustomers}}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              CanUserAddRows="True">
+                    <DataGrid Name="CustGrid" ItemsSource="{Binding}"
+                                IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
+                                IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
+                              Loaded="CustGrid_Loaded">
                     </DataGrid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>

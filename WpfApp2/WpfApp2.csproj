@@ -34,9 +34,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,10 +74,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="auto76DataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>auto76DataSet.xsd</DependentUpon>
+    <Compile Include="customers.cs">
+      <DependentUpon>Customers.dbml</DependentUpon>
     </Compile>
     <Compile Include="Customers.designer.cs">
       <AutoGen>True</AutoGen>
@@ -104,17 +113,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="auto76DataSet.xsc">
-      <DependentUpon>auto76DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="auto76DataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>auto76DataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="auto76DataSet.xss">
-      <DependentUpon>auto76DataSet.xsd</DependentUpon>
-    </None>
     <None Include="Customers.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Customers.designer.cs</LastGenOutput>
@@ -131,6 +129,7 @@
     <None Include="Orders.dbml.layout">
       <DependentUpon>Orders.dbml</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

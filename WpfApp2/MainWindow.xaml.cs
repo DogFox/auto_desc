@@ -21,8 +21,6 @@ namespace WpfApp2
     {
         bool isAdd = false;
         string active_tab_item = "Order"; // так как начинаем с окна заказов
-        private BindingListCollectionView OrdersView;
-        private BindingListCollectionView CustomersView;
         OrdersDataContext odc = new OrdersDataContext();
         CustomersDataContext cdc = new CustomersDataContext();
 
@@ -34,6 +32,17 @@ namespace WpfApp2
             //this.DataContext = items;
             //this.OrdersView = (BindingListCollectionView)(CollectionViewSource.GetDefaultView(items));
             // Добавляем обработчик для всех кнопок на гриде
+        }
+
+        private void CustGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<customer> cust_list = cdc.GetAllCustomers();
+            CustGrid.ItemsSource = cust_list;
+        }
+        private void OrderGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<order> order_list = odc.GetAllOrders();
+            OrderGrid.ItemsSource = order_list;
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -67,8 +76,6 @@ namespace WpfApp2
             switch (active_tab_item)
             {
                 case "Cust":
-                    var items = cdc.GetAllCustomers();
-
                     customer new_cust = new customer();
                     new_cust.name = "11";
                     new_cust.phone = 0;
@@ -76,10 +83,32 @@ namespace WpfApp2
                     new_cust.price_level = 1;
                     new_cust.id = 1;
 
-                    cdc.customers.InsertOnSubmit(new_cust);
-                    cdc.SubmitChanges();
+                    this.cdc.customers.InsertOnSubmit(new_cust);
+                    this.cdc.SubmitChanges();
 
-                    this.CustGrid.UpdateLayout();                    
+                    IEnumerable<customer> cust_list = cdc.GetAllCustomers();
+                    CustGrid.ItemsSource = cust_list;
+
+                    CustGrid.Items.Refresh();
+
+                    break;
+
+                case "Order":
+                    order new_order = new order();
+                    new_order.number = "11";
+                    new_order.status = 0;
+                    new_order.summ = 120;
+                    new_order.count = 1;
+                    new_order.cust_id = 1;
+
+                    this.odc.orders.InsertOnSubmit(new_order);
+                    this.odc.SubmitChanges();
+
+                    IEnumerable<order> order_list = odc.GetAllOrders();
+                    OrderGrid.ItemsSource = order_list;
+
+                    OrderGrid.Items.Refresh();
+
                     break;
             }
         }
