@@ -23,12 +23,11 @@ namespace WpfApp2
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
-	public partial class CustomersDataContext : System.Data.Linq.DataContext
+	public partial class SuppliersDataContext : System.Data.Linq.DataContext
 	{
-
-        public IEnumerable<customer> GetAllCustomers()
+        public IEnumerable<supplier> GetAllSuppliers()
         {
-            var items = this.customers.Select(item => item).OrderBy(item => item.name);
+            var items = this.suppliers.Select(item => item).OrderBy(item => item.name);
 
             return items;
         }
@@ -37,52 +36,52 @@ namespace WpfApp2
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void Insertcustomer(customer instance);
-    partial void Updatecustomer(customer instance);
-    partial void Deletecustomer(customer instance);
+    partial void Insertsupplier(supplier instance);
+    partial void Updatesupplier(supplier instance);
+    partial void Deletesupplier(supplier instance);
     #endregion
 		
-		public CustomersDataContext() : 
+		public SuppliersDataContext() : 
 				base(global::WpfApp2.Properties.Settings.Default.auto76ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CustomersDataContext(string connection) : 
+		public SuppliersDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CustomersDataContext(System.Data.IDbConnection connection) : 
+		public SuppliersDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CustomersDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public SuppliersDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public CustomersDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public SuppliersDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<customer> customers
+		public System.Data.Linq.Table<supplier> suppliers
 		{
 			get
 			{
-				return this.GetTable<customer>();
+				return this.GetTable<supplier>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.customers")]
-	public partial class customer : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.suppliers")]
+	public partial class supplier : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -91,11 +90,15 @@ namespace WpfApp2
 		
 		private string _name;
 		
-		private string _phone;
+		private int _phone;
+		
+		private string _full_name;
 		
 		private string _addres;
 		
-		private System.Nullable<int> _price_level;
+		private string _kpp;
+		
+		private string _inn;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -105,15 +108,19 @@ namespace WpfApp2
     partial void OnidChanged();
     partial void OnnameChanging(string value);
     partial void OnnameChanged();
-    partial void OnphoneChanging(string value);
+    partial void OnphoneChanging(int value);
     partial void OnphoneChanged();
+    partial void Onfull_nameChanging(string value);
+    partial void Onfull_nameChanged();
     partial void OnaddresChanging(string value);
     partial void OnaddresChanged();
-    partial void Onprice_levelChanging(System.Nullable<int> value);
-    partial void Onprice_levelChanged();
+    partial void OnkppChanging(string value);
+    partial void OnkppChanged();
+    partial void OninnChanging(string value);
+    partial void OninnChanged();
     #endregion
 		
-		public customer()
+		public supplier()
 		{
 			OnCreated();
 		}
@@ -158,8 +165,8 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType = "VarChar(MAX)  NOT NULL")]
-		public string phone
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="Int NOT NULL")]
+		public int phone
 		{
 			get
 			{
@@ -174,6 +181,26 @@ namespace WpfApp2
 					this._phone = value;
 					this.SendPropertyChanged("phone");
 					this.OnphoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_full_name", DbType="VarChar(MAX)")]
+		public string full_name
+		{
+			get
+			{
+				return this._full_name;
+			}
+			set
+			{
+				if ((this._full_name != value))
+				{
+					this.Onfull_nameChanging(value);
+					this.SendPropertyChanging();
+					this._full_name = value;
+					this.SendPropertyChanged("full_name");
+					this.Onfull_nameChanged();
 				}
 			}
 		}
@@ -198,22 +225,42 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price_level", DbType="Int")]
-		public System.Nullable<int> price_level
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_kpp", DbType="VarChar(MAX)")]
+		public string kpp
 		{
 			get
 			{
-				return this._price_level;
+				return this._kpp;
 			}
 			set
 			{
-				if ((this._price_level != value))
+				if ((this._kpp != value))
 				{
-					this.Onprice_levelChanging(value);
+					this.OnkppChanging(value);
 					this.SendPropertyChanging();
-					this._price_level = value;
-					this.SendPropertyChanged("price_level");
-					this.Onprice_levelChanged();
+					this._kpp = value;
+					this.SendPropertyChanged("kpp");
+					this.OnkppChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inn", DbType="VarChar(MAX)")]
+		public string inn
+		{
+			get
+			{
+				return this._inn;
+			}
+			set
+			{
+				if ((this._inn != value))
+				{
+					this.OninnChanging(value);
+					this.SendPropertyChanging();
+					this._inn = value;
+					this.SendPropertyChanged("inn");
+					this.OninnChanged();
 				}
 			}
 		}

@@ -13,7 +13,7 @@ namespace WpfApp2
         [Required]
         public string name { get; set; }
 
-        public int phone { get; set; }
+        public string phone { get; set; }
 
         public string addres { get; set; }
 

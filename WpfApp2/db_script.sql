@@ -5,7 +5,7 @@
   create table dbo.customers( 
 								   id   int NOT NULL IDENTITY(1,1) PRIMARY KEY,
 								   name varchar (max)     NOT NULL,
-								   phone  int              NOT NULL,
+								   phone  varchar(max)    NOT NULL,
 								   addres  varchar(max) ,
 								   price_level   int 
 								   )

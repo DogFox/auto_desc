@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="auto76" Class="SuppliersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.suppliers" Member="suppliers">
+    <Type Name="supplier">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="phone" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="full_name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="addres" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="kpp" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="inn" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -23,8 +23,11 @@ namespace WpfApp2
         string active_tab_item = "Order"; // так как начинаем с окна заказов
         OrdersDataContext odc = new OrdersDataContext();
         CustomersDataContext cdc = new CustomersDataContext();
+        SuppliersDataContext sdc = new SuppliersDataContext();
+
         private IEnumerable<customer> cust_list;
         private IEnumerable<order> order_list;
+        private IEnumerable<supplier> supplier_list;
 
         public MainWindow()
         {
@@ -46,6 +49,11 @@ namespace WpfApp2
             order_list = odc.GetAllOrders();
             OrderGrid.ItemsSource = order_list;
         }
+        private void SupplierGrid_Loaded( object sender, RoutedEventArgs e)
+        {
+            supplier_list = sdc.GetAllSuppliers();
+            SupGrid.ItemsSource = supplier_list;
+        }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
            switch( active_tab_item )
@@ -58,7 +66,11 @@ namespace WpfApp2
                     this.odc.SubmitChanges();
                     OrderGrid.Items.Refresh();
                     break;
-           }
+                case "Supl":
+                    this.sdc.SubmitChanges();
+                    SupGrid.Items.Refresh();
+                    break;
+            }
            // this.dc.SubmitChanges();
            // isAdd = false;
         } 
@@ -81,9 +93,9 @@ namespace WpfApp2
             {
                 case "Cust":
                     customer new_cust = new customer();
-                    new_cust.name = "11";
-                    new_cust.phone = 0;
-                    new_cust.addres = "11";
+                    new_cust.name = "Ввдите имя";
+                    new_cust.phone = "Укажите телефон";
+                    new_cust.addres = "Введите адрес";
                     new_cust.price_level = 1;
                     new_cust.id = 1;
                     this.cdc.customers.InsertOnSubmit(new_cust);
@@ -97,6 +109,9 @@ namespace WpfApp2
                     break;
 
                 case "Order":
+                    NewOrder newOrder = new NewOrder();
+                    newOrder.Show();
+
                     order new_order = new order();
                     new_order.number = "11";
                     new_order.status = 0;
@@ -111,6 +126,24 @@ namespace WpfApp2
                     OrderGrid.ItemsSource = order_list;
 
                     OrderGrid.Items.Refresh();
+
+                    break;
+
+                case "Supl":
+                    supplier new_supplier = new supplier();
+                    new_supplier.name = "имя";
+                    new_supplier.full_name = "полное имя";
+                    new_supplier.inn = "120";
+                    new_supplier.kpp = "1";
+                    new_supplier.phone = 1;
+
+                    this.sdc.suppliers.InsertOnSubmit(new_supplier);
+                    this.sdc.SubmitChanges();
+
+                    supplier_list = sdc.GetAllSuppliers();
+                    SupGrid.ItemsSource = supplier_list;
+
+                    SupGrid.Items.Refresh();
 
                     break;
             }
@@ -134,7 +167,7 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    if (MessageBox.Show("Do you want to delete this customer?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Do you want to delete this order?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
                     {
                         order item = OrderGrid.SelectedItem as order;
                         this.odc.orders.DeleteOnSubmit(item);
@@ -143,6 +176,20 @@ namespace WpfApp2
                         order_list = odc.GetAllOrders();
                         OrderGrid.ItemsSource = order_list;
                         OrderGrid.Items.Refresh();
+                    }
+                    isAdd = false;
+                    break;
+
+                case "Supl":
+                    if (MessageBox.Show("Do you want to delete this supplier?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    {
+                        supplier item = SupGrid.SelectedItem as supplier;
+                        this.sdc.suppliers.DeleteOnSubmit(item);
+                        this.sdc.SubmitChanges();
+
+                        supplier_list = sdc.GetAllSuppliers();
+                        SupGrid.ItemsSource = supplier_list;
+                        SupGrid.Items.Refresh();
                     }
                     isAdd = false;
                     break;
