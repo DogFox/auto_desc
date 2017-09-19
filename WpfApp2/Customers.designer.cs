@@ -95,7 +95,7 @@ namespace WpfApp2
 		
 		private string _addres;
 		
-		private System.Nullable<int> _price_level;
+		private int _price_level;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -138,7 +138,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX)", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -158,7 +158,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType = "VarChar(MAX)  NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType = "VarChar(MAX)")]
 		public string phone
 		{
 			get
@@ -199,7 +199,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price_level", DbType="Int")]
-		public System.Nullable<int> price_level
+		public int price_level
 		{
 			get
 			{

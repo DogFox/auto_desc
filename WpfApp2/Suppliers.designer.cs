@@ -145,7 +145,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX)", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -165,7 +165,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="Int")]
 		public int phone
 		{
 			get

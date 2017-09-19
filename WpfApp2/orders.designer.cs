@@ -32,6 +32,22 @@ namespace WpfApp2
             return items;
         }
 
+        public string GetLastNumber()
+        {
+            string last_number = "0";
+
+
+            var all = this.GetAllOrders();
+
+            //last_number = all.Select(row => row.number).Max();
+            if (all.Select(row => row.number).Max() == null)
+                last_number = "1";
+            else
+                last_number = all.Select(row => row.number).Max();
+
+            return last_number;
+        }
+
         private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
 		
     #region Extensibility Method Definitions
@@ -92,15 +108,15 @@ namespace WpfApp2
 		
 		private int _cust_id;
 		
-		private System.Nullable<double> _summ;
+		private double _summ;
 		
-		private System.Nullable<int> _count;
+		private int _count;
 		
 		private string _comment;
 		
-		private System.Nullable<int> _status;
+		private int _status;
 		
-		private System.Nullable<System.DateTime> _date;
+		private System.DateTime _date;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -149,7 +165,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="VarChar(MAX)", CanBeNull=false)]
 		public string number
 		{
 			get
@@ -169,7 +185,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cust_id", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cust_id", DbType="Int")]
 		public int cust_id
 		{
 			get
@@ -190,7 +206,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_summ", DbType="Float")]
-		public System.Nullable<double> summ
+		public double summ
 		{
 			get
 			{
@@ -210,7 +226,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_count", DbType="Int")]
-		public System.Nullable<int> count
+		public int count
 		{
 			get
 			{
@@ -250,7 +266,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int")]
-		public System.Nullable<int> status
+		public int status
 		{
 			get
 			{
@@ -270,7 +286,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> date
+		public DateTime date
 		{
 			get
 			{

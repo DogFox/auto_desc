@@ -109,22 +109,14 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    NewOrder newOrder = new NewOrder();
-                    newOrder.Show();
-
                     order new_order = new order();
-                    new_order.number = "11";
-                    new_order.status = 0;
-                    new_order.summ = 120;
-                    new_order.count = 1;
-                    new_order.cust_id = 1;
 
-                    this.odc.orders.InsertOnSubmit(new_order);
-                    this.odc.SubmitChanges();
+                    NewOrder newOrder = new NewOrder();
+                    newOrder.Owner = this;
+                    newOrder.ShowDialog();
 
                     order_list = odc.GetAllOrders();
                     OrderGrid.ItemsSource = order_list;
-
                     OrderGrid.Items.Refresh();
 
                     break;
@@ -240,7 +232,7 @@ namespace WpfApp2
                         if ( orig == null )
                             this.odc.orders.Attach(itemOrd);
 
-                        switch (itemOrd.status.Value)
+                        switch (itemOrd.status)
                         {
                             case 1:
                                 e.Row.Background = new SolidColorBrush(Colors.Gray);
