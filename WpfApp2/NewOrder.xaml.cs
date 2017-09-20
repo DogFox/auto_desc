@@ -30,6 +30,9 @@ namespace WpfApp2
     {
         private order new_order = new order();
         private OrdersDataContext odc = new OrdersDataContext();
+        private OrderPartsDataContext opdc = new OrderPartsDataContext();
+        private PartsDataContext pdc = new PartsDataContext();
+        private SuppliersDataContext sdc = new SuppliersDataContext();
 
         public NewOrder()
         {
@@ -48,6 +51,22 @@ namespace WpfApp2
             OrderDate.SelectedDate = new_order.date;
             OrderStatus.Text = new_order.status.ToString();
             OrderNum.Text = new_order.number;
+
+            IEnumerable<OrderInfoView> orderParts_list;
+            orderParts_list = (from t1 in opdc.part_orders
+                               join t2 in pdc.parts on t1.part_id equals t2.id
+                               join t3 in sdc.suppliers on t2.sup_id equals t3.id
+                               select new OrderInfoView()
+                               {
+                                   PartNum = t2.part_number,
+                                   Price = t2.price,
+                                   Name = t2.name,
+                                   SupPriice = t2.sup_price,
+                                   Supplier = t3.name
+                               });
+
+            OrderPartsGrid.ItemsSource = orderParts_list;
+            OrderPartsGrid.Items.Refresh();
         }
 
         private void Apply_Click( object sender, RoutedEventArgs e)
@@ -81,24 +100,7 @@ namespace WpfApp2
 
         private void AddPart_Click(object sender, RoutedEventArgs e)
         {
-            OrderPartsDataContext opdc = new OrderPartsDataContext();
-            PartsDataContext pdc = new PartsDataContext();
-            SuppliersDataContext sdc = new SuppliersDataContext();
-
-
-            IEnumerable< OrderInfoView> orderParts_list;
-            orderParts_list = ( from t1 in opdc.part_orders
-                                join t2 in pdc.parts on t1.part_id equals t2.id
-                                join t3 in sdc.suppliers on t2.sup_id equals t3.id
-                                select new OrderInfoView()
-                                {
-                                    PartNum = t2.part_number,
-                                    Price = t2.price,
-                                    Name = t2.name,
-                                    SupPriice = t2.sup_price,
-                                    Supplier = t3.name
-                                });
-
+             
         }
         private void OrderPartsGrid_Loaded( object sender, RoutedEventArgs e)
         { }

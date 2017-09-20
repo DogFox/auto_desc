@@ -82,6 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Parts.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Parts.xaml.cs">
+      <DependentUpon>Parts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Suppliers.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewPart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

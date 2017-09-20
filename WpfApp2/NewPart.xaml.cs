@@ -42,8 +42,8 @@ namespace WpfApp2
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
             new_part.part_number = PartNum.Text;
-            new_part.sup_price = Convert.ToDouble(SupPrice.Text);
-            new_part.price = Convert.ToDouble(Price.Text);
+            new_part.sup_price = Convert.ToSingle(SupPrice.Text);
+            new_part.price = Convert.ToSingle(Price.Text);
             new_part.sup_id = Convert.ToInt32(Supplier.Text);
 
             this.pdc.SubmitChanges();
