@@ -94,11 +94,11 @@ namespace WpfApp2
 		
 		private string _part_number;
 		
-		private System.Nullable<double> _sup_price;
+		private float _sup_price;
 		
-		private System.Nullable<int> _sup_id;
+		private int _sup_id;
 		
-		private System.Nullable<double> _price;
+		private float _price;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -184,7 +184,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sup_price", DbType="Float")]
-		public System.Nullable<double> sup_price
+		public float sup_price
 		{
 			get
 			{
@@ -204,7 +204,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sup_id", DbType="Int")]
-		public System.Nullable<int> sup_id
+		public int sup_id
 		{
 			get
 			{
@@ -224,7 +224,7 @@ namespace WpfApp2
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price", DbType="Float")]
-		public System.Nullable<double> price
+		public float price
 		{
 			get
 			{
