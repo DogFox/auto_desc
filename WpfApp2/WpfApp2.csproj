@@ -69,6 +69,14 @@
     <Compile Include="NewOrder.xaml.cs">
       <DependentUpon>NewOrder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewPart.xaml.cs">
+      <DependentUpon>NewPart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parts.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parts.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Suppliers.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -95,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NewOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewPart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +154,14 @@
       <DependentUpon>Orders.dbml</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Parts.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Parts.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Parts.dbml.layout">
+      <DependentUpon>Parts.dbml</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

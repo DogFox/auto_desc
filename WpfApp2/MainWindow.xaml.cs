@@ -24,10 +24,12 @@ namespace WpfApp2
         OrdersDataContext odc = new OrdersDataContext();
         CustomersDataContext cdc = new CustomersDataContext();
         SuppliersDataContext sdc = new SuppliersDataContext();
+        PartsDataContext pdc = new PartsDataContext();
 
         private IEnumerable<customer> cust_list;
         private IEnumerable<order> order_list;
         private IEnumerable<supplier> supplier_list;
+        private IEnumerable<part> part_list;
 
         public MainWindow()
         {
@@ -67,6 +69,10 @@ namespace WpfApp2
                     OrderGrid.Items.Refresh();
                     break;
                 case "Supl":
+                    this.sdc.SubmitChanges();
+                    SupGrid.Items.Refresh();
+                    break;
+                case "Part":
                     this.sdc.SubmitChanges();
                     SupGrid.Items.Refresh();
                     break;
@@ -136,6 +142,19 @@ namespace WpfApp2
                     SupGrid.ItemsSource = supplier_list;
 
                     SupGrid.Items.Refresh();
+
+                    break;
+
+                case "Part":
+                    part new_part = new part();
+
+                    NewPart newPart = new NewPart();
+                    newPart.Owner = this;
+                    newPart.ShowDialog();
+
+                    part_list = pdc.GetAllParts();
+                    PartsGrid.ItemsSource = part_list;
+                    PartsGrid.Items.Refresh();
 
                     break;
             }
