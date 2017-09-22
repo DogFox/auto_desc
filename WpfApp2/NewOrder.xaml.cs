@@ -98,11 +98,6 @@ namespace WpfApp2
             this.Close();
         }
 
-        public order GerNewOrder
-        {
-            get { return new_order; }
-        }
-
         private void Cancel_Click( object sender, RoutedEventArgs e)
         {
 
@@ -115,7 +110,15 @@ namespace WpfApp2
 
         private void AddPart_Click(object sender, RoutedEventArgs e)
         {
-             
+            part new_part = new part();
+
+            Parts AddPartWin = new Parts();
+            AddPartWin.Owner = this;
+            AddPartWin.ShowDialog();
+
+
+
+
         }
         private void OrderPartsGrid_Loaded( object sender, RoutedEventArgs e)
         { }

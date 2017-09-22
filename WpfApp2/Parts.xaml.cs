@@ -30,9 +30,17 @@ namespace WpfApp2
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();
         }
-        private void ChosePart_Click( object sender, RoutedEventArgs e )
-        {
 
+        public part ChosePart_Click2()
+        {
+            part returnPart = new part();
+            returnPart = PartsGrid.SelectedItem as part;
+            return returnPart;
+        }
+
+        public object ChosePart_Click
+        {
+            get { return PartsGrid.SelectedItem; }
         }
     }
 }
