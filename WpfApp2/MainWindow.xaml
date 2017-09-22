@@ -73,6 +73,7 @@
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button Content="Save" x:Name="Save" Click="Save_Click" Width="100" Margin="5"></Button>
             <Button Content="Add" x:Name="Add" Click="Add_Click" Width="100" Margin="5"></Button>
+            <Button Content="Edit" x:Name="Edit" Click="Edit_Click" Width="100" Margin="5"></Button>
             <Button Content="Delete" x:Name="Delete" Click="Delete_Click" Width="100" Margin="5"></Button>
             <Button Content="Cancel" x:Name="Cancel" Click="Cancel_Click" Width="100" Margin="5"></Button>
         </StackPanel>

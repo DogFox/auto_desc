@@ -16,6 +16,7 @@
 								   name varchar (max)  ,
 								   part_number  varchar(max), 
 								   sup_price float,
+								   sup_id int,
 								   price float
 								   )
 
@@ -44,7 +45,6 @@
 								   
   drop table if exists dbo.part_order;
   create table dbo.part_order( 
-								   order_id   int  NOT NULL PRIMARY KEY,
+								   order_id   int,
 								   part_id int  ,
-								   sup_id  int  , 
 								   )

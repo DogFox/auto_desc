@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,8 @@ namespace WpfApp2
         private OrderPartsDataContext opdc = new OrderPartsDataContext();
         private PartsDataContext pdc = new PartsDataContext();
         private SuppliersDataContext sdc = new SuppliersDataContext();
+        private ConnectToBase bc = new ConnectToBase();
+
 
         public NewOrder()
         {
@@ -51,19 +54,31 @@ namespace WpfApp2
             OrderDate.SelectedDate = new_order.date;
             OrderStatus.Text = new_order.status.ToString();
             OrderNum.Text = new_order.number;
+             
+            DataView orderParts_list = bc.ExecuteQuery( "select p.name as part_name, part_number, sup_price, price, s.name " +
+                                                        "from dbo.parts p " + 
+                                                        "join dbo.suppliers s on s.id = p.sup_id " + 
+                                                        "join dbo.part_order po on po.part_id = p.id");
 
-            IEnumerable<OrderInfoView> orderParts_list;
-            orderParts_list = (from t1 in opdc.part_orders
-                               join t2 in pdc.parts on t1.part_id equals t2.id
-                               join t3 in sdc.suppliers on t2.sup_id equals t3.id
-                               select new OrderInfoView()
-                               {
-                                   PartNum = t2.part_number,
-                                   Price = t2.price,
-                                   Name = t2.name,
-                                   SupPriice = t2.sup_price,
-                                   Supplier = t3.name
-                               });
+            OrderPartsGrid.ItemsSource = orderParts_list;
+            OrderPartsGrid.Items.Refresh();
+        }
+
+        public NewOrder( order order)
+        {
+            InitializeComponent(); 
+
+            OrderDate.SelectedDate = order.date;
+            OrderStatus.Text = order.status.ToString();
+            OrderNum.Text = order.number;
+            OrderStatus.Text = order.status.ToString();
+            OrderComment.Text = order.comment;
+
+            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
+                                                        "from dbo.parts p " +
+                                                        "join dbo.suppliers s on s.id = p.sup_id " +
+                                                        "join dbo.part_order po on po.part_id = p.id "+
+                                                        "where po.order_id = " + order.id );
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();

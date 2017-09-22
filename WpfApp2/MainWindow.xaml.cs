@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Linq;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,54 @@ using System.Windows.Shapes;
 
 namespace WpfApp2
 {
+    public class ConnectToBase
+    {
+        public string GetConnectionString()
+        {
+            return global::WpfApp2.Properties.Settings.Default.auto76ConnectionString;
+        }
+
+        public DataView ExecuteQuery(string sql)
+        {
+            //if (!CheckConnectToBase().Equals("")) return new DataView(); //TODO сообщение об ошибке коннекта
+            var UsersTable = new DataTable();
+            SqlConnection connection = null;
+            try
+            {
+                var printMsg = "";
+                connection = new SqlConnection(GetConnectionString());//напрямую стрингой
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                connection.InfoMessage += (object obj, SqlInfoMessageEventArgs e) => {
+                    printMsg = e.Message;
+                };
+                connection.Open();
+
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Columns.Count == 0 && printMsg != "")
+                {
+                    dt.Columns.Add(new DataColumn("printMsg"));
+                    List<string> list = new List<string>();
+                    list.Add(printMsg);
+                    dt.Rows.Add(list.ToArray());
+                }
+                return dt.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+            return null;
+        }
+    }
+
+
     public partial class MainWindow : Window
     {
         bool isAdd = false;
@@ -51,15 +100,15 @@ namespace WpfApp2
             order_list = odc.GetAllOrders();
             OrderGrid.ItemsSource = order_list;
         }
-        private void SupplierGrid_Loaded( object sender, RoutedEventArgs e)
+        private void SupplierGrid_Loaded(object sender, RoutedEventArgs e)
         {
             supplier_list = sdc.GetAllSuppliers();
             SupGrid.ItemsSource = supplier_list;
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-           switch( active_tab_item )
-           {
+            switch (active_tab_item)
+            {
                 case "Cust":
                     this.cdc.SubmitChanges();
                     CustGrid.Items.Refresh();
@@ -77,18 +126,8 @@ namespace WpfApp2
                     SupGrid.Items.Refresh();
                     break;
             }
-           // this.dc.SubmitChanges();
-           // isAdd = false;
-        } 
-
-        private void Get_Focus(object sender, EventArgs e)
-        {
-            TabControl tabs = new TabControl();
-            TabItem item = new TabItem();
-
-            tabs = (TabControl) sender;
-            item = (TabItem) tabs.SelectedItem;
-            active_tab_item = item.Name;
+            // this.dc.SubmitChanges();
+            // isAdd = false;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -159,6 +198,35 @@ namespace WpfApp2
                     break;
             }
         }
+
+        private void Edit_Click( object sender, RoutedEventArgs e)
+        {
+            switch (active_tab_item)
+            {
+                case "Cust": 
+                    break;
+
+                case "Order":
+                    order edit_order = OrderGrid.SelectedItem as order;
+
+                    NewOrder newOrder = new NewOrder(edit_order);
+                    newOrder.Owner = this;
+                    newOrder.ShowDialog();
+
+                    order_list = odc.GetAllOrders();
+                    OrderGrid.ItemsSource = order_list;
+                    OrderGrid.Items.Refresh();
+
+                    break;
+
+                case "Supl": 
+                    break;
+
+                case "Part": 
+                    break;
+            }
+        }
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             switch (active_tab_item)
@@ -224,8 +292,8 @@ namespace WpfApp2
         {
 
             MenuItem menuItem = (MenuItem)sender;
-            if( menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
-               this.Close();
+            if (menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
+                this.Close();
         }
 
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -248,7 +316,7 @@ namespace WpfApp2
                     if (itemOrd != null)
                     {
                         var orig = odc.orders.GetOriginalEntityState(itemOrd);
-                        if ( orig == null )
+                        if (orig == null)
                             this.odc.orders.Attach(itemOrd);
 
                         switch (itemOrd.status)
@@ -266,15 +334,17 @@ namespace WpfApp2
                     }
                     break;
             }
-        }
-        private void BindingSource_CurrentItemChanged( object sender, EventArgs e)
+        } 
+        private void Get_Focus(object sender, EventArgs e)
         {
-            /*DataRow ThisDataRow = ((DataRowView)((BindingSource)sender).Current).Row;
-            if (ThisDataRow.RowState == DataRowState.Modified)
-            {
-                TableAdapter.Update(ThisDataRow);
-            }*/
+            TabControl tabs = new TabControl();
+            TabItem item = new TabItem();
+
+            tabs = (TabControl)sender;
+            item = (TabItem)tabs.SelectedItem;
+            active_tab_item = item.Name;
         }
+
     }
    
 }

@@ -36,25 +36,26 @@
             <TextBox Name="OrderComment" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
             <TextBox Name="OrderStatus" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
             <DatePicker Name="OrderDate" Grid.Column="1" Grid.Row="4" Margin="4" IsDropDownOpen="True" SelectedDateFormat="Short" />
-            
+
             <Grid Grid.Row="5" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0" Name="OrderPartsGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto"  CanUserAddRows="False"
+                                IsReadOnly="True" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="OrderPartsGrid_Loaded"/>
-                <StackPanel Grid.Row = "1" Height="36" Orientation="Horizontal" VerticalAlignment="Bottom">
-                    <Button Content="Add part" x:Name="AddPart" Click="AddPart_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
-                    <Button Content="Delete" x:Name="DeletePart" Click="DeletePart_Click"  Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
+                <StackPanel Grid.Row = "1" Orientation="Horizontal">
+                    <Button Content="Добавить деталь" x:Name="AddPart" Click="AddPart_Click" Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="left"></Button>
+                    <Button Content="Удалить деталь" x:Name="DeletePart" Click="DeletePart_Click"  Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" ></Button>
                 </StackPanel>
             </Grid>
         </Grid>
         <StackPanel Grid.Row = "1" Height="36" Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Content="OK" x:Name="OK" Click="Apply_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
-            <Button Content="Cancel" x:Name="Cancel" Click="Cancel_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
+            <Button Content="Отмена" x:Name="Cancel" Click="Cancel_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
         </StackPanel>
+        <ScrollViewer HorizontalAlignment="Left" Height="100" Margin="663,347,-178,-49" Grid.RowSpan="2" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>
