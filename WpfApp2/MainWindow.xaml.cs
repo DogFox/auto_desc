@@ -154,7 +154,7 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    order new_order = new order();
+                    //order new_order = new order();
 
                     NewOrder newOrder = new NewOrder();
                     newOrder.Owner = this;
@@ -213,6 +213,7 @@ namespace WpfApp2
                     newOrder.Owner = this;
                     newOrder.ShowDialog();
 
+                    odc.SubmitChanges();
                     order_list = odc.GetAllOrders();
                     OrderGrid.ItemsSource = order_list;
                     OrderGrid.Items.Refresh();
@@ -275,18 +276,8 @@ namespace WpfApp2
             }
         }
         private void Cancel_Click(object sender, RoutedEventArgs e)
-        {/*
-            if (isAdd)
-            {
-                CustomerView.CancelNew();
-                CustomerView.Remove(this.CustomerView.CurrentItem);
-            }
-            else
-            {
-                CustomerView.CancelEdit();
-                dc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues);
-                CustomerView.Refresh();
-            }*/
+        {
+            this.Close();
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

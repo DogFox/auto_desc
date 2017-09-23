@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,24 +22,30 @@ namespace WpfApp2
     {
         PartsDataContext pdc = new PartsDataContext();
         IEnumerable<part> parts_list;
+        private ConnectToBase bc = new ConnectToBase();
+        private order add_to_order = new order();
 
-        public Parts()
+        public Parts( order order)
         {
             InitializeComponent();
+            add_to_order = order;
 
             parts_list = pdc.GetAllParts();
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();
         }
-
-        public part ChosePart_Click2()
+        public void ChosePart_Click( object sender, RoutedEventArgs e)
         {
             part returnPart = new part();
             returnPart = PartsGrid.SelectedItem as part;
-            return returnPart;
+
+            DataView add_part_to_order = bc.ExecuteQuery("insert into dbo.part_order " + 
+                                                          "( order_id, part_id ) " + 
+                                                          "values( " + add_to_order.id + ", " + returnPart.id + " ) ");
+            this.Close();
         }
 
-        public object ChosePart_Click
+        public object ChosePart_Click2
         {
             get { return PartsGrid.SelectedItem; }
         }
