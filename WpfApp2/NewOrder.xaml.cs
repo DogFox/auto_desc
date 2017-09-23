@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace WpfApp2
 {
@@ -27,7 +28,7 @@ namespace WpfApp2
         public string PartNum { get; set; }
         public string Supplier { get; set; }
     }
-    public partial class NewOrder : Window
+    public partial class NewOrder : MetroWindow
     {
         private order new_order = new order();
         private order order = new order();
@@ -61,7 +62,8 @@ namespace WpfApp2
             DataView orderParts_list = bc.ExecuteQuery( "select p.name as part_name, part_number, sup_price, price, s.name " +
                                                         "from dbo.parts p " + 
                                                         "join dbo.suppliers s on s.id = p.sup_id " + 
-                                                        "join dbo.part_order po on po.part_id = p.id");
+                                                        "join dbo.part_order po on po.part_id = p.id " +
+                                                        "where po.order_id = " + new_order.id);
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
@@ -115,6 +117,11 @@ namespace WpfApp2
 
         private void Cancel_Click( object sender, RoutedEventArgs e)
         {
+            if( isAdd.Equals(1) )
+            {
+                DataView delete_order_parts = bc.ExecuteQuery("delete from dbo.part_order where order_id = " + new_order.id);
+                DataView delete_order = bc.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
+            }
             this.Close();
         }
 

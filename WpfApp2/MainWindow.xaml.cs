@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace WpfApp2
 {
@@ -66,7 +67,7 @@ namespace WpfApp2
     }
 
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         bool isAdd = false;
         string active_tab_item = "Order"; // так как начинаем с окна заказов
@@ -89,22 +90,30 @@ namespace WpfApp2
             //this.OrdersView = (BindingListCollectionView)(CollectionViewSource.GetDefaultView(items));
             // Добавляем обработчик для всех кнопок на гриде
         }
-
-        private void CustGrid_Loaded(object sender, RoutedEventArgs e)
+        // Инициализация датагридов при переключении вкладок
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            cust_list = cdc.GetAllCustomers();
-            CustGrid.ItemsSource = cust_list;
+            switch (active_tab_item)
+            {
+                case "Cust":
+                    cust_list = cdc.GetAllCustomers();
+                    CustGrid.ItemsSource = cust_list;
+                    break;
+                case "Order":
+                    order_list = odc.GetAllOrders();
+                    OrderGrid.ItemsSource = order_list;
+                    break;
+                case "Supl":
+                    supplier_list = sdc.GetAllSuppliers();
+                    SupGrid.ItemsSource = supplier_list;
+                    break;
+                case "Part":
+                    part_list = pdc.GetAllParts();
+                    PartsGrid.ItemsSource = part_list;
+                    break;
+            }
         }
-        private void OrderGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            order_list = odc.GetAllOrders();
-            OrderGrid.ItemsSource = order_list;
-        }
-        private void SupplierGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            supplier_list = sdc.GetAllSuppliers();
-            SupGrid.ItemsSource = supplier_list;
-        }
+        //Сохранение изменений в датагриде
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             switch (active_tab_item)
@@ -122,14 +131,14 @@ namespace WpfApp2
                     SupGrid.Items.Refresh();
                     break;
                 case "Part":
-                    this.sdc.SubmitChanges();
-                    SupGrid.Items.Refresh();
+                    this.pdc.SubmitChanges();
+                    PartsGrid.Items.Refresh();
                     break;
             }
             // this.dc.SubmitChanges();
             // isAdd = false;
         }
-
+        //Добавление новых объектов в датагрид
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             isAdd = true;
@@ -154,8 +163,6 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    //order new_order = new order();
-
                     NewOrder newOrder = new NewOrder();
                     newOrder.Owner = this;
                     newOrder.ShowDialog();
@@ -286,7 +293,7 @@ namespace WpfApp2
             if (menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
                 this.Close();
         }
-
+        //Раскрашиваем строки в зависимости от хуй пойми чего
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             // Get the DataRow corresponding to the DataGridRow that is loading.

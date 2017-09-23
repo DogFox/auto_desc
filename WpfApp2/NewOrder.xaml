@@ -1,11 +1,15 @@
-﻿<Window x:Class="WpfApp2.NewOrder"
+﻿<Controls:MetroWindow x:Class="WpfApp2.NewOrder"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="NewOrder" Height="428.557" Width="593.182">
+        Title="NewOrder" Height="428.557" Width="593.182"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="181*"></RowDefinition>
@@ -58,4 +62,4 @@
         </StackPanel>
         <ScrollViewer HorizontalAlignment="Left" Height="100" Margin="663,347,-178,-49" Grid.RowSpan="2" VerticalAlignment="Top" Width="100"/>
     </Grid>
-</Window>
+</Controls:MetroWindow>
