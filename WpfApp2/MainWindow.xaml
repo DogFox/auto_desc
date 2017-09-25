@@ -23,6 +23,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="791">
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
+            <MenuItem Header="Подкачать прайс" Click="GetPrice_Click"/>
         </Menu>
         <TabControl Grid.Row="1" HorizontalAlignment="Left" Height="439" Margin="0,0,0,0" VerticalAlignment="Top" Width="783" GotFocus="Get_Focus" >
             <TabItem Name="Order" Header="Заказы">

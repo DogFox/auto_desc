@@ -293,6 +293,18 @@ namespace WpfApp2
             if (menuItem.Header.ToString().Equals("Выход")) //при нажатии выход - ПО закрывается
                 this.Close();
         }
+
+        private void GetPrice_Click(object sender, RoutedEventArgs e)
+        {
+
+            MenuItem menuItem = (MenuItem)sender;
+            if (menuItem.Header.ToString().Equals("Подкачать прайс")) //при нажатии выход - ПО закрывается
+            {
+                ExcelImport import_price = new ExcelImport();
+                import_price.OpenClick(sender, e);
+            }
+        }
+
         //Раскрашиваем строки в зависимости от хуй пойми чего
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
