@@ -28,14 +28,14 @@ namespace WpfApp2
 
             new_part.part_number = "";
             new_part.sup_price = 0;
-            new_part.price = 0;
+            //new_part.price = 0;
             new_part.sup_id = -1;
 
             this.pdc.parts.InsertOnSubmit(new_part);
             this.pdc.SubmitChanges();
 
             Supplier.Text = new_part.sup_id.ToString();
-            Price.Text = new_part.price.ToString();
+            //Price.Text = new_part.price.ToString();
             SupPrice.Text = new_part.sup_price.ToString();
             PartNum.Text = new_part.part_number;
         }
@@ -43,7 +43,7 @@ namespace WpfApp2
         {
             new_part.part_number = PartNum.Text;
             new_part.sup_price = Convert.ToSingle(SupPrice.Text);
-            new_part.price = Convert.ToSingle(Price.Text);
+            //new_part.price = Convert.ToSingle(Price.Text);
             new_part.sup_id = Convert.ToInt32(Supplier.Text);
 
             this.pdc.SubmitChanges();

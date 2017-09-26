@@ -25,19 +25,18 @@ namespace WpfApp2
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
 	public partial class PartsDataContext : System.Data.Linq.DataContext
 	{
-		
-		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-
 
         public IEnumerable<part> GetAllParts()
         {
-            var items = this.parts.Select(item => item).OrderBy(item => item.name);
+            var items = this.parts.Select(item => item).OrderBy(item => item.id);
 
             return items;
         }
 
-        #region Extensibility Method Definitions
-        partial void OnCreated();
+        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+		
+    #region Extensibility Method Definitions
+    partial void OnCreated();
     partial void Insertpart(part instance);
     partial void Updatepart(part instance);
     partial void Deletepart(part instance);
@@ -90,15 +89,23 @@ namespace WpfApp2
 		
 		private int _id;
 		
-		private string _name;
+		private string _producer;
 		
 		private string _part_number;
 		
-		private float _sup_price;
+		private string _name;
 		
-		private int _sup_id;
+		private string _model;
 		
-		private float _price;
+		private System.Nullable<double> _sup_price;
+		
+		private System.Nullable<int> _ratio;
+		
+		private System.Nullable<int> _count;
+		
+		private string _code;
+		
+		private System.Nullable<int> _sup_id;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -106,16 +113,24 @@ namespace WpfApp2
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
+    partial void OnproducerChanging(string value);
+    partial void OnproducerChanged();
     partial void Onpart_numberChanging(string value);
     partial void Onpart_numberChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OnmodelChanging(string value);
+    partial void OnmodelChanged();
     partial void Onsup_priceChanging(System.Nullable<double> value);
     partial void Onsup_priceChanged();
+    partial void OnratioChanging(System.Nullable<int> value);
+    partial void OnratioChanged();
+    partial void OncountChanging(System.Nullable<int> value);
+    partial void OncountChanged();
+    partial void OncodeChanging(string value);
+    partial void OncodeChanged();
     partial void Onsup_idChanging(System.Nullable<int> value);
     partial void Onsup_idChanged();
-    partial void OnpriceChanging(System.Nullable<double> value);
-    partial void OnpriceChanged();
     #endregion
 		
 		public part()
@@ -143,22 +158,22 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX)")]
-		public string name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_producer", DbType="VarChar(MAX)")]
+		public string producer
 		{
 			get
 			{
-				return this._name;
+				return this._producer;
 			}
 			set
 			{
-				if ((this._name != value))
+				if ((this._producer != value))
 				{
-					this.OnnameChanging(value);
+					this.OnproducerChanging(value);
 					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
+					this._producer = value;
+					this.SendPropertyChanged("producer");
+					this.OnproducerChanged();
 				}
 			}
 		}
@@ -183,8 +198,48 @@ namespace WpfApp2
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX)")]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_model", DbType="VarChar(MAX)")]
+		public string model
+		{
+			get
+			{
+				return this._model;
+			}
+			set
+			{
+				if ((this._model != value))
+				{
+					this.OnmodelChanging(value);
+					this.SendPropertyChanging();
+					this._model = value;
+					this.SendPropertyChanged("model");
+					this.OnmodelChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sup_price", DbType="Float")]
-		public float sup_price
+		public System.Nullable<double> sup_price
 		{
 			get
 			{
@@ -203,8 +258,68 @@ namespace WpfApp2
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ratio", DbType="Int")]
+		public System.Nullable<int> ratio
+		{
+			get
+			{
+				return this._ratio;
+			}
+			set
+			{
+				if ((this._ratio != value))
+				{
+					this.OnratioChanging(value);
+					this.SendPropertyChanging();
+					this._ratio = value;
+					this.SendPropertyChanged("ratio");
+					this.OnratioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_count", DbType="Int")]
+		public System.Nullable<int> count
+		{
+			get
+			{
+				return this._count;
+			}
+			set
+			{
+				if ((this._count != value))
+				{
+					this.OncountChanging(value);
+					this.SendPropertyChanging();
+					this._count = value;
+					this.SendPropertyChanged("count");
+					this.OncountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code", DbType="VarChar(MAX)")]
+		public string code
+		{
+			get
+			{
+				return this._code;
+			}
+			set
+			{
+				if ((this._code != value))
+				{
+					this.OncodeChanging(value);
+					this.SendPropertyChanging();
+					this._code = value;
+					this.SendPropertyChanged("code");
+					this.OncodeChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sup_id", DbType="Int")]
-		public int sup_id
+		public System.Nullable<int> sup_id
 		{
 			get
 			{
@@ -219,26 +334,6 @@ namespace WpfApp2
 					this._sup_id = value;
 					this.SendPropertyChanged("sup_id");
 					this.Onsup_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price", DbType="Float")]
-		public float price
-		{
-			get
-			{
-				return this._price;
-			}
-			set
-			{
-				if ((this._price != value))
-				{
-					this.OnpriceChanging(value);
-					this.SendPropertyChanging();
-					this._price = value;
-					this.SendPropertyChanged("price");
-					this.OnpriceChanged();
 				}
 			}
 		}

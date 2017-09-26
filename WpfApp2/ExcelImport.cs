@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Spire.Xls;
 using System.Data;
+using System.Globalization;
 
 namespace WpfApp2
 {
@@ -23,12 +24,11 @@ namespace WpfApp2
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public class ExcelImport  
+    public class ExcelImport
     {
-        private Microsoft.Office.Interop.Excel.Application ExcelApp;
-        private Microsoft.Office.Interop.Excel.Workbook WorkBookExcel;
-        private Microsoft.Office.Interop.Excel.Worksheet WorkSheetExcel;
-        private Microsoft.Office.Interop.Excel.Range excelRange;
+        private ConnectToBase bc = new ConnectToBase();
+        private part new_part = new part();
+        private PartsDataContext pdc = new PartsDataContext();
 
         public void OpenClick(object sender, RoutedEventArgs e)
         {
@@ -39,37 +39,37 @@ namespace WpfApp2
             {
                 MessageBox.Show("Файл не выбран!", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 return;
-            }
-            //string fileName = System.IO.Path.GetFileName(openDialog.FileName);
-
-            //ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            //Книга.
-            //WorkBookExcel = ExcelApp.Workbooks.Open(openDialog.FileName);
+            } 
 
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(openDialog.FileName);
-            Worksheet sheet = WorkBookExcel.Worksheets[0];
+            Worksheet sheet = workbook.Worksheets[0];
             DataTable dataTable = sheet.ExportDataTable();
 
-            //Таблица.
-            // WorkSheetExcel = ExcelApp.ActiveSheet as Microsoft.Office.Interop.Excel.Worksheet;
-            //    RangeExcel = null;
-            WorkSheetExcel = (Microsoft.Office.Interop.Excel.Worksheet)WorkBookExcel.Sheets[1];
+            for (int index = 2; index < dataTable.Rows.Count - 1; index++)
+            {
+                /*var ins_row = "insert into dbo.parts " +
+                                "( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " +
+                                "values( '" + dataTable.Rows[index][0].ToString() + "', '" + dataTable.Rows[index][1].ToString() + "', '" + dataTable.Rows[index][2].ToString() +
+                                        "', '" + dataTable.Rows[index][3].ToString() + "', '" + dataTable.Rows[index][4].ToString() + "', '" + dataTable.Rows[index][5].ToString() +
+                                        "', '" + dataTable.Rows[index][6].ToString() + "', '" + dataTable.Rows[index][7].ToString() + "', 1 )";
 
+                bc.ExecuteQuery(ins_row);*/
+                new_part = new part();
 
-            excelRange = WorkSheetExcel.UsedRange;
+                new_part.producer = dataTable.Rows[index][0].ToString();
+                new_part.part_number = dataTable.Rows[index][1].ToString();
+                new_part.name = dataTable.Rows[index][2].ToString();
+                new_part.model = dataTable.Rows[index][3].ToString();
+                new_part.sup_price = Convert.ToSingle( dataTable.Rows[index][4].ToString(), CultureInfo.InvariantCulture);
+                new_part.count = Convert.ToInt32( dataTable.Rows[index][5].ToString());
+                new_part.ratio = Convert.ToInt32( dataTable.Rows[index][6].ToString());
+                new_part.code = dataTable.Rows[index][7].ToString();
+                new_part.sup_id = 1;
 
-            var lastCell = WorkSheetExcel.Cells.SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeLastCell);
-            string[,] list = new string[lastCell.Column, lastCell.Row];
-
-            for (int i = 0; i < (int)lastCell.Column; i++)
-                for (int j = 0; j < (int)lastCell.Row; j++)
-                    list[i, j] = WorkSheetExcel.Cells[j + 1, i + 1].Text.ToString();//считал текст в строку
-
-            WorkBookExcel.Close(false, Type.Missing, Type.Missing); //закрыть не сохраняя
-            ExcelApp.Quit(); // вышел из Excel
-            GC.Collect(); // убрал за собой
-
+                this.pdc.parts.InsertOnSubmit(new_part);
+                this.pdc.SubmitChanges();
+            }
         }
     }
 }

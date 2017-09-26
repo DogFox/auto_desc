@@ -13,11 +13,15 @@
   drop table if exists dbo.parts;
   create table dbo.parts( 
 								   id   int  NOT NULL IDENTITY(1,1) PRIMARY KEY,
-								   name varchar (max)  ,
+								   producer varchar (max)  ,
 								   part_number  varchar(max), 
+								   name varchar(max),
+								   model varchar(max),
 								   sup_price float,
-								   sup_id int,
-								   price float
+								   ratio int,
+								   count int,
+								   code varchar(max),
+								   sup_id int
 								   )
 
   drop table if exists dbo.suppliers;

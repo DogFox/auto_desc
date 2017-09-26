@@ -119,8 +119,8 @@ namespace WpfApp2
         {
             if( isAdd.Equals(1) )
             {
-                DataView delete_order_parts = bc.ExecuteQuery("delete from dbo.part_order where order_id = " + new_order.id);
-                DataView delete_order = bc.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
+                bc.ExecuteQuery("delete from dbo.part_order where order_id = " + new_order.id);
+                bc.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
             }
             this.Close();
         }

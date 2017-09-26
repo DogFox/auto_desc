@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="auto76" Class="PartsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString_home" Provider="System.Data.SqlClient" />
   <Table Name="dbo.parts" Member="parts">
     <Type Name="part">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="producer" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="part_number" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="model" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="sup_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ratio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="code" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="sup_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
