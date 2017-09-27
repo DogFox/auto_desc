@@ -59,7 +59,7 @@ namespace WpfApp2
             OrderStatus.Text = new_order.status.ToString();
             OrderNum.Text = new_order.number;
              
-            DataView orderParts_list = bc.ExecuteQuery( "select p.name as part_name, part_number, sup_price, price, s.name " +
+            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
                                                         "from dbo.parts p " + 
                                                         "join dbo.suppliers s on s.id = p.sup_id " + 
                                                         "join dbo.part_order po on po.part_id = p.id " +
@@ -80,7 +80,7 @@ namespace WpfApp2
             OrderComment.Text = order.comment;
             this.order = order; //передали входящий объект в объект класса
 
-            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
+            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
                                                         "from dbo.parts p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "join dbo.part_order po on po.part_id = p.id "+
