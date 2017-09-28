@@ -12,19 +12,24 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace WpfApp2
 {
     /// <summary>
     /// Interaction logic for Parts.xaml
     /// </summary>
-    public partial class Parts : Window
+    public partial class Parts : MetroWindow
     {
         PartsDataContext pdc = new PartsDataContext();
         IEnumerable<part> parts_list;
         private ConnectToBase bc = new ConnectToBase();
         private order add_to_order = new order();
 
+        public Parts()
+        {
+            InitializeComponent();
+        }
         public Parts( order order)
         {
             InitializeComponent();

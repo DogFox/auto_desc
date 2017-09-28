@@ -32,10 +32,10 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777"  CanUserAddRows="False"
+                                IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" >
-                    </DataGrid> 
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Name="Supl" Header="Поставщики">
@@ -43,7 +43,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="SupGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
+                    <DataGrid Name="SupGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777" 
                                 ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0" 
                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" >
                     </DataGrid>
@@ -55,7 +55,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="CustGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
+                                IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777" 
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="DataGrid_Loaded">
                     </DataGrid>
@@ -63,17 +63,19 @@
             </TabItem>
             <TabItem Name="Part" Header="Деталь">
                 <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*"/>
+                        <ColumnDefinition Width="83*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="PartsGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="411" VerticalAlignment="Top" Width="777" 
-                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded" >
-                    </DataGrid> 
+                    <DataGrid Name="PartsGrid"  HorizontalAlignment="Left" Width="777" 
+                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                              Loaded="DataGrid_Loaded" Grid.RowSpan="2" Grid.ColumnSpan="2" />
                 </Grid>
             </TabItem>
-            <DataGrid Height="100" Width="100"/>
         </TabControl>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button Content="Save" x:Name="Save" Click="Save_Click" Width="100" Margin="5"></Button>

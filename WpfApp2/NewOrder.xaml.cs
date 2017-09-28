@@ -142,7 +142,6 @@ namespace WpfApp2
                 order_to_send = order;
             }
             Parts AddPartWin = new Parts(order_to_send);
-            AddPartWin.Owner = this;
             AddPartWin.ShowDialog();
 
 
