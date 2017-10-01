@@ -37,7 +37,7 @@
         </Grid>
         <StackPanel Height="35" Orientation="Horizontal" VerticalAlignment="Bottom" RenderTransformOrigin="0.51,0.207" Grid.Row="1">
             <Button Content="OK" x:Name="OK" Click="Apply_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
-            <Button Content="Cancel" x:Name="Cancel" Click="Cancel_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
+            <Button Content="Отмена" x:Name="Cancel" Click="Cancel_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>
         </StackPanel>
     </Grid>
 </Window>
