@@ -9,33 +9,35 @@
         Title="MainWindow" Height="Auto" Width="800"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
-        WindowStartupLocation="CenterScreen" >
+        WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized">
     <Window.Resources>
         <ObjectDataProvider x:Key="getOrders" ObjectType="{x:Type local:OrdersDataContext}" MethodName="GetAllOrders"></ObjectDataProvider>
         <ObjectDataProvider x:Key="getCustomers" ObjectType="{x:Type local:CustomersDataContext}" MethodName="GetAllCustomers"  ></ObjectDataProvider>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid" Margin="0,0,10,0" Width ="{Binding ActualWidth , RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}"  
+                                       Height="{Binding ActualHeight, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="791">
+        <Menu Grid.Row="0" Height="28" VerticalAlignment="Top" Width="auto" >
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
             <MenuItem Header="Подкачать прайс" Click="GetPrice_Click"/>
         </Menu>
-        <TabControl Grid.Row="1" HorizontalAlignment="Left" Height="439" Margin="0,0,0,0" VerticalAlignment="Top" Width="783" GotFocus="Get_Focus" >
+        <TabControl Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
+                                      Width="{Binding ActualWidth, ElementName=x:MainGrid}" HorizontalAlignment="Left"  >
             <TabItem Name="Order" Header="Заказы">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777"  CanUserAddRows="False"
+                                IsReadOnly="False"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" >
-                    </DataGrid>
+                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" />
                 </Grid>
             </TabItem>
             <TabItem Name="Supl" Header="Поставщики">
@@ -43,10 +45,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="SupGrid" IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777" 
-                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0" 
-                             Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" >
-                    </DataGrid>
+                    <DataGrid Name="SupGrid" IsReadOnly="False" Height="394" VerticalAlignment="Top" 
+                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,7,0" 
+                             Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" />
                 </Grid>
             </TabItem>
             <TabItem Name="Cust" Header="Покупатель">
@@ -77,7 +78,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Height="37" VerticalAlignment="Top" HorizontalAlignment="Right" Width="790">
             <Button Content="Save" x:Name="Save" Click="Save_Click" Width="100" Margin="5"></Button>
             <Button Content="Add" x:Name="Add" Click="Add_Click" Width="100" Margin="5"></Button>
             <Button Content="Edit" x:Name="Edit" Click="Edit_Click" Width="100" Margin="5"></Button>
