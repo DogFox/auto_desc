@@ -19,66 +19,63 @@
     <Grid x:Name="MainGrid" Margin="0,0,10,0" Width ="{Binding ActualWidth , RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}"  
                                        Height="{Binding ActualHeight, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="auto" MinHeight="433"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="28" VerticalAlignment="Top" Width="auto" >
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
             <MenuItem Header="Подкачать прайс" Click="GetPrice_Click"/>
         </Menu>
-        <TabControl Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
-                                      Width="{Binding ActualWidth, ElementName=x:MainGrid}" HorizontalAlignment="Left"  >
+        <TabControl x:Name="TabControl" Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
+                                      Width="{Binding ActualWidth, ElementName=MainGrid}" HorizontalAlignment="Left" 
+                    Height="auto">
             <TabItem Name="Order" Header="Заказы">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
                                 IsReadOnly="False"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" />
+                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" 
+                              />
                 </Grid>
             </TabItem>
             <TabItem Name="Supl" Header="Поставщики">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="SupGrid" IsReadOnly="False" Height="394" VerticalAlignment="Top" 
-                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,7,0" 
+                    <DataGrid Name="SupGrid" IsReadOnly="False"  VerticalAlignment="Top" 
+                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0" 
                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" />
                 </Grid>
             </TabItem>
             <TabItem Name="Cust" Header="Покупатель">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="CustGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" HorizontalAlignment="Left" Height="394" VerticalAlignment="Top" Width="777" 
+                                IsReadOnly="False" VerticalAlignment="Top" 
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="DataGrid_Loaded">
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Name="Part" Header="Деталь">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28*"/>
-                        <ColumnDefinition Width="83*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="PartsGrid"  HorizontalAlignment="Left" Width="777" 
-                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
-                              Loaded="DataGrid_Loaded" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+                    <DataGrid Name="PartsGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                              Loaded="DataGrid_Loaded"  VerticalAlignment="Top" Height="387" Margin="0,0,0,-360" />
                 </Grid>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Height="37" VerticalAlignment="Top" HorizontalAlignment="Right" Width="790">
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Left" 
+                    Width="{Binding ActualWidth, ElementName=MainGrid}" Height="37" VerticalAlignment="Bottom" >
             <Button Content="Save" x:Name="Save" Click="Save_Click" Width="100" Margin="5"></Button>
             <Button Content="Add" x:Name="Add" Click="Add_Click" Width="100" Margin="5"></Button>
             <Button Content="Edit" x:Name="Edit" Click="Edit_Click" Width="100" Margin="5"></Button>
