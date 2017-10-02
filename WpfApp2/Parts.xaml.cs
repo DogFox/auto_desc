@@ -22,7 +22,7 @@ namespace WpfApp2
     public partial class Parts : MetroWindow
     {
         PartsDataContext pdc = new PartsDataContext();
-        IEnumerable<part> parts_list;
+        IEnumerable<object> parts_list;
         private ConnectToBase bc = new ConnectToBase();
         private order add_to_order = new order();
 
@@ -41,9 +41,7 @@ namespace WpfApp2
         }
         public void ChosePart_Click( object sender, RoutedEventArgs e)
         {
-            part returnPart = new part();
-            returnPart = PartsGrid.SelectedItem as part;
-
+            part returnPart = PartsGrid.SelectedItem as part;
             DataView add_part_to_order = bc.ExecuteQuery("insert into dbo.part_order " + 
                                                           "( order_id, part_id ) " + 
                                                           "values( " + add_to_order.id + ", " + returnPart.id + " ) ");
@@ -53,6 +51,18 @@ namespace WpfApp2
         public object ChosePart_Click2
         {
             get { return PartsGrid.SelectedItem; }
+        }
+        public void FilterPart_Click( object sender, RoutedEventArgs e)
+        {
+            var filter = "select p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier " +
+                                                        "from dbo.parts p " +
+                                                        "join dbo.suppliers s on s.id = p.sup_id " +
+                                                        "where p.part_number like '%" + FilterTextBox.Text + "%'";
+
+            DataView parts_list = bc.ExecuteQuery(filter);
+
+            PartsGrid.ItemsSource = parts_list;
+            PartsGrid.Items.Refresh();
         }
     }
 }

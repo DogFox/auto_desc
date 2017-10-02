@@ -75,6 +75,7 @@ namespace WpfApp2
         CustomersDataContext cdc = new CustomersDataContext();
         SuppliersDataContext sdc = new SuppliersDataContext();
         PartsDataContext pdc = new PartsDataContext();
+        private ConnectToBase bc = new ConnectToBase();
 
         private IEnumerable<customer> cust_list;
         private IEnumerable<order> order_list;
@@ -353,6 +354,19 @@ namespace WpfApp2
             tabs = (TabControl)sender;
             item = (TabItem)tabs.SelectedItem;
             active_tab_item = item.Name;
+        }
+
+        public void FilterPart_Click(object sender, RoutedEventArgs e)
+        {
+            var filter = "select p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier " +
+                                                        "from dbo.parts p " +
+                                                        "join dbo.suppliers s on s.id = p.sup_id " +
+                                                        "where p.part_number like '%" + FilterTextBox.Text + "%'";
+
+            DataView parts_list = bc.ExecuteQuery(filter);
+
+            this.PartsGrid.ItemsSource = parts_list;
+            this.PartsGrid.Items.Refresh();
         }
 
     }

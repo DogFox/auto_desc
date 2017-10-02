@@ -67,9 +67,19 @@
             <TabItem Name="Part" Header="Деталь">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="35"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="PartsGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="110" ></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="FilterPart_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
+                        Margin="2,2,2,2"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,0,3"/>
+                    </Grid>
+                    <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  VerticalAlignment="Top" Height="387" Margin="0,0,0,-360" />
                 </Grid>
             </TabItem>

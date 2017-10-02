@@ -6,15 +6,27 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Parts" Height="305.114" Width="601.705">
+        Title="Parts" Height="500" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="220"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="97*"/>
+            <RowDefinition Height="102*"/>
+            <RowDefinition Height="36"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" Name="PartsGrid" ItemsSource="{Binding}" Width="594" Height="220" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <StackPanel Grid.Row="1" Height="46" VerticalAlignment="Bottom">
-            <Button Name="ChosePart" Click="ChosePart_Click" Height="40" Content="Выбрать" HorizontalAlignment="Left" Width="100"/>
+        <Grid Grid.Row="0"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Click="FilterPart_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
+                        Margin="2,2,2,2"/>
+            <TextBox Name="FilterTextBox" Grid.Column="1" Margin="0,2,0,3"/>
+        </Grid>
+        <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" Margin="10,0,0,10" Grid.RowSpan="2" HorizontalAlignment="Left" Width="auto"/>
+        <StackPanel Grid.Row="3" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="104">
+            <Button Name="ChosePart" Click="ChosePart_Click" Height="30" Content="Выбрать" HorizontalAlignment="Left" Width="100" 
+                        Margin="2,2,2,2"/>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>
