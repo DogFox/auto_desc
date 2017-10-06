@@ -64,7 +64,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Name="Part" Header="Деталь">
+            <TabItem Name="Part" Header="Прайсы">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"></RowDefinition>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="NewOrder" Height="428.557" Width="593.182"
+        Title="NewOrder" Height="428.557" Width="796.182"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         WindowStartupLocation="CenterScreen">
@@ -36,10 +36,11 @@
             <Label Content="Дата" Grid.Row="4" Grid.Column="0" Margin="4"></Label>
 
             <TextBox Name="OrderNum" Grid.Column="1" Grid.Row="0" Margin="4"></TextBox>
-            <TextBox Name="OrderCustomer" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
+            <TextBox Name="OrderCustomer" Grid.Column="1" Grid.Row="1" Margin="4,4,203,4"></TextBox>
+            <Button Name="OrderCustomerChoose" Content="Покупатель" Click="OrderCustomerChoose_Click" Grid.Column="1" Grid.Row="1" Margin="409,4,4,4"></Button>
             <TextBox Name="OrderComment" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
             <TextBox Name="OrderStatus" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
-            <DatePicker Name="OrderDate" Grid.Column="1" Grid.Row="4" Margin="4" IsDropDownOpen="True" SelectedDateFormat="Short" />
+            <DatePicker Name="OrderDate" Grid.Column="1" Grid.Row="4" Margin="4" IsDropDownOpen="False" SelectedDateFormat="Short" />
 
             <Grid Grid.Row="5" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>

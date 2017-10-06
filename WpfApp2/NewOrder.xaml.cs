@@ -115,6 +115,15 @@ namespace WpfApp2
             this.Close();
         }
 
+        private void OrderCustomerChoose_Click( object sender, RoutedEventArgs e)
+        {
+            Customers ChoseCust = new Customers();
+            ChoseCust.ShowDialog();
+
+        }
+
+
+
         private void Cancel_Click( object sender, RoutedEventArgs e)
         {
             if( isAdd.Equals(1) )

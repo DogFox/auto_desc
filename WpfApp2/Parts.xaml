@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Parts" Height="500" Width="1000">
+        Title="Parts" Height="500" Width="1000"
+                      
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
