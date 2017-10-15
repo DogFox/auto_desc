@@ -27,7 +27,7 @@
                         Margin="2,2,2,2"/>
             <TextBox Name="FilterTextBox" Grid.Column="1" Margin="0,2,0,3"/>
         </Grid>
-        <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" Margin="10,0,0,10" Grid.RowSpan="2" HorizontalAlignment="Left" Width="auto"/>
+        <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" Margin="10,10,10,10" Grid.RowSpan="2" HorizontalAlignment="Left" Width="auto"/>
         <StackPanel Grid.Row="3" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="104">
             <Button Name="ChosePart" Click="ChosePart_Click" Height="30" Content="Выбрать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>

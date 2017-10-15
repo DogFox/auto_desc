@@ -20,8 +20,8 @@
                                        Height="{Binding ActualHeight, RelativeSource = {RelativeSource AncestorType = {x:Type Window}}}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="28"></RowDefinition>
-            <RowDefinition Height="auto" MinHeight="433"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition  MinHeight="433"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="28" VerticalAlignment="Top" Width="auto" >
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
@@ -68,7 +68,7 @@
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -80,12 +80,13 @@
                         <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,0,3"/>
                     </Grid>
                     <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
-                              Loaded="DataGrid_Loaded"  VerticalAlignment="Top" Height="387" Margin="0,0,0,-360" />
+                              Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
+                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Left" 
-                    Width="{Binding ActualWidth, ElementName=MainGrid}" Height="37" VerticalAlignment="Bottom" >
+                    Width="{Binding ActualWidth, ElementName=MainGrid}" Height="37" VerticalAlignment="Top" >
             <Button Content="Сохранить" x:Name="Save" Click="Save_Click" Width="100" Margin="5"></Button>
             <Button Content="Добавить" x:Name="Add" Click="Add_Click" Width="100" Margin="5"></Button>
             <Button Content="Редактировать" x:Name="Edit" Click="Edit_Click" Width="100" Margin="5"></Button>
