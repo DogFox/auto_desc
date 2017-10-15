@@ -32,6 +32,7 @@ namespace WpfApp2
     {
         private order new_order = new order();
         private order order = new order();
+        private DataView orderParts_list;
         private OrdersDataContext odc = new OrdersDataContext();
         private OrderPartsDataContext opdc = new OrderPartsDataContext();
         private PartsDataContext pdc = new PartsDataContext();
@@ -44,6 +45,18 @@ namespace WpfApp2
         {
             InitializeComponent();
             isAdd = 1;
+
+            DataView orderCust = bc.ExecuteQuery("select name " +
+                                                    "from dbo.Orders o " +
+                                                    "join dbo.Customers c on c.id = o.cust_id " +
+                                                    "where o.id = " + order.id);
+
+            orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
+                                                        "from dbo.parts p " +
+                                                        "join dbo.suppliers s on s.id = p.sup_id " +
+                                                        "join dbo.part_order po on po.part_id = p.id " +
+                                                        "where po.order_id = " + new_order.id);
+
 
             new_order.number = odc.GetLastNumber();
             new_order.date = DateTime.Now.Date;
@@ -58,12 +71,6 @@ namespace WpfApp2
             OrderDate.SelectedDate = new_order.date;
             OrderStatus.Text = new_order.status.ToString();
             OrderNum.Text = new_order.number;
-             
-            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
-                                                        "from dbo.parts p " + 
-                                                        "join dbo.suppliers s on s.id = p.sup_id " + 
-                                                        "join dbo.part_order po on po.part_id = p.id " +
-                                                        "where po.order_id = " + new_order.id);
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
@@ -73,18 +80,23 @@ namespace WpfApp2
         {
             InitializeComponent();
 
-            OrderDate.SelectedDate = order.date;
-            OrderStatus.Text = order.status.ToString();
-            OrderNum.Text = order.number;
-            OrderStatus.Text = order.status.ToString();
-            OrderComment.Text = order.comment;
-            this.order = order; //передали входящий объект в объект класса
+            DataView orderCust = bc.ExecuteQuery("select name " +
+                                                    "from dbo.Orders o " +
+                                                    "join dbo.Customers c on c.id = o.cust_id " +
+                                                    "where o.id = " + order.id);
 
-            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
+            orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
                                                         "from dbo.parts p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "join dbo.part_order po on po.part_id = p.id "+
                                                         "where po.order_id = " + order.id );
+
+            OrderDate.SelectedDate = order.date;
+            OrderStatus.Text = order.status.ToString();
+            OrderNum.Text = order.number;
+            OrderComment.Text = order.comment;
+            OrderCustomer.Text = orderCust[0].Row["name"].ToString();
+            this.order = order; //передали входящий объект в объект класса
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
@@ -92,15 +104,26 @@ namespace WpfApp2
 
         private void Apply_Click( object sender, RoutedEventArgs e)
         {
+            double summOrder = 0;
+            int countOrder = 0;
+            foreach (DataRowView drv in orderParts_list)
+            {
+                summOrder += Convert.ToDouble(drv.Row["price"]);
+                countOrder++;
+            }
+
+
             if (isAdd.Equals(1))
             {
                 new_order.number = OrderNum.Text;
                 new_order.status = Convert.ToInt32(OrderStatus.Text);
                 new_order.comment = OrderComment.Text;
                 new_order.date = Convert.ToDateTime(OrderDate.Text);
-                new_order.summ = 120;
-                new_order.count = 1;
-                new_order.cust_id = 1;
+                new_order.summ = summOrder;
+                new_order.count = countOrder;
+                //new_order.summ = 120;
+                //new_order.count = 1;
+                //new_order.cust_id = 1;
             }
             else
             {
@@ -108,10 +131,15 @@ namespace WpfApp2
                 order.status = Convert.ToInt32(OrderStatus.Text);
                 order.comment = OrderComment.Text;
                 order.date = Convert.ToDateTime(OrderDate.Text);
-                order.summ = 120;
-                order.count = 1;
-                order.cust_id = 1;
+                order.summ = summOrder;
+                order.count = countOrder;
+
+                //order.summ = 120;
+                //order.count = 1;
+                //order.cust_id = 1;
             }
+            odc.SubmitChanges();
+
             this.Close();
         }
 
@@ -119,7 +147,17 @@ namespace WpfApp2
         {
             Customers ChoseCust = new Customers();
             ChoseCust.ShowDialog();
+            customer addCust = ChoseCust.GetCustomer();
 
+            if (isAdd.Equals(1))
+                new_order.cust_id = addCust.id;
+            else
+                order.cust_id = addCust.id;
+
+            OrderCustomer.Text = addCust.name;
+            odc.SubmitChanges();
+
+            UpdateLayout();
         }
 
 
@@ -154,7 +192,7 @@ namespace WpfApp2
             AddPartWin.ShowDialog();
 
 
-            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
+            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
                                                         "from dbo.parts p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "join dbo.part_order po on po.part_id = p.id " +

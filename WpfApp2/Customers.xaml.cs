@@ -24,6 +24,7 @@ namespace WpfApp2
         private CustomersDataContext cdc = new CustomersDataContext();
         IEnumerable<object> cust_list;
         private ConnectToBase bc = new ConnectToBase();
+        private customer returnCustomer; 
         public Customers()
         {
             InitializeComponent();
@@ -35,8 +36,13 @@ namespace WpfApp2
 
         public void ChoseCustomer_Click(object sender, RoutedEventArgs e)
         {
-            customer returnCustomer = CustomersGrid.SelectedItem as customer; 
+            returnCustomer = CustomersGrid.SelectedItem as customer; 
             this.Close();
+        }
+
+        public customer GetCustomer()
+        {
+            return returnCustomer;
         }
          
         public void FilterCustomer_Click(object sender, RoutedEventArgs e)
