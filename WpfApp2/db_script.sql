@@ -1,5 +1,12 @@
 
   use auto76;
+  
+  drop table if exists dbo.users;
+  create table dbo.users( 
+								   id   int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+								   login varchar (max)   ,
+								   password  varchar(max)  
+								   )
 
   drop table if exists dbo.customers;
   create table dbo.customers( 
