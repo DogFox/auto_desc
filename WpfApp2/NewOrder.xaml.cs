@@ -95,7 +95,8 @@ namespace WpfApp2
             OrderStatus.Text = order.status.ToString();
             OrderNum.Text = order.number;
             OrderComment.Text = order.comment;
-            OrderCustomer.Text = orderCust[0].Row["name"].ToString();
+            if( orderCust.Count > 0 )
+                OrderCustomer.Text = orderCust[0].Row["name"].ToString();
             this.order = order; //передали входящий объект в объект класса
 
             OrderPartsGrid.ItemsSource = orderParts_list;

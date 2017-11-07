@@ -30,15 +30,35 @@
         <TabControl x:Name="TabControl" Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
                                       Width="{Binding ActualWidth, ElementName=MainGrid}" HorizontalAlignment="Left" 
                     Height="auto">
+            <TabItem Name="Part" Header="Детали">
+                <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="PartGrid" ItemsSource="{Binding}"
+                                IsReadOnly="False"  CanUserAddRows="False"
+                                IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
+                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2" 
+                              />
+                </Grid>
+            </TabItem>
             <TabItem Name="Order" Header="Заказы">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
                                 IsReadOnly="False"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" 
+                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2" 
                               />
                 </Grid>
             </TabItem>
@@ -64,13 +84,17 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Name="Part" Header="Прайсы">
+            <TabItem Name="Price" Header="Прайсы">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="709*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"></RowDefinition>
                         <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition  Width="110" ></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -79,9 +103,9 @@
                         Margin="2,2,2,2"/>
                         <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,0,3"/>
                     </Grid>
-                    <DataGrid Grid.Row="1" Name="PartsGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                    <DataGrid Grid.Row="1" Name="PriceGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
-                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch"/>
+                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>

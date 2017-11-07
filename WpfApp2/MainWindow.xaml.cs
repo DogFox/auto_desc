@@ -71,7 +71,7 @@ namespace WpfApp2
     public partial class MainWindow : MetroWindow
     {
         bool isAdd = false;
-        string active_tab_item = "Order"; // так как начинаем с окна заказов
+        string active_tab_item = "Part"; // так как начинаем с окна заказов
         OrdersDataContext odc = new OrdersDataContext();
         CustomersDataContext cdc = new CustomersDataContext();
         SuppliersDataContext sdc = new SuppliersDataContext();
@@ -121,6 +121,16 @@ namespace WpfApp2
         {
             switch (active_tab_item)
             {
+                case "Part":
+                    DataView orderParts_list = bc.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
+                                                                ", part_number [парт номер], sup_price [Цена поставщика] " +
+                                                                ", sup_price Цена, s.name Поставщик " +
+                                                                "from dbo.parts p " +
+                                                                "join dbo.suppliers s on s.id = p.sup_id " +
+                                                                "join dbo.part_order po on po.part_id = p.id " +
+                                                                "join dbo.orders o on o.id = po.order_id " );
+                    PartGrid.ItemsSource = orderParts_list;
+                    break;
                 case "Cust":
                     cust_list = cdc.GetAllCustomers();
                     CustGrid.ItemsSource = cust_list;
@@ -133,9 +143,9 @@ namespace WpfApp2
                     supplier_list = sdc.GetAllSuppliers();
                     SupGrid.ItemsSource = supplier_list;
                     break;
-                case "Part":
+                case "Price":
                     part_list = pdc.GetAllParts();
-                    PartsGrid.ItemsSource = part_list;
+                    PriceGrid.ItemsSource = part_list;
                     break;
             }
         }
@@ -156,9 +166,9 @@ namespace WpfApp2
                     this.sdc.SubmitChanges();
                     SupGrid.Items.Refresh();
                     break;
-                case "Part":
+                case "Price":
                     this.pdc.SubmitChanges();
-                    PartsGrid.Items.Refresh();
+                    PriceGrid.Items.Refresh();
                     break;
             }
             // this.dc.SubmitChanges();
@@ -217,7 +227,7 @@ namespace WpfApp2
 
                     break;
 
-                case "Part":
+                case "Price":
                     part new_part = new part();
 
                     NewPart newPart = new NewPart();
@@ -225,8 +235,8 @@ namespace WpfApp2
                     newPart.ShowDialog();
 
                     part_list = pdc.GetAllParts();
-                    PartsGrid.ItemsSource = part_list;
-                    PartsGrid.Items.Refresh();
+                    PriceGrid.ItemsSource = part_list;
+                    PriceGrid.Items.Refresh();
 
                     break;
             }
@@ -256,7 +266,7 @@ namespace WpfApp2
                 case "Supl": 
                     break;
 
-                case "Part": 
+                case "Price": 
                     break;
             }
         }
@@ -390,8 +400,8 @@ namespace WpfApp2
 
             DataView parts_list = bc.ExecuteQuery(filter);
 
-            this.PartsGrid.ItemsSource = parts_list;
-            this.PartsGrid.Items.Refresh();
+            this.PriceGrid.ItemsSource = parts_list;
+            this.PriceGrid.Items.Refresh();
         }
 
     }
