@@ -72,7 +72,7 @@ namespace WpfApp2
     {
         bool isAdd = false;
         string active_tab_item = "Part"; // так как начинаем с окна заказов
-        OrdersDataContext odc = new OrdersDataContext();
+        OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
         CustomersDataContext cdc = new CustomersDataContext();
         SuppliersDataContext sdc = new SuppliersDataContext();
         PartsDataContext pdc = new PartsDataContext();

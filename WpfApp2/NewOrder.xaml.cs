@@ -33,7 +33,7 @@ namespace WpfApp2
         private order new_order = new order();
         private order order = new order();
         private DataView orderParts_list;
-        private OrdersDataContext odc = new OrdersDataContext();
+        private OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
         private OrderPartsDataContext opdc = new OrderPartsDataContext();
         private PartsDataContext pdc = new PartsDataContext();
         private SuppliersDataContext sdc = new SuppliersDataContext();

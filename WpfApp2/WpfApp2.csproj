@@ -101,6 +101,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="auto76DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>auto76DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Customers.xaml.cs">
       <DependentUpon>Customers.xaml</DependentUpon>
     </Compile>
@@ -199,6 +204,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="auto76DataSet.xsc">
+      <DependentUpon>auto76DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="auto76DataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>auto76DataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="auto76DataSet.xss">
+      <DependentUpon>auto76DataSet.xsd</DependentUpon>
+    </None>
     <None Include="Customers.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Customers.designer.cs</LastGenOutput>

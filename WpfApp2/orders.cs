@@ -25,4 +25,34 @@ namespace WpfApp2
 
         public DateTime? date { get; set; }
     }
+
+
+    public partial class OrdersDataContext_Mod : OrdersDataContext
+    {
+        public IEnumerable<order> GetAllOrders()
+        {
+            var items = this.orders.Select(item => item).OrderBy(item => item.number);
+
+            return items;
+        }
+
+        public string GetLastNumber()
+        {
+            string last_number = "0";
+
+
+            var all = this.GetAllOrders();
+
+            //last_number = all.Select(row => row.number).Max();
+            if (all.Select(row => row.number).Max() == null)
+                last_number = "1";
+            else
+                last_number = all.Select(row => row.number).Max();
+
+            return last_number;
+        }
+
+        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+
+    }
 }
