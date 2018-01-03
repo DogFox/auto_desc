@@ -96,7 +96,7 @@ namespace WpfApp2
                 case "Part":
                     DataView orderParts_list = bc.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
                                                                 ", part_number [парт номер], sup_price [Цена поставщика] " +
-                                                                ", sup_price Цена, s.name Поставщик " +
+                                                                ", sup_price Цена, s.name Поставщик, o.author " +
                                                                 "from dbo.parts p " +
                                                                 "join dbo.suppliers s on s.id = p.sup_id " +
                                                                 "join dbo.part_order po on po.part_id = p.id " +

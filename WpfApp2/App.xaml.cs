@@ -32,7 +32,7 @@ namespace WpfApp2
             if (check_autorization.Count == 1)
             {
                 Session.Name = check_autorization[0].Row["login"].ToString();
-                Session.id = check_autorization[0].Row["id"].ToString();
+                Session.id = (int) check_autorization[0].Row["id"];
 
                 bc.ExecuteQuery("insert into dbo.Session ( login, id_login, time )"
                                    + " Values ( '" + Session.Name + "', '" + Session.id 
@@ -51,7 +51,7 @@ namespace WpfApp2
     public static class Session
     {
         public static string Name { get; set; }
-        public static string id { get; set; }
+        public static int id { get; set; }
     }
 
 

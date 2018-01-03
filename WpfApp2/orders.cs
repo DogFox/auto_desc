@@ -5,6 +5,14 @@ namespace WpfApp2
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Data.Linq;
+    using System.Data.Linq.Mapping;
+    using System.Data;
+    using System.Reflection;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.ComponentModel;
+
 
     public partial class orders
     {
@@ -24,6 +32,8 @@ namespace WpfApp2
         public int? status { get; set; }
 
         public DateTime? date { get; set; }
+
+        public string author { get; set; }
     }
 
 

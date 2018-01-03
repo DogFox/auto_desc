@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="auto76" Class="OrdersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=KUROVD\SQL2016;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.orders" Member="orders">
     <Type Name="order">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -10,6 +10,7 @@
       <Column Name="comment" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="author" Storage="_author_id" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

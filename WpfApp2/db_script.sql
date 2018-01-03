@@ -60,7 +60,7 @@
 								   comment  varchar(max),
 								   [status] int ,
 								   [date] datetime,
-								   autor_id int
+								   author varchar(50)
 								   )
 								   
   drop table if exists dbo.part_order;

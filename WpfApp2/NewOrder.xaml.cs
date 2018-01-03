@@ -64,7 +64,7 @@ namespace WpfApp2
             new_order.summ = 0;
             new_order.count = 0;
             new_order.comment = "";
-            //new_order.autor_id = Session.id;
+            new_order.author = Session.Name;
 
             this.odc.orders.InsertOnSubmit(new_order);
             this.odc.SubmitChanges();
