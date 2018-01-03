@@ -86,7 +86,7 @@ namespace WpfApp2
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += (o, args) => LogIn();
+            //Loaded += (o, args) => LogIn();
 
             //var items = dc.GetAllOrders();
             //this.DataContext = items;
@@ -102,6 +102,18 @@ namespace WpfApp2
         {
             LoginDialogData result = await this.ShowLoginAsync("Authentication", "Enter your credentials",
                 new LoginDialogSettings { ColorScheme = this.MetroDialogOptions.ColorScheme, InitialUsername = "MahApps" });
+
+            DataView session = bc.ExecuteQuery("select login, password from dbo.users where Login = '" + result.Username + "' and password = '" + result.Password + "'");
+            if(session.Count == 1)
+            {
+                // Create main application window, starting minimized if specified
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Unable to load data.", "Error", MessageBoxButton.OK);
+            }
 
 
 
