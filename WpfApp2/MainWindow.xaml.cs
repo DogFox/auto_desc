@@ -86,49 +86,9 @@ namespace WpfApp2
         public MainWindow()
         {
             InitializeComponent();
-            //Loaded += (o, args) => LogIn();
-
-            //var items = dc.GetAllOrders();
-            //this.DataContext = items;
-            //this.OrdersView = (BindingListCollectionView)(CollectionViewSource.GetDefaultView(items));
-            // Добавляем обработчик для всех кнопок на гриде
+            //User_Login.Text = Session.Name; 
         }
-        /*
-         * Только админ может зайти и создать пользователей. 
-         * ПОльзователи подключаются под своими логинами и используют ПО. Прав на регистрацию у пользователей нет
-         * у любого пользовтаеля ПО права админа на SQL из под ПО. НАдо будет поправить.
-         */
-        private async void LogIn()
-        {
-            LoginDialogData result = await this.ShowLoginAsync("Authentication", "Enter your credentials",
-                new LoginDialogSettings { ColorScheme = this.MetroDialogOptions.ColorScheme, InitialUsername = "MahApps" });
-
-            DataView session = bc.ExecuteQuery("select login, password from dbo.users where Login = '" + result.Username + "' and password = '" + result.Password + "'");
-            if(session.Count == 1)
-            {
-                // Create main application window, starting minimized if specified
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("Unable to load data.", "Error", MessageBoxButton.OK);
-            }
-
-
-
-            
-
-        }
-        /*    private IEnumerable<DataView> GetOrdersList()
-            {
-                DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
-                                                            "from dbo.parts p " +
-                                                            "join dbo.suppliers s on s.id = p.sup_id " +
-                                                            "join dbo.part_order po on po.part_id = p.id " +
-                                                            "where po.order_id = " + order.id);
-            }
-       */     // Инициализация датагридов при переключении вкладок
+        // Инициализация датагридов при переключении вкладок
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             switch (active_tab_item)

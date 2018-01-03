@@ -1,6 +1,14 @@
 
   use auto76;
   
+  drop table if exists dbo.Session;
+  create table dbo.Session( 
+								   id   int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+								   login varchar (max)   ,
+								   id_login  varchar(max) ,
+								   time datetime  
+								   )
+
   drop table if exists dbo.users;
   create table dbo.users( 
 								   id   int NOT NULL IDENTITY(1,1) PRIMARY KEY,
