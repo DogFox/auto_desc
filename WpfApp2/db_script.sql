@@ -46,6 +46,20 @@ values( 'sa', '' )
 								   sup_id int
 								   )
 
+  drop table if exists dbo.parts_order;
+  create table dbo.parts_order( 
+								   id   int  NOT NULL IDENTITY(1,1) PRIMARY KEY,
+								   producer varchar (max)  ,
+								   part_number  varchar(max), 
+								   name varchar(max),
+								   model varchar(max),
+								   sup_price float,
+								   ratio int,
+								   count int,
+								   code varchar(max),
+								   sup_id int
+								   )
+
 								   
   drop table if exists dbo.parts_import;
   create table dbo.parts_import( 

@@ -52,10 +52,9 @@ namespace WpfApp2
                                                     "where o.id = " + order.id);
 
             orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
-                                                        "from dbo.parts p " +
+                                                        "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "join dbo.part_order po on po.part_id = p.id " +
-                                                        "where po.order_id = " + new_order.id);
+                                                        "where p.order_id = " + new_order.id);
 
 
             new_order.number = odc.GetLastNumber();
@@ -87,10 +86,9 @@ namespace WpfApp2
                                                     "where o.id = " + order.id);
 
             orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
-                                                        "from dbo.parts p " +
+                                                        "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "join dbo.part_order po on po.part_id = p.id "+
-                                                        "where po.order_id = " + order.id );
+                                                        "where p.order_id = " + order.id );
 
             OrderDate.SelectedDate = order.date;
             OrderStatus.Text = order.status.ToString();
@@ -168,7 +166,7 @@ namespace WpfApp2
         {
             if( isAdd.Equals(1) )
             {
-                bc.ExecuteQuery("delete from dbo.part_order where order_id = " + new_order.id);
+                bc.ExecuteQuery("delete from dbo.parts_order where order_id = " + new_order.id);
                 bc.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
             }
             this.Close();
@@ -195,10 +193,9 @@ namespace WpfApp2
 
 
             DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
-                                                        "from dbo.parts p " +
+                                                        "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "join dbo.part_order po on po.part_id = p.id " +
-                                                        "where po.order_id = " + order_to_send.id);
+                                                        "where p.order_id = " + order_to_send.id);
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();

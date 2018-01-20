@@ -97,10 +97,9 @@ namespace WpfApp2
                     DataView orderParts_list = bc.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
                                                                 ", part_number [парт номер], sup_price [Цена поставщика] " +
                                                                 ", sup_price Цена, s.name Поставщик, o.author " +
-                                                                "from dbo.parts p " +
+                                                                "from dbo.parts_order p " +
                                                                 "join dbo.suppliers s on s.id = p.sup_id " +
-                                                                "join dbo.part_order po on po.part_id = p.id " +
-                                                                "join dbo.orders o on o.id = po.order_id " );
+                                                                "join dbo.orders o on o.id = p.order_id " );
                     PartGrid.ItemsSource = orderParts_list;
                     break;
                 case "Cust":

@@ -42,9 +42,12 @@ namespace WpfApp2
         public void ChosePart_Click( object sender, RoutedEventArgs e)
         {
             part returnPart = PartsGrid.SelectedItem as part;
-            DataView add_part_to_order = bc.ExecuteQuery("insert into dbo.part_order " + 
-                                                          "( order_id, part_id ) " + 
-                                                          "values( " + add_to_order.id + ", " + returnPart.id + " ) ");
+            string insert_part_to_order = "insert into dbo.parts_order " +
+                                                          "(  producer, part_number, name, model, sup_price, ratio, count, code, sup_id, order_id )" +
+                                                          "values( '" + returnPart.producer + "', '" + returnPart.part_number + "', '" + returnPart.name + "', '" +
+                                                           returnPart.model + "', cast(replace('" + returnPart.sup_price + "',',','.') as float), " + returnPart.ratio + ", " + returnPart.count + ", '" +
+                                                           returnPart.code + "', " + returnPart.sup_id + ", " + add_to_order.id + " ) ";
+            DataView add_part_to_order = bc.ExecuteQuery(insert_part_to_order);
             this.Close();
         }
 
