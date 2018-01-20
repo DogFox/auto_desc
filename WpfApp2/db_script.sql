@@ -16,6 +16,13 @@
 								   password  varchar(max)  
 								   )
 
+								   
+
+insert into dbo.users
+(login, password )
+values( 'sa', '' )
+
+
   drop table if exists dbo.customers;
   create table dbo.customers( 
 								   id   int NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -37,6 +44,20 @@
 								   count int,
 								   code varchar(max),
 								   sup_id int
+								   )
+
+								   
+  drop table if exists dbo.parts_import;
+  create table dbo.parts_import( 
+								   c1  varchar (max),
+								   c2 varchar (max)  ,
+								   c3  varchar(max), 
+								   c4 varchar(max),
+								   c5 varchar(max),
+								   c6  varchar(max), 
+								   c7 varchar(max),
+								   c8 varchar(max),
+								   c9 varchar(max)
 								   )
 
   drop table if exists dbo.suppliers;

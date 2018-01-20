@@ -18,9 +18,12 @@ using Spire.Xls;
 using System.Data;
 using System.Globalization;
 
-namespace WpfApp2
-{
+using System.Data.OleDb;
+using System.Data.SqlClient;
 
+
+namespace WpfApp2
+{ 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -30,7 +33,7 @@ namespace WpfApp2
         private part new_part = new part();
         private PartsDataContext pdc = new PartsDataContext();
 
-        public void OpenClick(object sender, RoutedEventArgs e)
+        public void OpenClick_OLD(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
             openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM";
@@ -48,13 +51,7 @@ namespace WpfApp2
 
             for (int index = 2; index < dataTable.Rows.Count - 1; index++)
             {
-                /*var ins_row = "insert into dbo.parts " +
-                                "( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " +
-                                "values( '" + dataTable.Rows[index][0].ToString() + "', '" + dataTable.Rows[index][1].ToString() + "', '" + dataTable.Rows[index][2].ToString() +
-                                        "', '" + dataTable.Rows[index][3].ToString() + "', '" + dataTable.Rows[index][4].ToString() + "', '" + dataTable.Rows[index][5].ToString() +
-                                        "', '" + dataTable.Rows[index][6].ToString() + "', '" + dataTable.Rows[index][7].ToString() + "', 1 )";
-
-                bc.ExecuteQuery(ins_row);*/
+               
                 new_part = new part();
 
                 new_part.producer = dataTable.Rows[index][0].ToString();
@@ -69,6 +66,66 @@ namespace WpfApp2
 
                 this.pdc.parts.InsertOnSubmit(new_part);
                 this.pdc.SubmitChanges();
+            }
+        }
+
+        public void OpenClick(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
+            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM";
+            var result = openDialog.ShowDialog();
+            if (result == false)
+            {
+                MessageBox.Show("Файл не выбран!", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                return;
+            }
+
+            this.importdatafromexcel(openDialog.FileName);
+        }
+
+        public void importdatafromexcel(string excelfilepath)
+        {
+            //declare variables - edit these based on your particular situation
+            string ssqltable = "parts_import";
+            // make sure your sheet name is correct, here sheet name is sheet1, so you can change your sheet name if have different
+            //string myexceldataquery = "select ГРУППА, [№ ПРОИЗВ.], НАИМЕНОВАНИЕ, МОДЕЛЬ, [ЦЕНА, РУБ], НАЛичие, КРАТНОСТЬ, КОД from [price$]";
+            string myexceldataquery = "select * from [price$]";
+            try
+            {
+                //create our connection strings
+                string sexcelconnectionstring = @"provider=Microsoft.ACE.OLEDB.12.0;data source=" + excelfilepath +
+                ";extended properties=" + "\"excel 8.0;hdr=yes;\"";
+                string ssqlconnectionstring = "Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA;Password=29016879";
+                //execute a query to erase any previous data from our destination table
+                string sclearsql = "delete from " + ssqltable;
+                SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);
+                SqlCommand sqlcmd = new SqlCommand(sclearsql, sqlconn);
+                sqlconn.Open();
+                sqlcmd.ExecuteNonQuery();
+                sqlconn.Close();
+                //series of commands to bulk copy data from the excel file into our sql table
+                OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
+                OleDbCommand oledbcmd = new OleDbCommand(myexceldataquery, oledbconn);
+                oledbconn.Open();
+                OleDbDataReader dr = oledbcmd.ExecuteReader();
+                SqlBulkCopy bulkcopy = new SqlBulkCopy(ssqlconnectionstring);
+                bulkcopy.DestinationTableName = ssqltable;
+                while (dr.Read())
+                {
+                    bulkcopy.WriteToServer(dr);
+                }
+                dr.Close();
+                oledbconn.Close();
+
+                var ins_row = "insert into dbo.parts " +
+                               "( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " +
+                               "select c1, c2, c3, c4, c5, c6, c7, c8, 1 from dbo.parts_import" ;
+                bc.ExecuteQuery(ins_row);
+
+            }
+            catch (Exception ex)
+            {
+                //handle exception
             }
         }
     }
