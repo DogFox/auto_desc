@@ -17,11 +17,18 @@
 								   )
 
 								   
+ 
+insert into dbo.users
+(login, password )
+values( 'sa', '290168' )
 
 insert into dbo.users
 (login, password )
-values( 'sa', '' )
+values( 'ROMAN', '12345' )
 
+insert into dbo.users
+(login, password )
+values( 'ALEXANDR', '12345' )
 
   drop table if exists dbo.customers;
   create table dbo.customers( 
@@ -45,7 +52,7 @@ values( 'sa', '' )
 								   code varchar(max),
 								   sup_id int
 								   )
-
+								   
   drop table if exists dbo.parts_order;
   create table dbo.parts_order( 
 								   id   int  NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -57,7 +64,8 @@ values( 'sa', '' )
 								   ratio int,
 								   count int,
 								   code varchar(max),
-								   sup_id int
+								   sup_id int,
+								   order_id int
 								   )
 
 								   
@@ -67,7 +75,7 @@ values( 'sa', '' )
 								   c2 varchar (max)  ,
 								   c3  varchar(max), 
 								   c4 varchar(max),
-								   c5 varchar(max),
+								   c5 float,
 								   c6  varchar(max), 
 								   c7 varchar(max),
 								   c8 varchar(max),

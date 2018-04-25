@@ -95,7 +95,7 @@ namespace WpfApp2
                 //create our connection strings
                 string sexcelconnectionstring = @"provider=Microsoft.ACE.OLEDB.12.0;data source=" + excelfilepath +
                 ";extended properties=" + "\"excel 8.0;hdr=yes;\"";
-                string ssqlconnectionstring = "Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA;Password=29016879";
+                string ssqlconnectionstring = "Data Source=46.229.187.177\\WIN-15HHO7JCTJO,1433;Initial Catalog=auto76;Persist Security Info=True;User ID=EXCEL_IMPORT;Password=123456789";
                 //execute a query to erase any previous data from our destination table
                 string sclearsql = "delete from " + ssqltable;
                 SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);

@@ -74,13 +74,34 @@
             </TabItem>
             <TabItem Name="Cust" Header="Покупатель">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="709*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="35"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="CustGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False" VerticalAlignment="Top" 
-                                IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded">
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="110" ></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="FilterCust_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
+                        Margin="2,2,2,2"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBoxCust" Margin="0,2,0,3"/>
+                    </Grid>
+                    <DataGrid Grid.Row="1" Name="CustGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                              Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
+                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.ColumnSpan="2"
+                              GridLinesVisibility ="All"
+                              AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding Path= name}"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Path= phone}"  />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Path= addres}" />
+                            <DataGridTextColumn Header="Уровень цены" Binding="{Binding Path= price_level}"  Foreground="Red" FontWeight="Bold" />
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
@@ -105,7 +126,18 @@
                     </Grid>
                     <DataGrid Grid.Row="1" Name="PriceGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
-                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>
+                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.ColumnSpan="2"
+                              GridLinesVisibility ="All"
+                              AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
+                            <DataGridTextColumn Header="Парт" Binding="{Binding Path= part_number}" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Модель" Binding="{Binding Path= model}" />
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Path= sup_price}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Производитель" Binding="{Binding Path= producer}" />
+                            <DataGridTextColumn Header="Код" Binding="{Binding Path= code}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>

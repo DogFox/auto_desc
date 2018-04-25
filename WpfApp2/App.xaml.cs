@@ -25,6 +25,9 @@ namespace WpfApp2
         void LogIn(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
+
+            //Parts2 mainWindow = new Parts2();
+
             LoginDialog result = new LoginDialog();
             result.ShowDialog();
 

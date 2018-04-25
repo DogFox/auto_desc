@@ -374,7 +374,15 @@ namespace WpfApp2
             this.PriceGrid.ItemsSource = parts_list;
             this.PriceGrid.Items.Refresh();
         }
+        public void FilterCust_Click(object sender, RoutedEventArgs e)
+        {
+            var filter = "SELECT  [name], [phone], [addres], [price_level] FROM[dbo].[customers] where name like '%" + FilterTextBoxCust.Text + "%'";
 
+            DataView cust_list = bc.ExecuteQuery(filter);
+
+            this.CustGrid.ItemsSource = cust_list;
+            this.CustGrid.Items.Refresh();
+        }
     }
    
 }
