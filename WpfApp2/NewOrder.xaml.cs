@@ -36,8 +36,7 @@ namespace WpfApp2
         private OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
         private OrderPartsDataContext opdc = new OrderPartsDataContext();
         private PartsDataContext pdc = new PartsDataContext();
-        private SuppliersDataContext sdc = new SuppliersDataContext();
-        private ConnectToBase bc = new ConnectToBase();
+        private SuppliersDataContext sdc = new SuppliersDataContext(); 
         int isAdd = 0;
 
 
@@ -46,12 +45,12 @@ namespace WpfApp2
             InitializeComponent();
             isAdd = 1;
 
-            DataView orderCust = bc.ExecuteQuery("select name " +
+            DataView orderCust = ConnectToBase.ExecuteQuery("select name " +
                                                     "from dbo.Orders o " +
                                                     "join dbo.Customers c on c.id = o.cust_id " +
                                                     "where o.id = " + order.id);
 
-            orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
+            orderParts_list = ConnectToBase.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
                                                         "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.order_id = " + new_order.id);
@@ -80,12 +79,12 @@ namespace WpfApp2
         {
             InitializeComponent();
 
-            DataView orderCust = bc.ExecuteQuery("select name " +
+            DataView orderCust = ConnectToBase.ExecuteQuery("select name " +
                                                     "from dbo.Orders o " +
                                                     "join dbo.Customers c on c.id = o.cust_id " +
                                                     "where o.id = " + order.id);
 
-            orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
+            orderParts_list = ConnectToBase.ExecuteQuery("select p.id, p.name as part_name, part_number, p.model, p.producer, sup_price, price, s.name, round(price-sup_price, 2 ) marge " +
                                                         "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.order_id = " + order.id );
@@ -100,6 +99,28 @@ namespace WpfApp2
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
+        }
+        private void OrderPartsGrid_DataGridCellEditEndingEventArgs(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var column = e.Column as DataGridBoundColumn;
+                if (column != null)
+                {
+                    var bindingPath = (column.Binding as Binding).Path.Path;
+                    if (bindingPath == "price")
+                    {
+                        DataRowView row = (DataRowView) OrderPartsGrid.SelectedItem;
+                        // супер костыль, неприведи бог id будет не на первом месте в запросе
+                        var row_id = row.Row.ItemArray[0];
+                        var el = e.EditingElement as TextBox;
+                        // rowIndex has the row index
+                        // bindingPath has the column's binding
+                        // el.Text has the new, user-entered value
+                        ConnectToBase.ExecuteQuery("update dbo.parts_order set price = " + el.Text + " where id = " + row_id);
+                    }
+                }
+            }
         }
 
         private void Apply_Click( object sender, RoutedEventArgs e)
@@ -166,8 +187,8 @@ namespace WpfApp2
         {
             if( isAdd.Equals(1) )
             {
-                bc.ExecuteQuery("delete from dbo.parts_order where order_id = " + new_order.id);
-                bc.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
+                ConnectToBase.ExecuteQuery("delete from dbo.parts_order where order_id = " + new_order.id);
+                ConnectToBase.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
             }
             this.Close();
         }
@@ -192,7 +213,7 @@ namespace WpfApp2
             AddPartWin.ShowDialog();
 
 
-            DataView orderParts_list = bc.ExecuteQuery("select p.name as part_name, part_number, sup_price, sup_price price, s.name " +
+            DataView orderParts_list = ConnectToBase.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
                                                         "from dbo.parts_order p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.order_id = " + order_to_send.id);
@@ -202,5 +223,10 @@ namespace WpfApp2
         }
         private void OrderPartsGrid_Loaded( object sender, RoutedEventArgs e)
         { }
+
+        private void OrderPartsGrid_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
     }
 }

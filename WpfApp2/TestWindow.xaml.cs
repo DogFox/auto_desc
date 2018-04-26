@@ -22,8 +22,7 @@ namespace WpfApp2
     public partial class Parts2 : MetroWindow
     {
         PartsDataContext pdc = new PartsDataContext();
-        List<part> parts_list;
-        private ConnectToBase bc = new ConnectToBase();
+        List<part> parts_list; 
         private order add_to_order = new order();
 
         public Parts2()
@@ -52,7 +51,7 @@ namespace WpfApp2
                                                           "values( '" + returnPart.producer + "', '" + returnPart.part_number + "', '" + returnPart.name + "', '" +
                                                            returnPart.model + "', cast(replace('" + returnPart.sup_price + "',',','.') as float), " + returnPart.ratio + ", " + returnPart.count + ", '" +
                                                            returnPart.code + "', " + returnPart.sup_id + ", " + add_to_order.id + " ) ";
-            DataView add_part_to_order = bc.ExecuteQuery(insert_part_to_order);
+            DataView add_part_to_order = ConnectToBase.ExecuteQuery(insert_part_to_order);
             this.Close();
         }
 
@@ -67,7 +66,7 @@ namespace WpfApp2
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.part_number like '%" + FilterTextBox.Text + "%'";
 
-            DataView parts_list = bc.ExecuteQuery(filter);
+            DataView parts_list = ConnectToBase.ExecuteQuery(filter);
 
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();

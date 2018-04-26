@@ -22,8 +22,7 @@ namespace WpfApp2
     public partial class Parts : MetroWindow
     {
         PartsDataContext pdc = new PartsDataContext();
-        IEnumerable<object> parts_list;
-        private ConnectToBase bc = new ConnectToBase();
+        IEnumerable<object> parts_list; 
         private order add_to_order = new order();
 
         public Parts()
@@ -42,12 +41,30 @@ namespace WpfApp2
         public void ChosePart_Click( object sender, RoutedEventArgs e)
         {
             part returnPart = PartsGrid.SelectedItem as part;
+            double price_level = 1;
+            customer cust = customer.GetCustomer(this.add_to_order.cust_id);
+            switch (cust.price_level)
+            {
+                case 1:
+                    price_level = 1.2;
+                    break;
+                case 2:
+                    price_level = 1.25;
+                    break;
+                case 3:
+                    price_level = 1.4;
+                    break;
+            }
+
             string insert_part_to_order = "insert into dbo.parts_order " +
-                                                          "(  producer, part_number, name, model, sup_price, ratio, count, code, sup_id, order_id )" +
+                                                          "(  producer, part_number, name, model, sup_price, price, ratio, count, code, sup_id, order_id )" +
                                                           "values( '" + returnPart.producer + "', '" + returnPart.part_number + "', '" + returnPart.name + "', '" +
-                                                           returnPart.model + "', cast(replace('" + returnPart.sup_price + "',',','.') as float), " + returnPart.ratio + ", " + returnPart.count + ", '" +
+                                                           returnPart.model + "', cast(replace('" + returnPart.sup_price + "',',','.') as float), " +
+                                                           " Round( cast(replace('" + returnPart.sup_price + "',',','.') as float) * cast(replace('" + price_level + "',',','.') as float), 2), " +
+                                                           returnPart.ratio + ", " + returnPart.count + ", '" +
                                                            returnPart.code + "', " + returnPart.sup_id + ", " + add_to_order.id + " ) ";
-            DataView add_part_to_order = bc.ExecuteQuery(insert_part_to_order);
+
+            DataView add_part_to_order = ConnectToBase.ExecuteQuery(insert_part_to_order);
             this.Close();
         }
 
@@ -62,7 +79,7 @@ namespace WpfApp2
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.part_number like '%" + FilterTextBox.Text + "%'";
 
-            DataView parts_list = bc.ExecuteQuery(filter);
+            DataView parts_list = ConnectToBase.ExecuteQuery(filter);
 
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();

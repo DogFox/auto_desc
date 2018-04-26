@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="NewOrder" Height="428.557" Width="796.182"
+        Title="NewOrder" Height="428.557" Width="1500"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         WindowStartupLocation="CenterScreen">
@@ -47,10 +47,25 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" Name="OrderPartsGrid" ItemsSource="{Binding}"
-                                IsReadOnly="True" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto"  CanUserAddRows="False"
-                                IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="OrderPartsGrid_Loaded"/>
+                <DataGrid Grid.Row="0" Name="OrderPartsGrid" ItemsSource="{Binding}" 
+                          HorizontalAlignment="Stretch" Height="auto"
+                          VerticalAlignment="Stretch" Width="auto" 
+                          AutoGenerateColumns="False" CanUserAddRows="False"
+                          IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
+                          Loaded="OrderPartsGrid_Loaded"
+                          CellEditEnding ="OrderPartsGrid_DataGridCellEditEndingEventArgs">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название" IsReadOnly="True" Binding="{Binding Path= part_name}"/>
+                        <DataGridTextColumn Header="Парт" IsReadOnly="True" Binding="{Binding Path= part_number}" FontWeight="Bold" />
+                        <DataGridTextColumn Header="Модель" IsReadOnly="True" Binding="{Binding Path= model}" />
+                        <DataGridTextColumn Header="Цена поставщика" IsReadOnly="True" Binding="{Binding Path= sup_price}"  Foreground="Red" FontWeight="Bold" />
+                        <DataGridTextColumn Header="Цена" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
+                        <DataGridTextColumn Header="Маржа" Binding="{Binding Path= marge}"  Foreground="Red" FontWeight="Bold" />
+                        <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Path= producer}" />
+                        <DataGridTextColumn Header="Код" IsReadOnly="True" Binding="{Binding Path= code}" />
+                        <DataGridTextColumn Header="Поставщик" IsReadOnly="True" Binding="{Binding Path= name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
                 <StackPanel Grid.Row = "1" Orientation="Horizontal">
                     <Button Content="Добавить деталь" x:Name="AddPart" Click="AddPart_Click" Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="left"></Button>
                     <Button Content="Удалить деталь" x:Name="DeletePart" Click="DeletePart_Click"  Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" ></Button>

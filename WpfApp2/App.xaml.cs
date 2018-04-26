@@ -13,9 +13,7 @@ namespace WpfApp2
     /// </summary>
     public partial class App : Application
     {
-
-        private ConnectToBase bc = new ConnectToBase();
-
+         
         /*
          * Только админ может зайти и создать пользователей. 
          * ПОльзователи подключаются под своими логинами и используют ПО. Прав на регистрацию у пользователей нет
@@ -31,13 +29,13 @@ namespace WpfApp2
             LoginDialog result = new LoginDialog();
             result.ShowDialog();
 
-            DataView check_autorization = bc.ExecuteQuery("select id, login, password from dbo.users where Login = '" + result.Login.Text + "' and password = '" + result.Password.Text + "'");
+            DataView check_autorization = ConnectToBase.ExecuteQuery("select id, login, password from dbo.users where Login = '" + result.Login.Text + "' and password = '" + result.Password.Text + "'");
             if (check_autorization.Count == 1)
             {
                 Session.Name = check_autorization[0].Row["login"].ToString();
                 Session.id = (int) check_autorization[0].Row["id"];
 
-                bc.ExecuteQuery("insert into dbo.Session ( login, id_login, time )"
+                ConnectToBase.ExecuteQuery("insert into dbo.Session ( login, id_login, time )"
                                    + " Values ( '" + Session.Name + "', '" + Session.id 
                                    + "', getdate() ) ");
 

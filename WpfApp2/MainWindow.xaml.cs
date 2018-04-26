@@ -20,14 +20,14 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace WpfApp2
 {
-    public class ConnectToBase
+    public static class ConnectToBase
     {
-        public string GetConnectionString()
+        public static string GetConnectionString()
         {
             return global::WpfApp2.Properties.Settings.Default.auto76ConnectionString;
         }
 
-        public DataView ExecuteQuery(string sql)
+        public static DataView ExecuteQuery(string sql)
         {
             //if (!CheckConnectToBase().Equals("")) return new DataView(); //TODO сообщение об ошибке коннекта
             var UsersTable = new DataTable();
@@ -75,8 +75,7 @@ namespace WpfApp2
         OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
         CustomersDataContext cdc = new CustomersDataContext();
         SuppliersDataContext sdc = new SuppliersDataContext();
-        PartsDataContext pdc = new PartsDataContext();
-        private ConnectToBase bc = new ConnectToBase();
+        PartsDataContext pdc = new PartsDataContext(); 
 
         private IEnumerable<customer> cust_list;
         private IEnumerable<order> order_list;
@@ -94,7 +93,7 @@ namespace WpfApp2
             switch (active_tab_item)
             {
                 case "Part":
-                    DataView orderParts_list = bc.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
+                    DataView orderParts_list = ConnectToBase.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
                                                                 ", part_number [парт номер], sup_price [Цена поставщика] " +
                                                                 ", sup_price Цена, s.name Поставщик, o.author " +
                                                                 "from dbo.parts_order p " +
@@ -369,20 +368,24 @@ namespace WpfApp2
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.part_number like '%" + FilterTextBox.Text + "%'";
 
-            DataView parts_list = bc.ExecuteQuery(filter);
+            DataView parts_list = ConnectToBase.ExecuteQuery(filter);
 
             this.PriceGrid.ItemsSource = parts_list;
             this.PriceGrid.Items.Refresh();
         }
-        public void FilterCust_Click(object sender, RoutedEventArgs e)
+
+        public void FilterCustomer_Click(object sender, RoutedEventArgs e)
         {
-            var filter = "SELECT  [name], [phone], [addres], [price_level] FROM[dbo].[customers] where name like '%" + FilterTextBoxCust.Text + "%'";
+            var filter = "select p.name, p.phone, p.addres, p.price_level " +
+                        "from dbo.Customers p " +
+                        "where p.Name like '%" + FilterTextBoxCust.Text + "%' " +
+                        "or p.phone like  '%" + FilterTextBoxCust.Text + "%' ";
 
-            DataView cust_list = bc.ExecuteQuery(filter);
+            DataView parts_list = ConnectToBase.ExecuteQuery(filter);
 
-            this.CustGrid.ItemsSource = cust_list;
+            this.CustGrid.ItemsSource = parts_list;
             this.CustGrid.Items.Refresh();
-        }
+        } 
     }
    
 }

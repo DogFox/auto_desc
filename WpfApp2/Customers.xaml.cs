@@ -22,8 +22,7 @@ namespace WpfApp2
     public partial class Customers : MetroWindow
     {
         private CustomersDataContext cdc = new CustomersDataContext();
-        IEnumerable<object> cust_list;
-        private ConnectToBase bc = new ConnectToBase();
+        IEnumerable<object> cust_list; 
         private customer returnCustomer; 
         public Customers()
         {
@@ -44,7 +43,6 @@ namespace WpfApp2
         {
             return returnCustomer;
         }
-         
         public void FilterCustomer_Click(object sender, RoutedEventArgs e)
         {
             var filter = "select p.name, p.phone, p.addres, p.price_level " +
@@ -52,7 +50,7 @@ namespace WpfApp2
                         "where p.Name like '%" + FilterTextBox.Text + "%' " +
                         "or p.phone like  '%" + FilterTextBox.Text + "%' ";
 
-            DataView parts_list = bc.ExecuteQuery(filter);
+            DataView parts_list = ConnectToBase.ExecuteQuery(filter);
 
             CustomersGrid.ItemsSource = parts_list;
             CustomersGrid.Items.Refresh();

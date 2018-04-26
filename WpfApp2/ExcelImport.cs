@@ -28,8 +28,7 @@ namespace WpfApp2
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public class ExcelImport
-    {
-        private ConnectToBase bc = new ConnectToBase();
+    { 
         private part new_part = new part();
         private PartsDataContext pdc = new PartsDataContext();
 
@@ -120,7 +119,7 @@ namespace WpfApp2
                 var ins_row = "insert into dbo.parts " +
                                "( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " +
                                "select c1, c2, c3, c4, c5, c6, c7, c8, 1 from dbo.parts_import" ;
-                bc.ExecuteQuery(ins_row);
+                ConnectToBase.ExecuteQuery(ins_row);
 
             }
             catch (Exception ex)
