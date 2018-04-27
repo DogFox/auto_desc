@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="NewOrder" Height="428.557" Width="1500"
+        Title="NewOrder" Height="1000" Width="1500"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="NewOrder_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="181*"></RowDefinition>
@@ -41,36 +42,37 @@
             <TextBox Name="OrderComment" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
             <TextBox Name="OrderStatus" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
             <DatePicker Name="OrderDate" Grid.Column="1" Grid.Row="4" Margin="4" IsDropDownOpen="False" SelectedDateFormat="Short" />
-
-            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+            <StackPanel Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal">
+                <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" Name="OrderPartsGrid" ItemsSource="{Binding}" 
-                          HorizontalAlignment="Stretch" Height="auto"
-                          VerticalAlignment="Stretch" Width="auto" 
-                          AutoGenerateColumns="False" CanUserAddRows="False"
-                          IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                          Loaded="OrderPartsGrid_Loaded"
-                          CellEditEnding ="OrderPartsGrid_DataGridCellEditEndingEventArgs">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Название" IsReadOnly="True" Binding="{Binding Path= part_name}"/>
-                        <DataGridTextColumn Header="Парт" IsReadOnly="True" Binding="{Binding Path= part_number}" FontWeight="Bold" />
-                        <DataGridTextColumn Header="Модель" IsReadOnly="True" Binding="{Binding Path= model}" />
-                        <DataGridTextColumn Header="Цена поставщика" IsReadOnly="True" Binding="{Binding Path= sup_price}"  Foreground="Red" FontWeight="Bold" />
-                        <DataGridTextColumn Header="Цена" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
-                        <DataGridTextColumn Header="Маржа" Binding="{Binding Path= marge}"  Foreground="Red" FontWeight="Bold" />
-                        <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Path= producer}" />
-                        <DataGridTextColumn Header="Код" IsReadOnly="True" Binding="{Binding Path= code}" />
-                        <DataGridTextColumn Header="Поставщик" IsReadOnly="True" Binding="{Binding Path= name}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Grid.Row = "1" Orientation="Horizontal">
-                    <Button Content="Добавить деталь" x:Name="AddPart" Click="AddPart_Click" Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="left"></Button>
-                    <Button Content="Удалить деталь" x:Name="DeletePart" Click="DeletePart_Click"  Width="120" Margin="5,5,5,0" Height="26" VerticalAlignment="Top" ></Button>
-                </StackPanel>
-            </Grid>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal"  >
+                        <Button Content="Добавить деталь" x:Name="AddPart" Click="AddPart_Click" Width="120" Margin="5,5,5,5" Height="26" VerticalAlignment="Top" HorizontalAlignment="left"></Button>
+                        <Button Content="Удалить деталь" x:Name="DeletePart" Click="DeletePart_Click"  Width="120" Margin="5,5,5,5" Height="26" VerticalAlignment="Top" ></Button>
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" Name="OrderPartsGrid" ItemsSource="{Binding}" 
+                              HorizontalAlignment="Stretch" Height="auto"
+                              VerticalAlignment="Stretch" Width="auto" 
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
+                              Loaded="OrderPartsGrid_Loaded"
+                              CellEditEnding ="OrderPartsGrid_DataGridCellEditEndingEventArgs">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" IsReadOnly="True" Binding="{Binding Path= part_name}"/>
+                            <DataGridTextColumn Header="Парт" IsReadOnly="True" Binding="{Binding Path= part_number}" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Поставщик" IsReadOnly="True" Binding="{Binding Path= name}" />
+                            <DataGridTextColumn Header="Производитель" IsReadOnly="True" Binding="{Binding Path= producer}" />
+                            <DataGridTextColumn Header="Цена поставщика" IsReadOnly="True" Binding="{Binding Path= sup_price}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Маржа" Binding="{Binding Path= marge}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Код" IsReadOnly="True" Binding="{Binding Path= code}" />
+                            <DataGridTextColumn Header="Модель" IsReadOnly="True" Binding="{Binding Path= model}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </StackPanel>
         </Grid>
         <StackPanel Grid.Row = "1" Height="36" Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Content="OK" x:Name="OK" Click="Apply_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>

@@ -18,6 +18,17 @@ namespace WpfApp2
     {
         
     }
+    public partial class OrderPartsDataContext
+    {
+        public DataView GetAllOrderParts(order order)
+        {
+            DataView list = ConnectToBase.ExecuteQuery("select p.id, p.name as part_name, part_number, p.model, p.producer, sup_price, price, s.name, round(price-sup_price, 2 ) marge " +
+                                                        "from dbo.parts_order p " +
+                                                        "join dbo.suppliers s on s.id = p.sup_id " +
+                                                        "where p.order_id = " + order.id);
+            return list;
+        }
+    }
     public partial class OrdersDataContext_Mod : OrdersDataContext
     {
        /* public IEnumerable<order_view> GetCustomersForDataGrid(auto76DataSet db)
@@ -55,8 +66,8 @@ namespace WpfApp2
         {
             var str = "update dbo.orders set   number  = " + order.number +
                                         ", cust_id = " + order.cust_id +
-                                        ((order.summ is null) ? "" : ", summ    = " + order.summ ) +
-                                        ((order.count is null) ? "" : ", count   = " + order.count ) +
+                                     //   ((order.summ is null) ? "" : ", summ    = " + order.summ ) +
+                                     //   ((order.count is null) ? "" : ", count   = " + order.count ) +
                                         ((order.comment == "" ) ? ", comment = '' " : ", comment = " + order.comment ) +
                                         ", status  = " + order.status +
                                         " where id = " + order.id;

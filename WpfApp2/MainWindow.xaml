@@ -115,7 +115,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Click="FilterCustomer_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>
-                        <TextBox Grid.Column="1" Name="FilterTextBoxCust" Margin="0,2,0,3"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBoxCust" Margin="0,2,10,3"/>
                     </Grid>
                     <DataGrid Grid.Row="1" Name="CustGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
@@ -148,7 +148,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Click="FilterPart_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>
-                        <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,0,3"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,10,3"/>
                     </Grid>
                     <DataGrid Grid.Row="1" Name="PriceGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"

@@ -139,11 +139,6 @@
     <Compile Include="NewPart.xaml.cs">
       <DependentUpon>NewPart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrderParts.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OrderParts.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Parts.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -252,14 +247,6 @@
     </None>
     <None Include="Customers.dbml.layout">
       <DependentUpon>Customers.dbml</DependentUpon>
-    </None>
-    <None Include="OrderParts.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>OrderParts.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="OrderParts.dbml.layout">
-      <DependentUpon>OrderParts.dbml</DependentUpon>
     </None>
     <None Include="Orders.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

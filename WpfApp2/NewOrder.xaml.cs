@@ -39,11 +39,7 @@ namespace WpfApp2
             InitializeComponent();
             isAdd = 1;
 
-            orderParts_list = ConnectToBase.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
-                                                        "from dbo.parts_order p " +
-                                                        "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "where p.order_id = " + new_order.id);
-
+            orderParts_list = opdc.GetAllOrderParts(new_order); 
 
             new_order.number = odc.GetLastNumber();
             new_order.date = DateTime.Now.Date;
@@ -75,10 +71,7 @@ namespace WpfApp2
                                                     "join dbo.Customers c on c.id = o.cust_id " +
                                                     "where o.id = " + order.id);
 
-            orderParts_list = ConnectToBase.ExecuteQuery("select p.id, p.name as part_name, part_number, p.model, p.producer, sup_price, price, s.name, round(price-sup_price, 2 ) marge " +
-                                                        "from dbo.parts_order p " +
-                                                        "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "where p.order_id = " + order.id );
+            orderParts_list = opdc.GetAllOrderParts(order);
 
             OrderDate.SelectedDate = order.date;
             OrderStatus.Text = order.status.ToString();
@@ -92,6 +85,15 @@ namespace WpfApp2
             OrderPartsGrid.Items.Refresh();
 
             order_to_send = order;
+        }
+
+        private void NewOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            // ... Test for Enter key.
+            if (e.Key == Key.Enter)
+            {
+                this.Apply_Click( sender, e );
+            }
         }
         private void OrderPartsGrid_DataGridCellEditEndingEventArgs(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -153,14 +155,12 @@ namespace WpfApp2
             UpdateLayout();
         }
 
-
-
         private void Cancel_Click( object sender, RoutedEventArgs e)
         {
             if( isAdd.Equals(1) )
             {
-                ConnectToBase.ExecuteQuery("delete from dbo.parts_order where order_id = " + new_order.id);
-                ConnectToBase.ExecuteQuery("delete from dbo.orders where id = " + new_order.id);
+                ConnectToBase.ExecuteQuery("delete from dbo.parts_order where order_id = " + order_to_send.id);
+                ConnectToBase.ExecuteQuery("delete from dbo.orders where id = " + order_to_send.id);
             }
             this.Close();
         }
@@ -176,10 +176,7 @@ namespace WpfApp2
             AddPartWin.ShowDialog();
 
 
-            DataView orderParts_list = ConnectToBase.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
-                                                        "from dbo.parts_order p " +
-                                                        "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "where p.order_id = " + order_to_send.id);
+            orderParts_list = opdc.GetAllOrderParts(order_to_send);
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="auto76" Class="OrderPartsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-OOTNEI5;Initial Catalog=auto76;Persist Security Info=True;User ID=SA" SettingsObjectName="WpfApp2.Properties.Settings" SettingsPropertyName="auto76ConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.part_order" Member="part_orders">
-    <Type Name="part_order">
-      <Column Name="order_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="part_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
-</Database>
