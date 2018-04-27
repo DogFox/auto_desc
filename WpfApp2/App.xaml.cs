@@ -30,7 +30,7 @@ namespace WpfApp2
             result.ShowDialog();
 
             DataView check_autorization = ConnectToBase.ExecuteQuery("select id, login, password from dbo.users where Login = '" + result.Login.Text + "' and password = '" + result.Password.Text + "'");
-            if (check_autorization.Count == 1)
+            if (check_autorization.Count == 1 )
             {
                 Session.Name = check_autorization[0].Row["login"].ToString();
                 Session.id = (int) check_autorization[0].Row["id"];

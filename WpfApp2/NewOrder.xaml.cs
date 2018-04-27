@@ -20,18 +20,11 @@ namespace WpfApp2
     /// Interaction logic for NewOrder.xaml
     /// </summary>
     /// 
-    public class OrderInfoView
-    {
-        public string Name { get; set; }
-        public float Price { get; set; }
-        public float SupPriice { get; set; }
-        public string PartNum { get; set; }
-        public string Supplier { get; set; }
-    }
     public partial class NewOrder : MetroWindow
     {
         private order new_order = new order();
         private order order = new order();
+        private order order_to_send = new order();
         //private order_view order = new order_view();
         private DataView orderParts_list;
         private OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
@@ -69,6 +62,8 @@ namespace WpfApp2
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
+
+            order_to_send = new_order;
         }
 
         public NewOrder(order order)
@@ -95,6 +90,8 @@ namespace WpfApp2
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();
+
+            order_to_send = order;
         }
         private void OrderPartsGrid_DataGridCellEditEndingEventArgs(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -130,49 +127,28 @@ namespace WpfApp2
             }
 
 
-            if (isAdd.Equals(1))
-            {
-                new_order.number = OrderNum.Text;
-                new_order.status = Convert.ToInt32(OrderStatus.Text);
-                new_order.comment = OrderComment.Text;
-                new_order.date = Convert.ToDateTime(OrderDate.Text);
-                new_order.summ = summOrder;
-                new_order.count = countOrder;
-                //new_order.summ = 120;
-                //new_order.count = 1;
-                //new_order.cust_id = 1;
-            }
-            else
-            {
-                order.number = OrderNum.Text;
-                order.status = Convert.ToInt32(OrderStatus.Text);
-                order.comment = OrderComment.Text;
-                order.date = Convert.ToDateTime(OrderDate.Text);
-                order.summ = summOrder;
-                order.count = countOrder;
+            order_to_send.number = OrderNum.Text;
+            order_to_send.status = Convert.ToInt32(OrderStatus.Text);
+            order_to_send.comment = OrderComment.Text;
+            order_to_send.date = Convert.ToDateTime(OrderDate.Text);
+            order_to_send.summ = summOrder;
+            order_to_send.count = countOrder;
 
-                //order.summ = 120;
-                //order.count = 1;
-                //order.cust_id = 1;
-            }
-            odc.SubmitChanges();
+            odc.SaveChangesInOrder(order_to_send);
 
             this.Close();
         }
 
         private void OrderCustomerChoose_Click( object sender, RoutedEventArgs e)
         {
-            Customers ChoseCust = new Customers();
+            Customers ChoseCust = new Customers(order_to_send);
             ChoseCust.ShowDialog();
             customer addCust = ChoseCust.GetCustomer();
 
-            if (isAdd.Equals(1))
-                new_order.cust_id = addCust.id;
-            else
-                order.cust_id = addCust.id;
+            order_to_send.cust_id = addCust.id;
 
             OrderCustomer.Text = addCust.name;
-            odc.SubmitChanges();
+            odc.SaveChangesInOrder(order_to_send);
 
             UpdateLayout();
         }
@@ -196,15 +172,6 @@ namespace WpfApp2
 
         private void AddPart_Click(object sender, RoutedEventArgs e)
         {
-            order order_to_send = new order();
-            if( isAdd.Equals( 1 ))
-            {
-                order_to_send = new_order;
-            }
-            else
-            {
-                order_to_send = order;
-            }
             Parts AddPartWin = new Parts(order_to_send);
             AddPartWin.ShowDialog();
 

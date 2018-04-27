@@ -14,6 +14,10 @@ namespace WpfApp2
     using System.ComponentModel;
     using System.Collections;
 
+    public partial class Order : order
+    {
+        
+    }
     public partial class OrdersDataContext_Mod : OrdersDataContext
     {
        /* public IEnumerable<order_view> GetCustomersForDataGrid(auto76DataSet db)
@@ -27,8 +31,8 @@ namespace WpfApp2
             DataView list = ConnectToBase.ExecuteQuery(@"select o.id, o.number, o.cust_id , o.comment, o.status, o.date, o.author
                                                                  , c.name, count(po.id) count, sum(po.price) price, sum( po.price - po.sup_price) marge
                                                             from dbo.orders o
-                                                            join dbo.customers c on c.id = o.cust_id
-                                                            join dbo.parts_order po on po.order_id = o.id
+                                                            left join dbo.customers c on c.id = o.cust_id
+                                                            left join dbo.parts_order po on po.order_id = o.id
                                                             group by o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name");
             return list;
         } 
@@ -46,6 +50,17 @@ namespace WpfApp2
                 last_number = all.Select(row => row.number).Max();
                 */
             return last_number;
+        }
+        public void SaveChangesInOrder(order order)
+        {
+            var str = "update dbo.orders set   number  = " + order.number +
+                                        ", cust_id = " + order.cust_id +
+                                        ((order.summ is null) ? "" : ", summ    = " + order.summ ) +
+                                        ((order.count is null) ? "" : ", count   = " + order.count ) +
+                                        ((order.comment == "" ) ? ", comment = '' " : ", comment = " + order.comment ) +
+                                        ", status  = " + order.status +
+                                        " where id = " + order.id;
+            ConnectToBase.ExecuteQuery(str);
         }
 
         private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();

@@ -21,8 +21,8 @@ namespace WpfApp2
     /// </summary>
     public partial class Customers : MetroWindow
     {
-        private CustomersDataContext cdc = new CustomersDataContext();
-        IEnumerable<object> cust_list; 
+        private CustomersDataContext_Mod cdc = new CustomersDataContext_Mod();
+        DataView cust_list; 
         private customer returnCustomer; 
         public Customers()
         {
@@ -32,10 +32,23 @@ namespace WpfApp2
             CustomersGrid.ItemsSource = cust_list;
             CustomersGrid.Items.Refresh();
         }
+        public Customers( order order )
+        {
+            InitializeComponent();
+
+            cust_list = cdc.GetAllCustomers();
+            CustomersGrid.ItemsSource = cust_list;
+            CustomersGrid.Items.Refresh();
+
+            if( order.cust_id != 0 )
+                returnCustomer = customer.GetCustomer(order.cust_id);
+        }
 
         public void ChoseCustomer_Click(object sender, RoutedEventArgs e)
         {
-            returnCustomer = CustomersGrid.SelectedItem as customer; 
+            DataRowView drv = CustomersGrid.SelectedItem as DataRowView;
+            returnCustomer = new customer(drv);
+
             this.Close();
         }
 
@@ -45,7 +58,7 @@ namespace WpfApp2
         }
         public void FilterCustomer_Click(object sender, RoutedEventArgs e)
         {
-            var filter = "select p.name, p.phone, p.addres, p.price_level " +
+            var filter = "select p.id, p.name, p.phone, p.addres, p.price_level " +
                         "from dbo.Customers p " +
                         "where p.Name like '%" + FilterTextBox.Text + "%' " +
                         "or p.phone like  '%" + FilterTextBox.Text + "%' ";
