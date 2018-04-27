@@ -73,59 +73,70 @@ namespace WpfApp2
 			}
 		}
 	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
-	public partial class order : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private string _number;
-		
-		private int _cust_id;
-		
-		private System.Nullable<double> _summ;
-		
-		private System.Nullable<int> _count;
-		
-		private string _comment;
-		
-		private System.Nullable<int> _status;
-		
-		private System.Nullable<System.DateTime> _date;
-		
-		private string _author_id;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnnumberChanging(string value);
-    partial void OnnumberChanged();
-    partial void Oncust_idChanging(int value);
-    partial void Oncust_idChanged();
-    partial void OnsummChanging(System.Nullable<double> value);
-    partial void OnsummChanged();
-    partial void OncountChanging(System.Nullable<int> value);
-    partial void OncountChanged();
-    partial void OncommentChanging(string value);
-    partial void OncommentChanged();
-    partial void OnstatusChanging(System.Nullable<int> value);
-    partial void OnstatusChanged();
-    partial void OndateChanging(System.Nullable<System.DateTime> value);
-    partial void OndateChanged();
-    partial void OnauthorChanging(string value);
-    partial void OnauthorChanged();
-    #endregion
-		
-		public order()
-		{
-			OnCreated();
-		}
+
+    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.orders")]
+    public partial class order : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
+        private int _id;
+
+        private string _number;
+
+        private int _cust_id;
+
+        private System.Nullable<double> _summ;
+
+        private System.Nullable<int> _count;
+
+        private string _comment;
+
+        private System.Nullable<int> _status;
+
+        private System.Nullable<System.DateTime> _date;
+
+        private string _author_id;
+
+        #region Определения метода расширяемости
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OnidChanging(int value);
+        partial void OnidChanged();
+        partial void OnnumberChanging(string value);
+        partial void OnnumberChanged();
+        partial void Oncust_idChanging(int value);
+        partial void Oncust_idChanged();
+        partial void OnsummChanging(System.Nullable<double> value);
+        partial void OnsummChanged();
+        partial void OncountChanging(System.Nullable<int> value);
+        partial void OncountChanged();
+        partial void OncommentChanging(string value);
+        partial void OncommentChanged();
+        partial void OnstatusChanging(System.Nullable<int> value);
+        partial void OnstatusChanged();
+        partial void OndateChanging(System.Nullable<System.DateTime> value);
+        partial void OndateChanged();
+        partial void OnauthorChanging(string value);
+        partial void OnauthorChanged();
+        #endregion
+
+        public order()
+        {
+            OnCreated();
+        }
+
+        public order( DataRowView drv )
+        {
+            this._id =(int) drv["id"];
+            this._number = (string)drv["number"];
+            this._cust_id = (int)drv["cust_id"];
+            this._comment = (string)drv["comment"];
+            this._status = (int)drv["status"];
+            this._date = (DateTime)drv["date"];
+
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id

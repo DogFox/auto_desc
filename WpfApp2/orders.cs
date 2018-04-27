@@ -12,53 +12,39 @@ namespace WpfApp2
     using System.Linq;
     using System.Linq.Expressions;
     using System.ComponentModel;
-
-
-    public partial class orders
-    {
-        public int id { get; set; }
-
-        [Required]
-        public string number { get; set; }
-
-        public int cust_id { get; set; }
-
-        public double? summ { get; set; }
-
-        public int? count { get; set; }
-
-        public string comment { get; set; }
-
-        public int? status { get; set; }
-
-        public DateTime? date { get; set; }
-
-        public string author { get; set; }
-    }
-
+    using System.Collections;
 
     public partial class OrdersDataContext_Mod : OrdersDataContext
     {
-        public IEnumerable<order> GetAllOrders()
+       /* public IEnumerable<order_view> GetCustomersForDataGrid(auto76DataSet db)
         {
-            var items = this.orders.Select(item => item).OrderBy(item => item.number);
-
-            return items;
-        }
+            IEnumerable<order_view> ords = (from c in db.order_view
+                                           select c).AsEnumerable();
+            return ords;
+        }*/
+        public DataView GetAllOrders()
+        {
+            DataView list = ConnectToBase.ExecuteQuery(@"select o.id, o.number, o.cust_id , o.comment, o.status, o.date, o.author
+                                                                 , c.name, count(po.id) count, sum(po.price) price, sum( po.price - po.sup_price) marge
+                                                            from dbo.orders o
+                                                            join dbo.customers c on c.id = o.cust_id
+                                                            join dbo.parts_order po on po.order_id = o.id
+                                                            group by o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name");
+            return list;
+        } 
 
         public string GetLastNumber()
         {
             string last_number = "0";
 
-
-            var all = this.GetAllOrders();
-
+            DataView list = ConnectToBase.ExecuteQuery(@"select max( number ) number from dbo.orders");
+            
             //last_number = all.Select(row => row.number).Max();
-            if (all.Select(row => row.number).Max() == null)
+            /*if (all.Select(row => row.number).Max() == null)
                 last_number = "1";
             else
                 last_number = all.Select(row => row.number).Max();
-
+                */
             return last_number;
         }
 

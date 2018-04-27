@@ -32,6 +32,7 @@ namespace WpfApp2
     {
         private order new_order = new order();
         private order order = new order();
+        //private order_view order = new order_view();
         private DataView orderParts_list;
         private OrdersDataContext_Mod odc = new OrdersDataContext_Mod();
         private OrderPartsDataContext opdc = new OrderPartsDataContext();
@@ -44,11 +45,6 @@ namespace WpfApp2
         {
             InitializeComponent();
             isAdd = 1;
-
-            DataView orderCust = ConnectToBase.ExecuteQuery("select name " +
-                                                    "from dbo.Orders o " +
-                                                    "join dbo.Customers c on c.id = o.cust_id " +
-                                                    "where o.id = " + order.id);
 
             orderParts_list = ConnectToBase.ExecuteQuery("select p.name as part_name, part_number, sup_price, price, s.name " +
                                                         "from dbo.parts_order p " +
@@ -75,7 +71,7 @@ namespace WpfApp2
             OrderPartsGrid.Items.Refresh();
         }
 
-        public NewOrder( order order)
+        public NewOrder(order order)
         {
             InitializeComponent();
 

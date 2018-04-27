@@ -65,7 +65,7 @@ values( 'ALEXANDR', '12345' )
 								   count int,
 								   code varchar(max),
 								   sup_id int,
-								   order_id int
+								   order_id int,
 								   )
 
 								   
@@ -111,3 +111,18 @@ values( 'ALEXANDR', '12345' )
 								   order_id   int,
 								   part_id int  ,
 								   )
+
+								   
+alter table dbo.parts_order
+add  price float
+
+
+IF OBJECT_ID('dbo.order_view') IS NOT NULL
+	drop view dbo.order_view
+GO
+CREATE view dbo.order_view as
+SELECT        o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name, COUNT(po.id) AS count, SUM(po.price) AS price, SUM(po.price - po.sup_price) AS marge
+FROM            dbo.orders AS o INNER JOIN
+                         dbo.customers AS c ON c.id = o.cust_id INNER JOIN
+                         dbo.parts_order AS po ON po.order_id = o.id
+GROUP BY o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name

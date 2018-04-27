@@ -56,10 +56,24 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <DataGrid Name="OrderGrid" ItemsSource="{Binding}"
-                                IsReadOnly="False"  CanUserAddRows="False"
+                                IsReadOnly="true"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
-                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2" 
-                              />
+                              Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2"
+                              AutoGenerateColumns="False">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding Path= number}"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Path= status}" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Покупатель" Binding="{Binding Path= name}" />
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Маржа" Binding="{Binding Path= marge}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Позиций" Binding="{Binding Path= count}" />
+                            <DataGridTextColumn Header="Менеджер" Binding="{Binding Path= author}" />
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Path= date}" />
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Path= comment}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                        
                 </Grid>
             </TabItem>
             <TabItem Name="Supl" Header="Поставщики">
@@ -67,9 +81,21 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="SupGrid" IsReadOnly="False"  VerticalAlignment="Top" 
-                                ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0" 
-                             Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" />
+                    <DataGrid Name="SupGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                              Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
+                              VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" 
+                              GridLinesVisibility ="Horizontal"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Path= phone}"  />
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Path= full_name}" />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Path= address}" />
+                            <DataGridTextColumn Header="КПП" Binding="{Binding Path= kpp}" />
+                            <DataGridTextColumn Header="ИНН" Binding="{Binding Path= inn}" />
+                            <DataGridTextColumn Header="Сумма заказов" Binding="{Binding Path= summ}"  Foreground="Red" FontWeight="Bold" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Name="Cust" Header="Покупатель">
@@ -94,7 +120,7 @@
                     <DataGrid Grid.Row="1" Name="CustGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
                               VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.ColumnSpan="2"
-                              GridLinesVisibility ="All"
+                              GridLinesVisibility ="Horizontal"
                               AutoGenerateColumns="False" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding Path= name}"/>

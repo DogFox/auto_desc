@@ -152,6 +152,9 @@
     <Compile Include="Parts.xaml.cs">
       <DependentUpon>Parts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Suppliers.cs">
+      <DependentUpon>Suppliers.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Suppliers.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

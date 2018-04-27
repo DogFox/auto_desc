@@ -78,8 +78,9 @@ namespace WpfApp2
         PartsDataContext pdc = new PartsDataContext(); 
 
         private IEnumerable<customer> cust_list;
-        private IEnumerable<order> order_list;
-        private IEnumerable<supplier> supplier_list;
+        //private IEnumerable<order> order_list;
+        private DataView order_list;
+        private DataView supplier_list;
         private IEnumerable<part> part_list;
 
         public MainWindow()
@@ -95,7 +96,7 @@ namespace WpfApp2
                 case "Part":
                     DataView orderParts_list = ConnectToBase.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
                                                                 ", part_number [парт номер], sup_price [Цена поставщика] " +
-                                                                ", sup_price Цена, s.name Поставщик, o.author " +
+                                                                ", sup_price Цена, s.name Поставщик, o.author Менеджер " +
                                                                 "from dbo.parts_order p " +
                                                                 "join dbo.suppliers s on s.id = p.sup_id " +
                                                                 "join dbo.orders o on o.id = p.order_id " );
@@ -220,7 +221,8 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    order edit_order = OrderGrid.SelectedItem as order;
+                    DataRowView drv = OrderGrid.SelectedItem as DataRowView;
+                    order edit_order = new order( drv );
 
                     NewOrder newOrder = new NewOrder(edit_order);
                     newOrder.Owner = this;
