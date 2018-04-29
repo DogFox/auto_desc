@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Data.Linq;
+using System.Data.SqlClient;
 
 namespace WpfApp2
 {
@@ -53,6 +55,69 @@ namespace WpfApp2
     {
         public static string Name { get; set; }
         public static int id { get; set; }
+    }
+    public static class StringExtensions
+    {
+        public static bool Contains(this String str, String substring,
+                                    StringComparison comp)
+        {
+            if (substring == null)
+                throw new ArgumentNullException("substring",
+                                                "substring cannot be null.");
+            else if (!Enum.IsDefined(typeof(StringComparison), comp))
+                throw new ArgumentException("comp is not a member of StringComparison",
+                                            "comp");
+
+            return str.IndexOf(substring, comp) >= 0;
+        }
+    }
+
+
+    public static class ConnectToBase
+    {
+        public static string GetConnectionString()
+        {
+            return global::WpfApp2.Properties.Settings.Default.auto76ConnectionString;
+        }
+
+        public static DataView ExecuteQuery(string sql)
+        {
+            //if (!CheckConnectToBase().Equals("")) return new DataView(); //TODO сообщение об ошибке коннекта
+            var UsersTable = new DataTable();
+            SqlConnection connection = null;
+            try
+            {
+                var printMsg = "";
+                connection = new SqlConnection(GetConnectionString());//напрямую стрингой
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                connection.InfoMessage += (object obj, SqlInfoMessageEventArgs e) => {
+                    printMsg = e.Message;
+                };
+                connection.Open();
+
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Columns.Count == 0 && printMsg != "")
+                {
+                    dt.Columns.Add(new DataColumn("printMsg"));
+                    List<string> list = new List<string>();
+                    list.Add(printMsg);
+                    dt.Rows.Add(list.ToArray());
+                }
+                return dt.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+            return null;
+        }
     }
 
 

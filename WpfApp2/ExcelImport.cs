@@ -11,103 +11,197 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 //using Microsoft.Office.Interop.Excel;
 using System.IO;
 using Spire.Xls;
 using System.Data;
 using System.Globalization;
-
 using System.Data.OleDb;
 using System.Data.SqlClient;
-
+using LumenWorks.Framework.IO.Csv;
 
 namespace WpfApp2
-{ 
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public class ExcelImport
-    { 
-        private part new_part = new part();
-        private PartsDataContext pdc = new PartsDataContext();
-
-        public void OpenClick_OLD(object sender, RoutedEventArgs e)
+    /// 
+    public static class SqlBulkCopyExtensions
+    {
+        public static SqlBulkCopyColumnMapping AddColumnMapping(this SqlBulkCopy sbc, int sourceColumnOrdinal, int targetColumnOrdinal)
         {
-            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM";
-            var result = openDialog.ShowDialog();
-            if (result == false)
-            {
-                MessageBox.Show("Файл не выбран!", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                return;
-            } 
+            var map = new SqlBulkCopyColumnMapping(sourceColumnOrdinal, targetColumnOrdinal);
+            sbc.ColumnMappings.Add(map);
 
-            Workbook workbook = new Workbook();
-            workbook.LoadFromFile(openDialog.FileName);
-            Worksheet sheet = workbook.Worksheets[0];
-            DataTable dataTable = sheet.ExportDataTable();
-
-            for (int index = 2; index < dataTable.Rows.Count - 1; index++)
-            {
-               
-                new_part = new part();
-
-                new_part.producer = dataTable.Rows[index][0].ToString();
-                new_part.part_number = dataTable.Rows[index][1].ToString();
-                new_part.name = dataTable.Rows[index][2].ToString();
-                new_part.model = dataTable.Rows[index][3].ToString();
-                new_part.sup_price = Convert.ToSingle( dataTable.Rows[index][4].ToString(), CultureInfo.InvariantCulture);
-                new_part.count = Convert.ToInt32( dataTable.Rows[index][5].ToString());
-                new_part.ratio = Convert.ToInt32( dataTable.Rows[index][6].ToString());
-                new_part.code = dataTable.Rows[index][7].ToString();
-                new_part.sup_id = 1;
-
-                this.pdc.parts.InsertOnSubmit(new_part);
-                this.pdc.SubmitChanges();
-            }
+            return map;
         }
 
+        public static SqlBulkCopyColumnMapping AddColumnMapping(this SqlBulkCopy sbc, string sourceColumn, string targetColumn)
+        {
+            var map = new SqlBulkCopyColumnMapping(sourceColumn, targetColumn);
+            sbc.ColumnMappings.Add(map);
+
+            return map;
+        }
+    }
+
+    public class ExcelImport
+    { 
         public void OpenClick(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM";
+            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM;*.CSV";
             var result = openDialog.ShowDialog();
             if (result == false)
             {
                 MessageBox.Show("Файл не выбран!", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 return;
             }
+            FileInfo file = new FileInfo(openDialog.FileName);
+            StringComparison comp = StringComparison.OrdinalIgnoreCase;
+            string name = file.Name;
 
-            this.importdatafromexcel(openDialog.FileName);
+            if (file.Extension != ".csv")
+            {
+                this.importdatafromexcel(openDialog.FileName);
+            }
+            else
+            {
+                bool headers = false;
+                if (name.Contains("forum", comp))
+                    headers = true;
+                if (name.Contains("minsk", comp) || name.Contains("podolsk", comp))
+                    headers = true;
+                try
+                {
+                    this.importdatafromcsv(openDialog.FileName, headers);
+                }
+                catch( Exception ex)
+                {
+                    MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
+                }
+            }
+
+            string ins_row = "";
+            string del_row = "";
+            if (name.Contains( "forum", comp ) )
+            {
+                del_row = @"delete from dbo.parts
+                            where sup_id = (select top 1 id from dbo.suppliers
+										                            where name = 'Форум')";
+
+                ins_row = @" insert into dbo.parts
+                                ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                            select c1, c2, c3, '', isnull( Try_convert(float, c4 ), 0 ) c4
+					                                , isnull( Try_convert(int, c5 ), 0 ) c5
+					                                , isnull( Try_convert(int, c6 ), 0 ) c6, c7, (select top 1 id from dbo.suppliers
+										                            where name = 'Форум')
+                                from dbo.parts_import_csv
+                                ";
+            }
+            if (name.Contains("mikado", comp))
+            {
+                del_row = @"delete from dbo.parts
+                            where sup_id = (select top 1 id from dbo.suppliers
+				                             where name = 'Микадо')";
+
+                ins_row = @" insert into dbo.parts
+                             ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                            select c3, c2, c4, '', isnull( Try_convert(float, c5 ), 0 ) c5
+					                             , isnull( Try_convert(int, c7 ), 0 ) c7
+					                             , isnull( Try_convert(int, c6 ), 0 ) c6, c1, (select top 1 id from dbo.suppliers
+																	                            where name = 'Микадо')
+                             from dbo.parts_import_csv
+                                ";
+            }
+            if (name.Contains("minsk", comp) || name.Contains("podolsk", comp))
+            {
+                del_row = @"delete from dbo.parts
+                            where sup_id = (select top 1 id from dbo.suppliers
+				                             where name = 'Шате-М')";
+
+                ins_row = @" insert into dbo.parts
+                             ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                            select c1, c2, c3, '', isnull( Try_convert(float, c7 ), 0 ) c7
+					                                , isnull( Try_convert(int, c4 ), 0 ) c4
+					                                , isnull( Try_convert(int, c5 ), 0 ) c5, c8, (select top 1 id from dbo.suppliers
+																	                            where name = 'Шате-М')
+                             from dbo.parts_import_csv
+                                ";
+
+            }
+
+            ConnectToBase.ExecuteQuery(del_row);
+            ConnectToBase.ExecuteQuery(ins_row);
+
+
+        }
+        public void ClearTable( string table )
+        {
+            string ssqlconnectionstring = ConnectToBase.GetConnectionString();
+            //execute a query to erase any previous data from our destination table
+            string sclearsql = "delete from " + table;
+            SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);
+            SqlCommand sqlcmd = new SqlCommand(sclearsql, sqlconn);
+            sqlconn.Open();
+            sqlcmd.ExecuteNonQuery();
+            sqlconn.Close();
+        }
+        public void importdatafromcsv(string excelfilepath, bool headers)
+        {
+            string ssqltable = "dbo.parts_import_csv";
+            this.ClearTable(ssqltable);
+
+            TextReader textReader = new StreamReader(excelfilepath, Encoding.GetEncoding("windows-1251"));
+            Encoding enc = Encoding.GetEncoding(1251);
+            using (var reader = new CsvReader(textReader, headers, ';'))
+            {
+
+                reader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
+                {
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c1", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c2", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c3", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c4", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c5", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c6", Type = typeof(string) },
+                };
+
+                // Now use SQL Bulk Copy to move the data
+                using (var sbc = new SqlBulkCopy(ConnectToBase.GetConnectionString()))
+                {
+                    sbc.DestinationTableName = ssqltable;
+                    sbc.BatchSize = 10000;
+                    sbc.WriteToServer(reader);
+                }
+            }
         }
 
         public void importdatafromexcel(string excelfilepath)
         {
+            FileInfo file = new FileInfo(excelfilepath);
             //declare variables - edit these based on your particular situation
-            string ssqltable = "parts_import";
-            // make sure your sheet name is correct, here sheet name is sheet1, so you can change your sheet name if have different
-            //string myexceldataquery = "select ГРУППА, [№ ПРОИЗВ.], НАИМЕНОВАНИЕ, МОДЕЛЬ, [ЦЕНА, РУБ], НАЛичие, КРАТНОСТЬ, КОД from [price$]";
-            string myexceldataquery = "select * from [price$]";
             try
             {
-                //create our connection strings
-                string sexcelconnectionstring = @"provider=Microsoft.ACE.OLEDB.12.0;data source=" + excelfilepath +
-                ";extended properties=" + "\"excel 8.0;hdr=yes;\"";
-                string ssqlconnectionstring = "Data Source=46.229.187.177\\WIN-15HHO7JCTJO,1433;Initial Catalog=auto76;Persist Security Info=True;User ID=EXCEL_IMPORT;Password=123456789";
-                //execute a query to erase any previous data from our destination table
-                string sclearsql = "delete from " + ssqltable;
-                SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);
-                SqlCommand sqlcmd = new SqlCommand(sclearsql, sqlconn);
-                sqlconn.Open();
-                sqlcmd.ExecuteNonQuery();
-                sqlconn.Close();
+            
+                string sexcelconnectionstring;
+                string myexceldataquery;
+                myexceldataquery = "select * from [Sheet1$]";
+
+                sexcelconnectionstring = @"provider=Microsoft.ACE.OLEDB.12.0;data source=" + excelfilepath +
+                                                        ";extended Properties=\"Excel 12.0 Macro; HDR = Yes; IMEX = 1\"";
+
+                string ssqltable = "dbo.parts_import";
+                this.ClearTable(ssqltable);
                 //series of commands to bulk copy data from the excel file into our sql table
                 OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
                 OleDbCommand oledbcmd = new OleDbCommand(myexceldataquery, oledbconn);
                 oledbconn.Open();
                 OleDbDataReader dr = oledbcmd.ExecuteReader();
-                SqlBulkCopy bulkcopy = new SqlBulkCopy(ssqlconnectionstring);
+                SqlBulkCopy bulkcopy = new SqlBulkCopy(ConnectToBase.GetConnectionString());
                 bulkcopy.DestinationTableName = ssqltable;
                 while (dr.Read())
                 {
@@ -115,12 +209,6 @@ namespace WpfApp2
                 }
                 dr.Close();
                 oledbconn.Close();
-
-                var ins_row = "insert into dbo.parts " +
-                               "( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " +
-                               "select c1, c2, c3, c4, c5, c6, c7, c8, 1 from dbo.parts_import" ;
-                ConnectToBase.ExecuteQuery(ins_row);
-
             }
             catch (Exception ex)
             {

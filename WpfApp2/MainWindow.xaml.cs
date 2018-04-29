@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Linq;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,53 +18,6 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace WpfApp2
 {
-    public static class ConnectToBase
-    {
-        public static string GetConnectionString()
-        {
-            return global::WpfApp2.Properties.Settings.Default.auto76ConnectionString;
-        }
-
-        public static DataView ExecuteQuery(string sql)
-        {
-            //if (!CheckConnectToBase().Equals("")) return new DataView(); //TODO сообщение об ошибке коннекта
-            var UsersTable = new DataTable();
-            SqlConnection connection = null;
-            try
-            {
-                var printMsg = "";
-                connection = new SqlConnection(GetConnectionString());//напрямую стрингой
-                SqlCommand command = new SqlCommand(sql, connection);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                connection.InfoMessage += (object obj, SqlInfoMessageEventArgs e) => {
-                    printMsg = e.Message;
-                };
-                connection.Open();
-
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Columns.Count == 0 && printMsg != "")
-                {
-                    dt.Columns.Add(new DataColumn("printMsg"));
-                    List<string> list = new List<string>();
-                    list.Add(printMsg);
-                    dt.Rows.Add(list.ToArray());
-                }
-                return dt.DefaultView;
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                if (connection != null)
-                    connection.Close();
-            }
-            return null;
-        }
-    }
-
 
     public partial class MainWindow : MetroWindow
     {
@@ -81,7 +32,7 @@ namespace WpfApp2
         //private IEnumerable<order> order_list;
         private DataView order_list;
         private DataView supplier_list;
-        private IEnumerable<part> part_list;
+        private DataView part_list;
 
         public MainWindow()
         {
@@ -215,14 +166,18 @@ namespace WpfApp2
 
         private void Edit_Click( object sender, RoutedEventArgs e)
         {
+            EditRowDataGrid();
+        }
+        public void EditRowDataGrid()
+        {
             switch (active_tab_item)
             {
-                case "Cust": 
+                case "Cust":
                     break;
 
                 case "Order":
                     DataRowView drv = OrderGrid.SelectedItem as DataRowView;
-                    order edit_order = new order( drv );
+                    order edit_order = new order(drv);
 
                     NewOrder newOrder = new NewOrder(edit_order);
                     newOrder.Owner = this;
@@ -235,10 +190,10 @@ namespace WpfApp2
 
                     break;
 
-                case "Supl": 
+                case "Supl":
                     break;
 
-                case "Price": 
+                case "Price":
                     break;
             }
         }
@@ -310,6 +265,18 @@ namespace WpfApp2
             {
                 ExcelImport import_price = new ExcelImport();
                 import_price.OpenClick(sender, e);
+            }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender != null)
+            {
+                DataGrid grid = sender as DataGrid;
+                if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
+                {
+                    EditRowDataGrid();
+                }
             }
         }
 

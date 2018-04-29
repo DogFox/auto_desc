@@ -81,6 +81,19 @@ values( 'ALEXANDR', '12345' )
 								   c8 varchar(max),
 								   c9 varchar(max)
 								   )
+								   
+  drop table if exists dbo.parts_import_csv;
+  create table dbo.parts_import_csv( 
+								   c1  varchar (max),
+								   c2 varchar (max)  ,
+								   c3  varchar(max), 
+								   c4 varchar(max),
+								   c5 varchar(max),
+								   c6  varchar(max), 
+								   c7 varchar(max),
+								   c8 varchar(max),
+								   c9 varchar(max)
+								   )
 
   drop table if exists dbo.suppliers;
   create table dbo.suppliers( 

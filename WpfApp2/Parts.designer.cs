@@ -24,15 +24,7 @@ namespace WpfApp2
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
 	public partial class PartsDataContext : System.Data.Linq.DataContext
-	{
-
-        public IEnumerable<part> GetAllParts()
-        {
-            var items = this.parts.Select(item => item).OrderBy(item => item.id);
-
-            return items;
-        }
-
+	{ 
         private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
 		
     #region Extensibility Method Definitions

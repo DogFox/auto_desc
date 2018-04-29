@@ -25,18 +25,19 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"  Click="FilterPart_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>
-            <TextBox Name="FilterTextBox" Grid.Column="1" Margin="0,2,0,3"/>
+            <TextBox Name="FilterTextBox" Grid.Column="1" Margin="0,2,10,3"/>
         </Grid>
-        <DataGrid Grid.Row="1" Name="PartsGrid" Margin="10,10,10,10" Grid.RowSpan="2" HorizontalAlignment="Left" Width="auto"
+        <DataGrid Grid.Row="1" Name="PartsGrid" Margin="10,10,0,10" Grid.RowSpan="2" HorizontalAlignment="Left" Width="970"
                   GridLinesVisibility ="All"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
+                <DataGridTextColumn Header="Поставщик" Binding="{Binding Path= supplier}"/>
                 <DataGridTextColumn Header="Парт" Binding="{Binding Path= part_number}" FontWeight="Bold" />
                 <DataGridTextColumn Header="Модель" Binding="{Binding Path= model}" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path= sup_price}"  Foreground="Red" FontWeight="Bold" />
                 <DataGridTextColumn Header="Производитель" Binding="{Binding Path= producer}" />
+                <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding Path= code}" />
             </DataGrid.Columns>
         </DataGrid>

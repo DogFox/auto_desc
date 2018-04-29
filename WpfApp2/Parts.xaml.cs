@@ -22,7 +22,7 @@ namespace WpfApp2
     public partial class Parts : MetroWindow
     {
         PartsDataContext pdc = new PartsDataContext();
-        IEnumerable<object> parts_list; 
+        DataView parts_list; 
         private order add_to_order = new order();
 
         public Parts()

@@ -28,9 +28,10 @@
             <MenuItem Header="Подкачать прайс" Click="GetPrice_Click"/>
         </Menu>
         <TabControl x:Name="TabControl" Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
-                                      Width="{Binding ActualWidth, ElementName=MainGrid}" HorizontalAlignment="Left" 
-                    Height="auto">
-            <TabItem Name="Part" Header="Позиции заказов">
+                                      Width="{Binding ActualWidth, ElementName=MainGrid}" 
+                    Height="auto" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <TabItem Name="Part" Header="Позиции заказов" Controls:ControlsHelper.HeaderFontSize="18" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                     Controls:ControlsHelper.HeaderFontWeight="Medium">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="11*"/>
@@ -46,7 +47,8 @@
                               />
                 </Grid>
             </TabItem>
-            <TabItem Name="Order" Header="Заказы">
+            <TabItem Name="Order" Header="Заказы" Controls:ControlsHelper.HeaderFontSize="18" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                     Controls:ControlsHelper.HeaderFontWeight="Medium">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="11*"/>
@@ -59,7 +61,8 @@
                                 IsReadOnly="true"  CanUserAddRows="False"
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              MouseDoubleClick="DataGrid_MouseDoubleClick">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер" Binding="{Binding Path= number}"/>
@@ -76,7 +79,8 @@
                         
                 </Grid>
             </TabItem>
-            <TabItem Name="Supl" Header="Поставщики">
+            <TabItem Name="Supl" Header="Поставщики" Controls:ControlsHelper.HeaderFontSize="18" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                     Controls:ControlsHelper.HeaderFontWeight="Medium">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -98,7 +102,8 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Name="Cust" Header="Покупатель">
+            <TabItem Name="Cust" Header="Покупатель" Controls:ControlsHelper.HeaderFontSize="18" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                     Controls:ControlsHelper.HeaderFontWeight="Medium">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="71*"/>
@@ -115,7 +120,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Click="FilterCustomer_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>
-                        <TextBox Grid.Column="1" Name="FilterTextBoxCust" Margin="0,2,10,3"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBoxCust" Margin="0,2,10,3" HorizontalContentAlignment="Stretch"/>
                     </Grid>
                     <DataGrid Grid.Row="1" Name="CustGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
@@ -131,7 +136,8 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Name="Price" Header="Прайсы">
+            <TabItem Name="Price" Header="Прайсы" Controls:ControlsHelper.HeaderFontSize="18" Controls:ControlsHelper.ContentCharacterCasing="Upper"
+                     Controls:ControlsHelper.HeaderFontWeight="Medium">
                 <Grid Background="#FFE5E5E5" Width="{Binding ActualWidth, ElementName=MainGrid}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="71*"/>
@@ -148,7 +154,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Click="FilterPart_Click" Height="30" Content="Отфильтровать" HorizontalAlignment="Left" Width="100" 
                         Margin="2,2,2,2"/>
-                        <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,10,3"/>
+                        <TextBox Grid.Column="1" Name="FilterTextBox" Margin="0,2,10,3" HorizontalContentAlignment="Stretch"/>
                     </Grid>
                     <DataGrid Grid.Row="1" Name="PriceGrid" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                               Loaded="DataGrid_Loaded"  HorizontalAlignment="Stretch" Margin="0,0,40,40"
@@ -156,6 +162,7 @@
                               GridLinesVisibility ="All"
                               AutoGenerateColumns="False" >
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Поставщик" Binding="{Binding Path= supplier}"/>
                             <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
                             <DataGridTextColumn Header="Парт" Binding="{Binding Path= part_number}" FontWeight="Bold" />
                             <DataGridTextColumn Header="Модель" Binding="{Binding Path= model}" />

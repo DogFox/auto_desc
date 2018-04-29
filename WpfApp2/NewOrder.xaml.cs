@@ -86,15 +86,6 @@ namespace WpfApp2
 
             order_to_send = order;
         }
-
-        private void NewOrder_KeyDown(object sender, KeyEventArgs e)
-        {
-            // ... Test for Enter key.
-            if (e.Key == Key.Enter)
-            {
-                this.Apply_Click( sender, e );
-            }
-        }
         private void OrderPartsGrid_DataGridCellEditEndingEventArgs(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Commit)
@@ -105,7 +96,7 @@ namespace WpfApp2
                     var bindingPath = (column.Binding as Binding).Path.Path;
                     if (bindingPath == "price")
                     {
-                        DataRowView row = (DataRowView) OrderPartsGrid.SelectedItem;
+                        DataRowView row = (DataRowView)OrderPartsGrid.SelectedItem;
                         // супер костыль, неприведи бог id будет не на первом месте в запросе
                         var row_id = row.Row.ItemArray[0];
                         var el = e.EditingElement as TextBox;
@@ -115,6 +106,20 @@ namespace WpfApp2
                         ConnectToBase.ExecuteQuery("update dbo.parts_order set price = " + el.Text + " where id = " + row_id);
                     }
                 }
+            }
+        }
+
+        private void NewOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            // ... Test for Enter key.
+            switch( e.Key )
+            {
+                case Key.Enter :
+                    this.Apply_Click(sender, e);
+                    break;
+                case Key.Escape:
+                    this.Cancel_Click(sender, e);
+                    break;
             }
         }
 
@@ -140,6 +145,15 @@ namespace WpfApp2
 
             this.Close();
         }
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (isAdd.Equals(1))
+            {
+                ConnectToBase.ExecuteQuery("delete from dbo.parts_order where order_id = " + order_to_send.id);
+                ConnectToBase.ExecuteQuery("delete from dbo.orders where id = " + order_to_send.id);
+            }
+            this.Close();
+        }
 
         private void OrderCustomerChoose_Click( object sender, RoutedEventArgs e)
         {
@@ -155,15 +169,7 @@ namespace WpfApp2
             UpdateLayout();
         }
 
-        private void Cancel_Click( object sender, RoutedEventArgs e)
-        {
-            if( isAdd.Equals(1) )
-            {
-                ConnectToBase.ExecuteQuery("delete from dbo.parts_order where order_id = " + order_to_send.id);
-                ConnectToBase.ExecuteQuery("delete from dbo.orders where id = " + order_to_send.id);
-            }
-            this.Close();
-        }
+        
 
         private void DeletePart_Click(object sender, RoutedEventArgs e)
         {
