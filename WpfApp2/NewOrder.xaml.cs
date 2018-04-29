@@ -133,9 +133,8 @@ namespace WpfApp2
                 countOrder++;
             }
 
-
             order_to_send.number = OrderNum.Text;
-            order_to_send.status = Convert.ToInt32(OrderStatus.Text);
+            order_to_send.status = Convert.ToInt32(OrderStatus.SelectedIndex);
             order_to_send.comment = OrderComment.Text;
             order_to_send.date = Convert.ToDateTime(OrderDate.Text);
             order_to_send.summ = summOrder;
@@ -193,6 +192,13 @@ namespace WpfApp2
         private void OrderPartsGrid_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
 
+        }
+        private void ComboBox_Selected(object sender, RoutedEventArgs e)
+        {
+        }
+        private void ComboBox_Init(object sender, RoutedEventArgs e)
+        {
+            OrderStatus.SelectedIndex = (int)order_to_send.status;
         }
     }
 }

@@ -297,7 +297,8 @@ namespace WpfApp2
                     }
                     break;
                 case "Order":
-                    var itemOrd = row.DataContext as order;
+                    DataRowView drv = row.DataContext as DataRowView;
+                    var itemOrd =  new order( drv );
                     if (itemOrd != null)
                     {
                         var orig = odc.orders.GetOriginalEntityState(itemOrd);
@@ -313,7 +314,7 @@ namespace WpfApp2
                                 e.Row.Background = new SolidColorBrush(Colors.Blue);
                                 break;
                             case 3:
-                                e.Row.Background = new SolidColorBrush(Colors.Green);
+                                e.Row.Foreground = new SolidColorBrush(Colors.Green);
                                 break;
                         }
                     }

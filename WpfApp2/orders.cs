@@ -40,6 +40,13 @@ namespace WpfApp2
         public DataView GetAllOrders()
         {
             DataView list = ConnectToBase.ExecuteQuery(@"select o.id, o.number, o.cust_id , o.comment, o.status, o.date, o.author
+                                                                 , case when o.status = 0 then 'Запрос'
+                                                                        when o.status = 1 then 'В работе'
+                                                                        when o.status = 2 then 'Отправлено поставщику'
+                                                                        when o.status = 3 then 'Пришло в офис'
+                                                                        when o.status = 4 then 'Выдано'
+                                                                        when o.status = 5 then 'Возврат'
+                                                                      else 'Отказ' end status_text
                                                                  , c.name, count(po.id) count, sum(po.price) price, sum( po.price - po.sup_price) marge
                                                             from dbo.orders o
                                                             left join dbo.customers c on c.id = o.cust_id

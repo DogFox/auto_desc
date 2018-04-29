@@ -40,7 +40,16 @@
             <TextBox Name="OrderCustomer" Grid.Column="1" Grid.Row="1" Margin="4,4,203,4"></TextBox>
             <Button Name="OrderCustomerChoose" Content="Покупатель" Click="OrderCustomerChoose_Click" Grid.Column="1" Grid.Row="1" Margin="409,4,4,4"></Button>
             <TextBox Name="OrderComment" Grid.Column="1" Grid.Row="2" Margin="4"></TextBox>
-            <TextBox Name="OrderStatus" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
+            <ComboBox Name="OrderStatus" Grid.Column="1" Grid.Row="3" Margin="4"
+                      SelectionChanged="ComboBox_Selected" IsEditable="True" StaysOpenOnEdit="True" Loaded="ComboBox_Init">
+                <ComboBoxItem Background="LightGray" Foreground="Black" Content="Запрос" FontWeight="Bold" FontSize="12"></ComboBoxItem>
+                <ComboBoxItem Foreground="Black" Content="В работе" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+                <ComboBoxItem Foreground="Blue" Content="Отправлено поставщику" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+                <ComboBoxItem Foreground="Green" Content="Пришло в офис" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+                <ComboBoxItem Background="LightGray" Foreground="Green" Content="Выдано" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+                <ComboBoxItem Foreground="Orange" Content="Возврат" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+                <ComboBoxItem Foreground="Red" Content="Отказ" FontWeight="Bold" FontSize="12" ></ComboBoxItem>
+            </ComboBox>
             <DatePicker Name="OrderDate" Grid.Column="1" Grid.Row="4" Margin="4" IsDropDownOpen="False" SelectedDateFormat="Short" />
             <StackPanel Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal">
                 <Grid>

@@ -40,7 +40,8 @@ namespace WpfApp2
         }
         public void ChosePart_Click( object sender, RoutedEventArgs e)
         {
-            part returnPart = PartsGrid.SelectedItem as part;
+            DataRowView drv = PartsGrid.SelectedItem as DataRowView;
+            part returnPart = new part(drv);
             double price_level = 1;
             customer cust = customer.GetCustomer(this.add_to_order.cust_id);
             switch (cust.price_level)
@@ -67,14 +68,10 @@ namespace WpfApp2
             DataView add_part_to_order = ConnectToBase.ExecuteQuery(insert_part_to_order);
             this.Close();
         }
-
-        public object ChosePart_Click2
-        {
-            get { return PartsGrid.SelectedItem; }
-        }
+         
         public void FilterPart_Click( object sender, RoutedEventArgs e)
         {
-            var filter = "select p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier " +
+            var filter = "select p.id, p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier, p.sup_id " +
                                                         "from dbo.parts p " +
                                                         "join dbo.suppliers s on s.id = p.sup_id " +
                                                         "where p.part_number like '%" + FilterTextBox.Text + "%'";
