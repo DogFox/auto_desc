@@ -278,7 +278,7 @@ namespace WpfApp2
                     EditRowDataGrid();
                 }
             }
-        }
+        } 
 
         //Раскрашиваем строки в зависимости от хуй пойми чего
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -301,20 +301,42 @@ namespace WpfApp2
                     var itemOrd =  new order( drv );
                     if (itemOrd != null)
                     {
-                        var orig = odc.orders.GetOriginalEntityState(itemOrd);
+                        /*var orig = odc.orders.GetOriginalEntityState(itemOrd);
                         if (orig == null)
-                            this.odc.orders.Attach(itemOrd);
-
+                            this.odc.orders.Attach(itemOrd);*/
+                        /*
+                                 Background = "LightGray" Foreground = "Black" Content = "Запрос"    
+                                 Foreground = "Black"                          Content = "В работе"
+                                 Foreground = "Blue"                           Content = "Отправлено поставщику" 
+                                 Foreground = "Green"                          Content = "Пришло в офис"
+                                 Background = "LightGray" Foreground = "Green" Content = "Выдано" 
+                                 Foreground = "Orange"                         Content = "Возврат" 
+                                 Foreground = "Red"                            Content = "Отказ" 
+                        */
                         switch (itemOrd.status)
                         {
+                            case 0:
+                                e.Row.Background = new SolidColorBrush(Colors.LightGray);
+                                e.Row.Foreground = new SolidColorBrush(Colors.Black);
+                                break;
                             case 1:
-                                e.Row.Background = new SolidColorBrush(Colors.Gray);
+                                e.Row.Foreground = new SolidColorBrush(Colors.Black);
                                 break;
                             case 2:
-                                e.Row.Background = new SolidColorBrush(Colors.Blue);
+                                e.Row.Foreground = new SolidColorBrush(Colors.Blue);
                                 break;
                             case 3:
                                 e.Row.Foreground = new SolidColorBrush(Colors.Green);
+                                break;
+                            case 4:
+                                e.Row.Background = new SolidColorBrush(Colors.LightGray);
+                                e.Row.Foreground = new SolidColorBrush(Colors.Green);
+                                break;
+                            case 5:
+                                e.Row.Foreground = new SolidColorBrush(Colors.Orange);
+                                break;
+                            case 6:
+                                e.Row.Foreground = new SolidColorBrush(Colors.Red);
                                 break;
                         }
                     }

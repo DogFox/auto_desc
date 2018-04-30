@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="LoginDialog" Height="300" Width="300">
+        Title="LoginDialog" Height="300" Width="300"
+        KeyDown="LoginDialog_KeyDown">
     <Grid>
         <Label Content="Логин" HorizontalAlignment="Left" Margin="18,79,0,0" VerticalAlignment="Top"/>
         <Label Content="Пароль" HorizontalAlignment="Left" Margin="18,133,0,0" VerticalAlignment="Top"/>

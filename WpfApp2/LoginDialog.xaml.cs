@@ -29,5 +29,18 @@ namespace WpfApp2
         {
             this.Close();
         }
+        private void LoginDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            // ... Test for Enter key.
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    this.Ok_click(sender, e);
+                    break;
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
+        }
     }
 }

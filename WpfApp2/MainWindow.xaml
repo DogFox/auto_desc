@@ -62,15 +62,15 @@
                                 IsSynchronizedWithCurrentItem="True" Margin="0,0,0,0"
                               Loaded="DataGrid_Loaded" LoadingRow="DataGrid_LoadingRow" Grid.ColumnSpan="2"
                               AutoGenerateColumns="False"
-                              MouseDoubleClick="DataGrid_MouseDoubleClick">
+                              MouseDoubleClick="DataGrid_MouseDoubleClick" >
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding Path= number}"/>
+                            <DataGridTextColumn Header="Номер заказа" Binding="{Binding Path= number}"/>
                             <DataGridTextColumn Header="Статус" Binding="{Binding Path= status_text}" FontWeight="Bold" />
                             <DataGridTextColumn Header="Покупатель" Binding="{Binding Path= name}" />
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
+                            <DataGridTextColumn Header="Цена продажи" Binding="{Binding Path= price}"  Foreground="Red" FontWeight="Bold" />
                             <DataGridTextColumn Header="Маржа" Binding="{Binding Path= marge}"  Foreground="Red" FontWeight="Bold" />
-                            <DataGridTextColumn Header="Позиций" Binding="{Binding Path= count}" />
+                            <DataGridTextColumn Header="Колво позиций" Binding="{Binding Path= count}" />
                             <DataGridTextColumn Header="Менеджер" Binding="{Binding Path= author}" />
                             <DataGridTextColumn Header="Дата" Binding="{Binding Path= date}" />
                             <DataGridTextColumn Header="Комментарий" Binding="{Binding Path= comment}" />

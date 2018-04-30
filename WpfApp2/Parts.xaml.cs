@@ -38,7 +38,7 @@ namespace WpfApp2
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();
         }
-        public void ChosePart_Click( object sender, RoutedEventArgs e)
+        public void ChosePart_Button()
         {
             DataRowView drv = PartsGrid.SelectedItem as DataRowView;
             part returnPart = new part(drv);
@@ -68,7 +68,15 @@ namespace WpfApp2
             DataView add_part_to_order = ConnectToBase.ExecuteQuery(insert_part_to_order);
             this.Close();
         }
-         
+        public void ChosePart_Click( object sender, RoutedEventArgs e)
+        {
+            ChosePart_Button();
+        }
+        private void Parts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ChosePart_Button();
+        }
+
         public void FilterPart_Click( object sender, RoutedEventArgs e)
         {
             var filter = "select p.id, p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier, p.sup_id " +
@@ -81,5 +89,7 @@ namespace WpfApp2
             PartsGrid.ItemsSource = parts_list;
             PartsGrid.Items.Refresh();
         }
+
+        
     }
 }
