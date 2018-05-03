@@ -139,3 +139,10 @@ FROM            dbo.orders AS o INNER JOIN
                          dbo.customers AS c ON c.id = o.cust_id INNER JOIN
                          dbo.parts_order AS po ON po.order_id = o.id
 GROUP BY o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name
+
+alter table dbo.orders
+add type int
+
+update dbo.orders
+set [type] =1 
+

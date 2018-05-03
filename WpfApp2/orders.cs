@@ -22,10 +22,11 @@ namespace WpfApp2
     {
         public DataView GetAllOrderParts(order order)
         {
-            DataView list = ConnectToBase.ExecuteQuery("select p.id, p.name as part_name, part_number, p.model, p.producer, sup_price, price, s.name, round(price-sup_price, 2 ) marge " +
-                                                        "from dbo.parts_order p " +
-                                                        "join dbo.suppliers s on s.id = p.sup_id " +
-                                                        "where p.order_id = " + order.id);
+            DataView list = ConnectToBase.ExecuteQuery(@"select p.id, p.name as part_name, part_number, p.model, p.producer, sup_price, price, s.name, round(price-sup_price, 2 ) marge
+                                                        from dbo.parts_order p 
+                                                        join dbo.orders o on o.id = p.order_id and o.type = 1
+                                                        join dbo.suppliers s on s.id = p.sup_id 
+                                                        where p.order_id = " + order.id);
             return list;
         }
     }
@@ -51,6 +52,7 @@ namespace WpfApp2
                                                             from dbo.orders o
                                                             left join dbo.customers c on c.id = o.cust_id
                                                             left join dbo.parts_order po on po.order_id = o.id
+                                                            where o.type = 1
                                                             group by o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name");
             return list;
         } 
@@ -78,6 +80,15 @@ namespace WpfApp2
                                         ((order.comment == "" ) ? ", comment = '' " : ", comment = " + order.comment ) +
                                         ", status  = " + order.status +
                                         " where id = " + order.id;
+            ConnectToBase.ExecuteQuery(str);
+        }
+
+        public void DeleteOrder( order order)
+        {
+            var str = @"update dbo.orders 
+                        set type = 2
+                        where id = " + order.id;
+
             ConnectToBase.ExecuteQuery(str);
         }
 

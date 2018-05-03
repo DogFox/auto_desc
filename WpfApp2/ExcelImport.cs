@@ -78,7 +78,7 @@ namespace WpfApp2
                 }
                 catch( Exception ex)
                 {
-                    MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
+                     MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
                 }
             }
 

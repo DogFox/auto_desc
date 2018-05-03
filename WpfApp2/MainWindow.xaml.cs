@@ -45,12 +45,13 @@ namespace WpfApp2
             switch (active_tab_item)
             {
                 case "Part":
-                    DataView orderParts_list = ConnectToBase.ExecuteQuery("select o.number Заказ, o.date [Дата заказа], p.name as Запчасть" +
-                                                                ", part_number [парт номер], sup_price [Цена поставщика] " +
-                                                                ", sup_price Цена, s.name Поставщик, o.author Менеджер " +
-                                                                "from dbo.parts_order p " +
-                                                                "join dbo.suppliers s on s.id = p.sup_id " +
-                                                                "join dbo.orders o on o.id = p.order_id " );
+                    DataView orderParts_list = ConnectToBase.ExecuteQuery(@"select o.number Заказ, o.date [Дата заказа], p.name as Запчасть
+                                                                , part_number [парт номер], sup_price [Цена поставщика] 
+                                                                , sup_price Цена, s.name Поставщик, o.author Менеджер 
+                                                                from dbo.parts_order p 
+                                                                join dbo.suppliers s on s.id = p.sup_id
+                                                                join dbo.orders o on o.id = p.order_id 
+                                                                where o.type = 1" );
                     PartGrid.ItemsSource = orderParts_list;
                     break;
                 case "Cust":
@@ -219,9 +220,10 @@ namespace WpfApp2
                 case "Order":
                     if (MessageBox.Show("Do you want to delete this order?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
                     {
-                        order item = OrderGrid.SelectedItem as order;
-                        this.odc.orders.DeleteOnSubmit(item);
-                        this.odc.SubmitChanges();
+                        DataRowView drv = OrderGrid.SelectedItem as DataRowView;
+                        order item = new order(drv);
+
+                        this.odc.DeleteOrder(item);
 
                         order_list = odc.GetAllOrders();
                         OrderGrid.ItemsSource = order_list;

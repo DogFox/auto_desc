@@ -9,9 +9,9 @@ namespace WpfApp2
     {
         public DataView GetAllParts()
         {
-            var filter = "select p.id, p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier, p.sup_id " +
-                                                           "from dbo.parts p " +
-                                                           "join dbo.suppliers s on s.id = p.sup_id";
+            var filter = @"select p.id, p.producer, p.part_number, p.name, p.model, p.sup_price, p.ratio, p.count, p.code, s.name supplier, p.sup_id 
+                                                           from dbo.parts p
+                                                           join dbo.suppliers s on s.id = p.sup_id ";
 
             return ConnectToBase.ExecuteQuery(filter);
 
