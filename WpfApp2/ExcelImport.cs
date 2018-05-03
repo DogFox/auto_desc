@@ -72,14 +72,14 @@ namespace WpfApp2
                     headers = true;
                 if (name.Contains("minsk", comp) || name.Contains("podolsk", comp))
                     headers = true;
-                try
-                {
+                //try
+                //{
                     this.importdatafromcsv(openDialog.FileName, headers);
-                }
-                catch( Exception ex)
-                {
-                     MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
-                }
+                //}
+                //catch( Exception ex)
+                //{
+                //     MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
+                //}
             }
 
             string ins_row = "";
@@ -156,8 +156,9 @@ namespace WpfApp2
             this.ClearTable(ssqltable);
 
             TextReader textReader = new StreamReader(excelfilepath, Encoding.GetEncoding("windows-1251"));
+            //CsvReader csvReader = new CsvReader(new StreamReader(excelfilepath), false, '\t', '"', '"', '#', LumenWorks.Framework.IO.Csv.ValueTrimmingOptions.QuotedOnly);
             Encoding enc = Encoding.GetEncoding(1251);
-            using (var reader = new CsvReader(textReader, headers, ';'))
+            using (var reader = new CsvReader(textReader, headers, ';','\0','\0','#', LumenWorks.Framework.IO.Csv.ValueTrimmingOptions.QuotedOnly))
             {
 
                 reader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
