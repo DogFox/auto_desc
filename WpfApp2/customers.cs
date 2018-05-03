@@ -15,7 +15,7 @@ namespace WpfApp2
     
     public partial class CustomersDataContext_Mod : CustomersDataContext
     {
-        public DataView GetAllCustomers()
+        public new DataView GetAllCustomers()
         {
             DataView list = ConnectToBase.ExecuteQuery(@"select c.*
                                                             from dbo.customers c ");

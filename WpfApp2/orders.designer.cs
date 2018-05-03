@@ -86,6 +86,8 @@ namespace WpfApp2
 
         private int _cust_id;
 
+        private int _type;
+
         private System.Nullable<double> _summ;
 
         private System.Nullable<int> _count;
@@ -197,8 +199,29 @@ namespace WpfApp2
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_summ", DbType="Float")]
+
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_type", DbType = "Int")]
+        public int type
+        {
+            get
+            {
+                return this._type;
+            }
+            set
+            {
+                if ((this._type != value))
+                {
+                    this.Oncust_idChanging(value);
+                    this.SendPropertyChanging();
+                    this._type = value;
+                    this.SendPropertyChanged("type");
+                    this.Oncust_idChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_summ", DbType="Float")]
 		public System.Nullable<double> summ
 		{
 			get

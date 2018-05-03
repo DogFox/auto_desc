@@ -199,7 +199,7 @@ namespace WpfApp2
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             switch (active_tab_item)
             {
@@ -218,7 +218,12 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    if (MessageBox.Show("Do you want to delete this order?", "Delete", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    var mySettings = MyMessageBox.YesNoMSGBox();
+                    var result = await this.ShowMessageAsync("Удалить заказ?",
+                        "Вы уверены что хотите перенести заказ в архив?",
+                        MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                    if (result == MessageDialogResult.Affirmative)
                     {
                         DataRowView drv = OrderGrid.SelectedItem as DataRowView;
                         order item = new order(drv);

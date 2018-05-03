@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Data.Linq;
 using System.Data.SqlClient;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace WpfApp2
 {
@@ -22,7 +24,7 @@ namespace WpfApp2
          * у любого пользовтаеля ПО права админа на SQL из под ПО. НАдо будет поправить.
          */
 
-        void LogIn(object sender, StartupEventArgs e)
+        async void LogIn(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
 
@@ -45,6 +47,13 @@ namespace WpfApp2
             }
             else
             {
+                var mySettings = new MetroDialogSettings()
+                {
+                    AffirmativeButtonText = "Quit",
+                    NegativeButtonText = "Cancel",
+                    AnimateShow = true,
+                    AnimateHide = false
+                };
                 MessageBox.Show("Неправильный пароль, пидрилка.", "Error", MessageBoxButton.OK);
                 Shutdown();
             }
@@ -71,8 +80,6 @@ namespace WpfApp2
             return str.IndexOf(substring, comp) >= 0;
         }
     }
-
-
     public static class ConnectToBase
     {
         public static string GetConnectionString()
@@ -117,6 +124,19 @@ namespace WpfApp2
                     connection.Close();
             }
             return null;
+        }
+    }
+    public static class MyMessageBox
+    {
+        public static MetroDialogSettings YesNoMSGBox()
+        {
+            return new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Да",
+                NegativeButtonText = "Нет",
+                AnimateShow = true,
+                AnimateHide = false
+            };
         }
     }
 
