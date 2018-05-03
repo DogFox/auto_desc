@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Data.Linq;
 using System.Data.SqlClient;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace WpfApp2
@@ -24,7 +23,7 @@ namespace WpfApp2
          * у любого пользовтаеля ПО права админа на SQL из под ПО. НАдо будет поправить.
          */
 
-        async void LogIn(object sender, StartupEventArgs e)
+        void LogIn(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
 
@@ -32,31 +31,7 @@ namespace WpfApp2
 
             LoginDialog result = new LoginDialog();
             result.ShowDialog();
-
-            DataView check_autorization = ConnectToBase.ExecuteQuery("select id, login, password from dbo.users where Login = '" + result.Login.Text + "' and password = '" + result.Password.Text + "'");
-            if (check_autorization.Count == 1 )
-            {
-                Session.Name = check_autorization[0].Row["login"].ToString();
-                Session.id = (int) check_autorization[0].Row["id"];
-
-                ConnectToBase.ExecuteQuery("insert into dbo.Session ( login, id_login, time )"
-                                   + " Values ( '" + Session.Name + "', '" + Session.id 
-                                   + "', getdate() ) ");
-
-                mainWindow.Show();
-            }
-            else
-            {
-                var mySettings = new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Quit",
-                    NegativeButtonText = "Cancel",
-                    AnimateShow = true,
-                    AnimateHide = false
-                };
-                MessageBox.Show("Неправильный пароль, пидрилка.", "Error", MessageBoxButton.OK);
-                Shutdown();
-            }
+            mainWindow.Show();
         }
     }
 
