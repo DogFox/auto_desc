@@ -264,14 +264,20 @@ namespace WpfApp2
                 this.Close();
         }
 
-        private void GetPrice_Click(object sender, RoutedEventArgs e)
+        private async void GetPrice_Click(object sender, RoutedEventArgs e)
         {
 
             MenuItem menuItem = (MenuItem)sender;
             if (menuItem.Header.ToString().Equals("Подкачать прайс")) //при нажатии выход - ПО закрывается
             {
+                var controller = await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
+                controller.SetIndeterminate();
+
                 ExcelImport import_price = new ExcelImport();
+                controller.SetProgress(.75);
                 import_price.OpenClick(sender, e);
+
+                await controller.CloseAsync();
             }
         }
 
