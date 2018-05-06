@@ -171,13 +171,14 @@ namespace WpfApp2
         }
         public void EditRowDataGrid()
         {
+            DataRowView drv;
             switch (active_tab_item)
             {
                 case "Cust":
                     break;
 
                 case "Order":
-                    DataRowView drv = OrderGrid.SelectedItem as DataRowView;
+                    drv = OrderGrid.SelectedItem as DataRowView;
                     order edit_order = new order(drv);
 
                     NewOrder newOrder = new NewOrder(edit_order);
@@ -192,6 +193,17 @@ namespace WpfApp2
                     break;
 
                 case "Supl":
+                    drv = SupGrid.SelectedItem as DataRowView;
+                    supplier edit_supplier = new supplier(drv);
+
+                    NewSupplier newSupplier = new NewSupplier(edit_supplier);
+                    newSupplier.Owner = this;
+                    newSupplier.ShowDialog();
+
+                    sdc.SubmitChanges();
+                    supplier_list = sdc.GetAllSuppliers();
+                    SupGrid.ItemsSource = supplier_list;
+                    SupGrid.Items.Refresh();
                     break;
 
                 case "Price":

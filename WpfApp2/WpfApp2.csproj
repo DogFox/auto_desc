@@ -142,6 +142,9 @@
     <Compile Include="NewPart.xaml.cs">
       <DependentUpon>NewPart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewSupplier.xaml.cs">
+      <DependentUpon>NewSupplier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Parts.cs">
       <DependentUpon>Parts.dbml</DependentUpon>
     </Compile>
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewPart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

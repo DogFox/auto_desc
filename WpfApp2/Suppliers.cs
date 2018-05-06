@@ -28,5 +28,29 @@ namespace WpfApp2
 
             return supplier_list;
         }
+        public void SaveChangesInSupplier(supplier sup)
+        {
+            var str = "update dbo.suppliers set   name  = '" + sup.name +
+                                        "', full_name = '" + sup.full_name +
+                                        "', phone = " + sup.phone +
+                                        ", addres = '" + sup.addres +
+                                        "', inn  = " + sup.inn +
+                                        ", kpp  = " + sup.kpp +
+                                        " where id = " + sup.id;
+            ConnectToBase.ExecuteQuery(str);
+        }
+    }
+    public partial class supplier : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+        public supplier(DataRowView _sup)
+        {
+            this.id = Convert.ToInt32(_sup.Row["id"]);
+            this.name = _sup.Row["name"].ToString();
+            this.phone = Convert.ToInt32(_sup.Row["phone"]);
+            this.addres = _sup.Row["addres"].ToString();
+            this.kpp = _sup.Row["kpp"].ToString();
+            this.inn = _sup.Row["inn"].ToString();
+            this.full_name = _sup.Row["full_name"].ToString();
+        }
     }
 }

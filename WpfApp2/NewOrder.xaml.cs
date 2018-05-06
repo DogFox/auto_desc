@@ -80,7 +80,6 @@ namespace WpfApp2
             OrderComment.Text = order.comment;
             if( orderCust.Count > 0 )
                 OrderCustomer.Text = orderCust[0].Row["name"].ToString();
-            this.order = order; //передали входящий объект в объект класса
 
             OrderPartsGrid.ItemsSource = orderParts_list;
             OrderPartsGrid.Items.Refresh();

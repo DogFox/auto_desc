@@ -25,7 +25,13 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="28" VerticalAlignment="Top" Width="auto" >
             <MenuItem Header="Выход" Click="MenuItem_Click"/>
-            <MenuItem Header="Подкачать прайс" Click="GetPrice_Click"/>
+            <MenuItem Header="Подкачать прайс" Click="GetPrice_Click">
+                <Button/>
+                <Button/>
+                <Button/>
+                <Button/>
+                <Button/>
+            </MenuItem>
         </Menu>
         <TabControl x:Name="TabControl" Grid.Row="1" Margin="0,0,0,0" GotFocus="Get_Focus" 
                                       Width="{Binding ActualWidth, ElementName=MainGrid}" 
