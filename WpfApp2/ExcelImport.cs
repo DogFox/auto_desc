@@ -47,97 +47,29 @@ namespace WpfApp2
 
     public class ExcelImport
     { 
-        public void OpenClick(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM;*.CSV";
-            var result = openDialog.ShowDialog();
-            if (result == false)
-            {
-                MessageBox.Show("Файл не выбран!", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                return;
-            }
-            FileInfo file = new FileInfo(openDialog.FileName);
-            StringComparison comp = StringComparison.OrdinalIgnoreCase;
+        public void OpenClick( supplier sup, FileInfo file )
+        { 
             string name = file.Name;
+            PriceParams param = new PriceParams(sup);
 
             if (file.Extension != ".csv")
             {
-                this.importdatafromexcel(openDialog.FileName);
+                this.importdatafromexcel(name);
             }
             else
             {
-                bool headers = false;
-                if (name.Contains("forum", comp))
-                    headers = true;
-                if (name.Contains("minsk", comp) || name.Contains("podolsk", comp))
-                    headers = true;
-                //try
-                //{
-                    this.importdatafromcsv(openDialog.FileName, headers);
-                //}
-                //catch( Exception ex)
-                //{
-                //     MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
-                //}
+                try
+                {
+                    this.importdatafromcsv(name, param.headers);
+                }
+                catch( Exception ex)
+                {
+                    MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
+                }
             }
 
-            string ins_row = "";
-            string del_row = "";
-            if (name.Contains( "forum", comp ) )
-            {
-                del_row = @"delete from dbo.parts
-                            where sup_id = (select top 1 id from dbo.suppliers
-										                            where name = 'Форум')";
-
-                ins_row = @" insert into dbo.parts
-                                ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
-
-                            select c1, c2, c3, '', isnull( Try_convert(float, c4 ), 0 ) c4
-					                                , isnull( Try_convert(int, c5 ), 0 ) c5
-					                                , isnull( Try_convert(int, c6 ), 0 ) c6, c7, (select top 1 id from dbo.suppliers
-										                            where name = 'Форум')
-                                from dbo.parts_import_csv
-                                ";
-            }
-            if (name.Contains("mikado", comp))
-            {
-                del_row = @"delete from dbo.parts
-                            where sup_id = (select top 1 id from dbo.suppliers
-				                             where name = 'Микадо')";
-
-                ins_row = @" insert into dbo.parts
-                             ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
-
-                            select c3, c2, c4, '', isnull( Try_convert(float, c5 ), 0 ) c5
-					                             , isnull( Try_convert(int, c7 ), 0 ) c7
-					                             , isnull( Try_convert(int, c6 ), 0 ) c6, c1, (select top 1 id from dbo.suppliers
-																	                            where name = 'Микадо')
-                             from dbo.parts_import_csv
-                                ";
-            }
-            if (name.Contains("minsk", comp) || name.Contains("podolsk", comp))
-            {
-                del_row = @"delete from dbo.parts
-                            where sup_id = (select top 1 id from dbo.suppliers
-				                             where name = 'Шате-М')";
-
-                ins_row = @" insert into dbo.parts
-                             ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
-
-                            select c1, c2, c3, '', isnull( Try_convert(float, c7 ), 0 ) c7
-					                                , isnull( Try_convert(int, c4 ), 0 ) c4
-					                                , isnull( Try_convert(int, c5 ), 0 ) c5, c8, (select top 1 id from dbo.suppliers
-																	                            where name = 'Шате-М')
-                             from dbo.parts_import_csv
-                                ";
-
-            }
-
-            ConnectToBase.ExecuteQuery(del_row);
-            ConnectToBase.ExecuteQuery(ins_row);
-
-
+            ConnectToBase.ExecuteQuery(param.del_row);
+            ConnectToBase.ExecuteQuery(param.ins_row);
         }
         public void ClearTable( string table )
         {
@@ -214,6 +146,71 @@ namespace WpfApp2
             catch (Exception ex)
             {
                 //handle exception
+            }
+        }
+    }
+
+    public class PriceParams
+    {
+        public string del_row;
+        public string ins_row;
+        public bool headers;
+
+        public PriceParams(supplier sup)
+        {
+            headers = false;
+            switch (sup.name.ToLower())
+            {
+                case "forum_msk":
+                            headers = true;
+                            del_row = @"delete from dbo.parts
+                                    where sup_id = (select top 1 id from dbo.suppliers
+										                                    where name = 'Форум')";
+
+                            ins_row = @" insert into dbo.parts
+                                        ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                                    select c1, c2, c3, '', isnull( Try_convert(float, c4 ), 0 ) c4
+					                                        , isnull( Try_convert(int, c5 ), 0 ) c5
+					                                        , isnull( Try_convert(int, c6 ), 0 ) c6, c7, (select top 1 id from dbo.suppliers
+										                                    where name = 'Форум')
+                                        from dbo.parts_import_csv
+                                        ";
+                            break;
+                case "mikado":
+                            del_row = @"delete from dbo.parts
+                                        where sup_id = (select top 1 id from dbo.suppliers
+				                                         where name = 'Микадо')";
+
+                            ins_row = @" insert into dbo.parts
+                                         ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                                        select c3, c2, c4, '', isnull( Try_convert(float, c5 ), 0 ) c5
+					                                         , isnull( Try_convert(int, c7 ), 0 ) c7
+					                                         , isnull( Try_convert(int, c6 ), 0 ) c6, c1, (select top 1 id from dbo.suppliers
+																	                                        where name = 'Микадо')
+                                         from dbo.parts_import_csv
+                                            ";
+                            break;
+
+                case "minsk":
+                case "podolsk":
+                            headers = true;
+                            del_row = @"delete from dbo.parts
+                                        where sup_id = (select top 1 id from dbo.suppliers
+				                                         where name = 'Шате-М')";
+
+                            ins_row = @" insert into dbo.parts
+                                     ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                                    select c1, c2, c3, '', isnull( Try_convert(float, c7 ), 0 ) c7
+					                                        , isnull( Try_convert(int, c4 ), 0 ) c4
+					                                        , isnull( Try_convert(int, c5 ), 0 ) c5, c8, (select top 1 id from dbo.suppliers
+																	                                    where name = 'Шате-М')
+                                     from dbo.parts_import_csv
+                                        ";
+                            break;
+
             }
         }
     }

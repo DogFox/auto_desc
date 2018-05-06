@@ -278,19 +278,14 @@ namespace WpfApp2
 
         private async void GetPrice_Click(object sender, RoutedEventArgs e)
         {
+            PriceDownload price = new PriceDownload();
+            price.Owner = this;
+            price.ShowDialog();
 
-            MenuItem menuItem = (MenuItem)sender;
-            if (menuItem.Header.ToString().Equals("Подкачать прайс")) //при нажатии выход - ПО закрывается
-            {
-                var controller = await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
-                controller.SetIndeterminate();
-
-                ExcelImport import_price = new ExcelImport();
-                controller.SetProgress(.75);
-                import_price.OpenClick(sender, e);
-
-                await controller.CloseAsync();
-            }
+            var controller = await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
+            controller.SetIndeterminate();
+            controller.SetProgress(.75);
+            await controller.CloseAsync();
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
