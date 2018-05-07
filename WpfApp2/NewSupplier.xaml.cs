@@ -37,6 +37,7 @@ namespace WpfApp2
             addres.Text = sup.addres;
             inn.Text = sup.inn;
             kpp.Text = sup.kpp;
+            kod.Text = sup.kod;
 
             this.sup_to_send = sup;
 
@@ -49,6 +50,7 @@ namespace WpfApp2
             sup_to_send.inn = inn.Text;
             sup_to_send.kpp = kpp.Text;
             sup_to_send.addres = addres.Text;
+            sup_to_send.kod = kod.Text;
 
             sdc.SaveChangesInSupplier(sup_to_send);
 

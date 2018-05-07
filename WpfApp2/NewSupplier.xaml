@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="NewPart" Height="280" Width="616.193">
+        Title="NewPart" Height="310" Width="616.193">
     <Grid Margin="0,0,2,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="200*"></RowDefinition>
-            <RowDefinition Height="100*"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Height="215" Grid.RowSpan="2" Margin="0,0,10,0" VerticalAlignment="Top">
+        <Grid Grid.Row="0" Height="250" Grid.RowSpan="2" Margin="0,0,10,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"></ColumnDefinition>
                 <ColumnDefinition Width="18*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -31,6 +32,7 @@
             <Label Content="ИНН" Grid.Row="3" Grid.Column="0" Margin="4"></Label>
             <Label Content="ИНН" Grid.Row="4" Grid.Column="0" Margin="4"></Label>
             <Label Content="Адрес" Grid.Row="5" Grid.Column="0" Margin="4"></Label>
+            <Label Content="Код прайса" Grid.Row="6" Grid.Column="0" Margin="4"></Label>
 
             <TextBox Name="name" Grid.Column="1" Grid.Row="0" Margin="4"></TextBox>
             <TextBox Name="phone" Grid.Column="1" Grid.Row="1" Margin="4"></TextBox>
@@ -38,6 +40,7 @@
             <TextBox Name="inn" Grid.Column="1" Grid.Row="3" Margin="4"></TextBox>
             <TextBox Name="kpp" Grid.Column="1" Grid.Row="4" Margin="4"></TextBox>
             <TextBox Name="addres" Grid.Column="1" Grid.Row="5" Margin="4"></TextBox>
+            <TextBox Name="kod" Grid.Column="1" Grid.Row="6" Margin="4"></TextBox>
         </Grid>
         <StackPanel Height="35" Orientation="Horizontal" VerticalAlignment="Bottom" RenderTransformOrigin="0.51,0.207" Grid.Row="1">
             <Button Content="OK" x:Name="OK" Click="Apply_Click" Width="100" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"></Button>

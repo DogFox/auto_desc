@@ -276,16 +276,13 @@ namespace WpfApp2
                 this.Close();
         }
 
-        private async void GetPrice_Click(object sender, RoutedEventArgs e)
+        private void GetPrice_Click(object sender, RoutedEventArgs e)
         {
-            PriceDownload price = new PriceDownload();
-            price.Owner = this;
+            PriceDownload price = new PriceDownload
+            {
+                Owner = this
+            };
             price.ShowDialog();
-
-            var controller = await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
-            controller.SetIndeterminate();
-            controller.SetProgress(.75);
-            await controller.CloseAsync();
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)

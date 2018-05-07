@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.IO;
 
 namespace WpfApp2
 {
@@ -46,9 +48,9 @@ namespace WpfApp2
             Supplier_Name.Text = chosed_supplier.name;
             UpdateLayout();
         } 
-        public void OkButton_Click(object sender, RoutedEventArgs e)
+        public async void OkButton_Click(object sender, RoutedEventArgs e)
         { 
-            var controller = this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
+            var controller =  await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
             controller.SetIndeterminate();
 
             ExcelImport import = new ExcelImport();
@@ -56,7 +58,7 @@ namespace WpfApp2
 
             import.OpenClick(chosed_supplier, file);
             
-            controller.CloseAsync();
+            await controller.CloseAsync();
             this.Close();
         }
         public void CancelButton_Click(object sender, RoutedEventArgs e)

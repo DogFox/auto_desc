@@ -24,8 +24,9 @@ namespace WpfApp2
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="auto76")]
 	public partial class SuppliersDataContext : System.Data.Linq.DataContext
-	{ 
-        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+	{
+		
+		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
@@ -93,6 +94,8 @@ namespace WpfApp2
 		
 		private string _inn;
 		
+		private string _kod;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -111,6 +114,8 @@ namespace WpfApp2
     partial void OnkppChanged();
     partial void OninnChanging(string value);
     partial void OninnChanged();
+    partial void OnkodChanging(string value);
+    partial void OnkodChanged();
     #endregion
 		
 		public supplier()
@@ -138,7 +143,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX)", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -158,7 +163,7 @@ namespace WpfApp2
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="Int")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="Int NOT NULL")]
 		public int phone
 		{
 			get
@@ -254,6 +259,26 @@ namespace WpfApp2
 					this._inn = value;
 					this.SendPropertyChanged("inn");
 					this.OninnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_kod", DbType="VarChar(Max)")]
+		public string kod
+		{
+			get
+			{
+				return this._kod;
+			}
+			set
+			{
+				if ((this._kod != value))
+				{
+					this.OnkodChanging(value);
+					this.SendPropertyChanging();
+					this._kod = value;
+					this.SendPropertyChanged("kod");
+					this.OnkodChanged();
 				}
 			}
 		}

@@ -16,7 +16,7 @@
                   GridLinesVisibility ="All"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
-                  MouseDoubleClick="Parts_MouseDoubleClick">
+                  MouseDoubleClick="Sup_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Path= name}"/>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Path= phone}"  />

@@ -49,7 +49,7 @@ namespace WpfApp2
     { 
         public void OpenClick( supplier sup, FileInfo file )
         { 
-            string name = file.Name;
+            string name = file.FullName;
             PriceParams param = new PriceParams(sup);
 
             if (file.Extension != ".csv")
@@ -58,14 +58,15 @@ namespace WpfApp2
             }
             else
             {
-                try
+                    this.importdatafromcsv(name, param );
+               /* try
                 {
-                    this.importdatafromcsv(name, param.headers);
+                    this.importdatafromcsv(name, param );
                 }
                 catch( Exception ex)
                 {
-                    MessageBox.Show("Ошибка в файле прайса." , "Error", MessageBoxButton.OK);
-                }
+                    MessageBox.Show("Прайс загружен с ошибками!" , "Error", MessageBoxButton.OK);
+                }*/
             }
 
             ConnectToBase.ExecuteQuery(param.del_row);
@@ -82,7 +83,7 @@ namespace WpfApp2
             sqlcmd.ExecuteNonQuery();
             sqlconn.Close();
         }
-        public void importdatafromcsv(string excelfilepath, bool headers)
+        public void importdatafromcsv(string excelfilepath, PriceParams param)
         {
             string ssqltable = "dbo.parts_import_csv";
             this.ClearTable(ssqltable);
@@ -90,7 +91,8 @@ namespace WpfApp2
             TextReader textReader = new StreamReader(excelfilepath, Encoding.GetEncoding("windows-1251"));
             //CsvReader csvReader = new CsvReader(new StreamReader(excelfilepath), false, '\t', '"', '"', '#', LumenWorks.Framework.IO.Csv.ValueTrimmingOptions.QuotedOnly);
             Encoding enc = Encoding.GetEncoding(1251);
-            using (var reader = new CsvReader(textReader, headers, ';','\0','\0','#', LumenWorks.Framework.IO.Csv.ValueTrimmingOptions.QuotedOnly))
+            var reader = new CsvReader(textReader, param.headers, param.delimeter, param.quote , param.escape, '#', LumenWorks.Framework.IO.Csv.ValueTrimmingOptions.QuotedOnly);
+            using (reader)
             {
 
                 reader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
@@ -101,6 +103,12 @@ namespace WpfApp2
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c4", Type = typeof(string) },
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c5", Type = typeof(string) },
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c6", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c7", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c8", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c9", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c10", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c11", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c12", Type = typeof(string) },
                 };
 
                 // Now use SQL Bulk Copy to move the data
@@ -155,62 +163,82 @@ namespace WpfApp2
         public string del_row;
         public string ins_row;
         public bool headers;
+        public char delimeter;
+        public char quote;
+        public char escape;
 
         public PriceParams(supplier sup)
         {
             headers = false;
-            switch (sup.name.ToLower())
-            {
-                case "forum_msk":
-                            headers = true;
-                            del_row = @"delete from dbo.parts
+            delimeter = ';';
+            quote = '\0';
+            escape = '\0';
+            del_row = @"delete from dbo.parts
                                     where sup_id = (select top 1 id from dbo.suppliers
-										                                    where name = 'Форум')";
+										                                    where id = " + sup.id + ")";
 
-                            ins_row = @" insert into dbo.parts
-                                        ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+            switch (sup.kod.ToLower())
+            {
+                case "forum_msk"://Форум
+                    headers = true;
 
-                                    select c1, c2, c3, '', isnull( Try_convert(float, c4 ), 0 ) c4
-					                                        , isnull( Try_convert(int, c5 ), 0 ) c5
-					                                        , isnull( Try_convert(int, c6 ), 0 ) c6, c7, (select top 1 id from dbo.suppliers
-										                                    where name = 'Форум')
-                                        from dbo.parts_import_csv
-                                        ";
+                    ins_row = @" insert into dbo.parts
+                                ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+
+                            select c1, c2, c3, '', isnull( Try_convert(float, c4 ), 0 ) c4
+					                                , isnull( Try_convert(int, c5 ), 0 ) c5
+					                                , isnull( Try_convert(int, c6 ), 0 ) c6, c7, (select top 1 id from dbo.suppliers
+										                            where id = " + sup.id + ") " +
+                                        "from dbo.parts_import_csv";
                             break;
-                case "mikado":
-                            del_row = @"delete from dbo.parts
-                                        where sup_id = (select top 1 id from dbo.suppliers
-				                                         where name = 'Микадо')";
+                case "mikado"://Микадо
+                    ins_row = @" insert into dbo.parts
+                                    ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
 
-                            ins_row = @" insert into dbo.parts
-                                         ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+                                select c3, c2, c4, '', isnull( Try_convert(float, c5 ), 0 ) c5
+					                                    , isnull( Try_convert(int, c7 ), 0 ) c7
+					                                    , isnull( Try_convert(int, c6 ), 0 ) c6, c1, (select top 1 id from dbo.suppliers
+																	                                where id = " + sup.id + ") " +
+                                        "from dbo.parts_import_csv";
+                    break;
 
-                                        select c3, c2, c4, '', isnull( Try_convert(float, c5 ), 0 ) c5
-					                                         , isnull( Try_convert(int, c7 ), 0 ) c7
-					                                         , isnull( Try_convert(int, c6 ), 0 ) c6, c1, (select top 1 id from dbo.suppliers
-																	                                        where name = 'Микадо')
-                                         from dbo.parts_import_csv
-                                            ";
-                            break;
+                case "shate"://Шате-М
 
-                case "minsk":
-                case "podolsk":
-                            headers = true;
-                            del_row = @"delete from dbo.parts
-                                        where sup_id = (select top 1 id from dbo.suppliers
-				                                         where name = 'Шате-М')";
+                    headers = true;
+                    ins_row = @" insert into dbo.parts
+                                ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
 
-                            ins_row = @" insert into dbo.parts
+                            select c1, c2, c3, '', isnull( Try_convert(float, c7 ), 0 ) c7
+					                                , isnull( Try_convert(int, c4 ), 0 ) c4
+					                                , isnull( Try_convert(int, c5 ), 0 ) c5, c8, (select top 1 id from dbo.suppliers
+																	                            where id = " + sup.id + ") " +
+                                        "from dbo.parts_import_csv";
+                    break;
+                case "iksora"://Иксора
+                    delimeter = ',';
+                    ins_row = @" insert into dbo.parts
                                      ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
 
-                                    select c1, c2, c3, '', isnull( Try_convert(float, c7 ), 0 ) c7
-					                                        , isnull( Try_convert(int, c4 ), 0 ) c4
-					                                        , isnull( Try_convert(int, c5 ), 0 ) c5, c8, (select top 1 id from dbo.suppliers
-																	                                    where name = 'Шате-М')
-                                     from dbo.parts_import_csv
-                                        ";
-                            break;
+                                    select c1, c2, c3, '', isnull( Try_convert(float, replace(c5 , ',', '.')), 0 ) c5
+                                                           , isnull( Try_convert(int, c4 ), 0 ) c4 
+                                                           , isnull( Try_convert(int, c6 ), 0 ) c6, c8, (select top 1 id from dbo.suppliers
+																	                                    where id = " + sup.id + ") " +
+                                      "from dbo.parts_import_csv";
+                    break;
+                case "rossko"://Иксора
+                    headers = true;
+                    quote = '"';
+                    escape = '"';
+                    ins_row = @" insert into dbo.parts
+                                     ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
 
+                                    select c1, c2, c3, '', isnull( Try_convert(float, replace(c5 , ',', '.')), 0 ) c5
+                                                           , isnull( Try_convert(int, c4 ), 0 ) c4 
+                                                           , isnull( Try_convert(int, c6 ), 0 ) c6, c8, (select top 1 id from dbo.suppliers
+																	                                    where id = " + sup.id + ") " +
+                                      "from dbo.parts_import_csv";
+                    break;
+                    
             }
         }
     }

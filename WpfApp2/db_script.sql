@@ -92,7 +92,10 @@ values( 'ALEXANDR', '12345' )
 								   c6  varchar(max), 
 								   c7 varchar(max),
 								   c8 varchar(max),
-								   c9 varchar(max)
+								   c9 varchar(max),
+								   c10 varchar(max),
+								   c11 varchar(max),
+								   c12 varchar(max) 
 								   )
 
   drop table if exists dbo.suppliers;
@@ -103,7 +106,7 @@ values( 'ALEXANDR', '12345' )
 								   full_name  varchar(max) ,
 								   addres  varchar(max) ,
 								   kpp  varchar(max) ,
-								   inn  varchar(max)  
+								   inn  varchar(max) 
 								   )
 								   
   drop table if exists dbo.orders;
@@ -141,8 +144,12 @@ FROM            dbo.orders AS o INNER JOIN
 GROUP BY o.id, o.number, o.cust_id, o.comment, o.status, o.date, o.author, c.name
 
 alter table dbo.orders
-add type int
+add [type] int
 
 update dbo.orders
 set [type] =1 
+
+
+alter table dbo.suppliers
+add kod varchar(50)
 

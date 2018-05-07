@@ -9,6 +9,7 @@
       <Column Name="addres" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="kpp" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="inn" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="kod" Type="System.String" DbType="VarChar(Max)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
