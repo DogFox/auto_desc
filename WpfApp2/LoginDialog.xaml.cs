@@ -33,10 +33,10 @@ namespace WpfApp2
             if (check_autorization.Count == 1)
             {
                 Session.Name = check_autorization[0].Row["login"].ToString();
-                Session.id = (int)check_autorization[0].Row["id"];
+                Session.Id = (int)check_autorization[0].Row["id"];
 
                 ConnectToBase.ExecuteQuery("insert into dbo.Session ( login, id_login, time )"
-                                   + " Values ( '" + Session.Name + "', '" + Session.id
+                                   + " Values ( '" + Session.Name + "', '" + Session.Id
                                    + "', getdate() ) ");
                 this.Close();
 

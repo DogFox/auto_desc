@@ -54,19 +54,18 @@ namespace WpfApp2
 
             if (file.Extension != ".csv")
             {
-                this.importdatafromexcel(name);
+                this.ImportDataFromExcel(name);
             }
             else
             {
-                    this.importdatafromcsv(name, param );
-               /* try
+                try
                 {
-                    this.importdatafromcsv(name, param );
+                    this.ImportDataFromCSV(name, param );
                 }
-                catch( Exception ex)
+                catch
                 {
                     MessageBox.Show("Прайс загружен с ошибками!" , "Error", MessageBoxButton.OK);
-                }*/
+                }
             }
 
             ConnectToBase.ExecuteQuery(param.del_row);
@@ -83,7 +82,7 @@ namespace WpfApp2
             sqlcmd.ExecuteNonQuery();
             sqlconn.Close();
         }
-        public void importdatafromcsv(string excelfilepath, PriceParams param)
+        public void ImportDataFromCSV(string excelfilepath, PriceParams param)
         {
             string ssqltable = "dbo.parts_import_csv";
             this.ClearTable(ssqltable);
@@ -109,6 +108,9 @@ namespace WpfApp2
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c10", Type = typeof(string) },
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c11", Type = typeof(string) },
                    new LumenWorks.Framework.IO.Csv.Column { Name = "c12", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c13", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c14", Type = typeof(string) },
+                   new LumenWorks.Framework.IO.Csv.Column { Name = "c15", Type = typeof(string) }
                 };
 
                 // Now use SQL Bulk Copy to move the data
@@ -121,7 +123,7 @@ namespace WpfApp2
             }
         }
 
-        public void importdatafromexcel(string excelfilepath)
+        public void ImportDataFromExcel(string excelfilepath)
         {
             FileInfo file = new FileInfo(excelfilepath);
             //declare variables - edit these based on your particular situation
@@ -142,8 +144,10 @@ namespace WpfApp2
                 OleDbCommand oledbcmd = new OleDbCommand(myexceldataquery, oledbconn);
                 oledbconn.Open();
                 OleDbDataReader dr = oledbcmd.ExecuteReader();
-                SqlBulkCopy bulkcopy = new SqlBulkCopy(ConnectToBase.GetConnectionString());
-                bulkcopy.DestinationTableName = ssqltable;
+                SqlBulkCopy bulkcopy = new SqlBulkCopy(ConnectToBase.GetConnectionString())
+                {
+                    DestinationTableName = ssqltable
+                };
                 while (dr.Read())
                 {
                     bulkcopy.WriteToServer(dr);
@@ -151,7 +155,7 @@ namespace WpfApp2
                 dr.Close();
                 oledbconn.Close();
             }
-            catch (Exception ex)
+            catch 
             {
                 //handle exception
             }
@@ -216,6 +220,8 @@ namespace WpfApp2
                     break;
                 case "iksora"://Иксора
                     delimeter = ',';
+                    escape = '"';
+                    quote = '"';
                     ins_row = @" insert into dbo.parts
                                      ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
 
@@ -227,15 +233,17 @@ namespace WpfApp2
                     break;
                 case "rossko"://Иксора
                     headers = true;
-                    quote = '"';
-                    escape = '"';
-                    ins_row = @" insert into dbo.parts
-                                     ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) 
+                    escape = '\0';
+                    quote = '\0';
 
-                                    select c1, c2, c3, '', isnull( Try_convert(float, replace(c5 , ',', '.')), 0 ) c5
-                                                           , isnull( Try_convert(int, c4 ), 0 ) c4 
-                                                           , isnull( Try_convert(int, c6 ), 0 ) c6, c8, (select top 1 id from dbo.suppliers
-																	                                    where id = " + sup.id + ") " +
+                    ins_row = " insert into dbo.parts " +
+                                   "  ( producer, part_number, name, model, sup_price, count, ratio, code, sup_id ) " + 
+                                 "   select replace(c2 , '\"', ''), replace(c11 , '\"', ''), replace(c4, '\"', '') " +
+                                                    "  , '', isnull(Try_convert(float, replace(replace(c7, '\"', ''), ',', '.')), 0) " +
+                                                    "   , isnull(Try_convert(int, replace(c9, '\"', '')), 0) " + 
+                                                    "   , isnull(Try_convert(int, replace(c6, '\"', '')), 0) " +
+                                                    "   , replace(c1, '\"', ''), (select top 1 id from dbo.suppliers " +
+                                                                              " where id = " + sup.id + ") " +
                                       "from dbo.parts_import_csv";
                     break;
                     

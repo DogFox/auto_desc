@@ -95,7 +95,8 @@ values( 'ALEXANDR', '12345' )
 								   c9 varchar(max),
 								   c10 varchar(max),
 								   c11 varchar(max),
-								   c12 varchar(max) 
+								   c12 varchar(max),
+								   c13 varchar(max) 
 								   )
 
   drop table if exists dbo.suppliers;

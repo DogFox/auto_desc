@@ -105,12 +105,14 @@ namespace WpfApp2
             switch (active_tab_item)
             {
                 case "Cust":
-                    customer new_cust = new customer();
-                    new_cust.name = "Ввдите имя";
-                    new_cust.phone = "Укажите телефон";
-                    new_cust.addres = "Введите адрес";
-                    new_cust.price_level = 1;
-                    new_cust.id = 1;
+                    customer new_cust = new customer
+                    {
+                        name = "Ввдите имя",
+                        phone = "Укажите телефон",
+                        addres = "Введите адрес",
+                        price_level = 1,
+                        id = 1
+                    };
                     this.cdc.customers.InsertOnSubmit(new_cust);
                     this.cdc.SubmitChanges();
 
@@ -122,8 +124,10 @@ namespace WpfApp2
                     break;
 
                 case "Order":
-                    NewOrder newOrder = new NewOrder();
-                    newOrder.Owner = this;
+                    NewOrder newOrder = new NewOrder
+                    {
+                        Owner = this
+                    };
                     newOrder.ShowDialog();
 
                     order_list = odc.GetAllOrders();
@@ -133,12 +137,14 @@ namespace WpfApp2
                     break;
 
                 case "Supl":
-                    supplier new_supplier = new supplier();
-                    new_supplier.name = "имя";
-                    new_supplier.full_name = "полное имя";
-                    new_supplier.inn = "120";
-                    new_supplier.kpp = "1";
-                    new_supplier.phone = 1;
+                    supplier new_supplier = new supplier
+                    {
+                        name = "имя",
+                        full_name = "полное имя",
+                        inn = "120",
+                        kpp = "1",
+                        phone = 1
+                    };
 
                     this.sdc.suppliers.InsertOnSubmit(new_supplier);
                     this.sdc.SubmitChanges();
@@ -153,8 +159,10 @@ namespace WpfApp2
                 case "Price":
                     part new_part = new part();
 
-                    NewPart newPart = new NewPart();
-                    newPart.Owner = this;
+                    NewPart newPart = new NewPart()
+                    {
+                        Owner = this
+                    };
                     newPart.ShowDialog();
 
                     part_list = pdc.GetAllParts();
@@ -181,8 +189,10 @@ namespace WpfApp2
                     drv = OrderGrid.SelectedItem as DataRowView;
                     order edit_order = new order(drv);
 
-                    NewOrder newOrder = new NewOrder(edit_order);
-                    newOrder.Owner = this;
+                    NewOrder newOrder = new NewOrder(edit_order)
+                    {
+                        Owner = this
+                    };
                     newOrder.ShowDialog();
 
                     odc.SubmitChanges();
@@ -196,8 +206,10 @@ namespace WpfApp2
                     drv = SupGrid.SelectedItem as DataRowView;
                     supplier edit_supplier = new supplier(drv);
 
-                    NewSupplier newSupplier = new NewSupplier(edit_supplier);
-                    newSupplier.Owner = this;
+                    NewSupplier newSupplier = new NewSupplier(edit_supplier)
+                    {
+                        Owner = this
+                    };
                     newSupplier.ShowDialog();
 
                     sdc.SubmitChanges();
@@ -289,8 +301,7 @@ namespace WpfApp2
         {
             if (sender != null)
             {
-                DataGrid grid = sender as DataGrid;
-                if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
+                if (sender is DataGrid grid && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
                 {
                     EditRowDataGrid();
                 }

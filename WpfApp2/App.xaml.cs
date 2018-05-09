@@ -38,7 +38,7 @@ namespace WpfApp2
     public static class Session
     {
         public static string Name { get; set; }
-        public static int id { get; set; }
+        public static int Id { get; set; }
     }
     public static class StringExtensions
     {
@@ -83,8 +83,10 @@ namespace WpfApp2
                 if (dt.Columns.Count == 0 && printMsg != "")
                 {
                     dt.Columns.Add(new DataColumn("printMsg"));
-                    List<string> list = new List<string>();
-                    list.Add(printMsg);
+                    List<string> list = new List<string>()
+                    {
+                        printMsg
+                    };
                     dt.Rows.Add(list.ToArray());
                 }
                 return dt.DefaultView;

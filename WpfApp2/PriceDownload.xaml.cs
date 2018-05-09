@@ -32,8 +32,10 @@ namespace WpfApp2
         }
         public void FileButton_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM;*.CSV";
+            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Файл Excel|*.XLSX;*.XLS;*.XLSM;*.CSV"
+            };
             var result = openDialog.ShowDialog();
             file = new FileInfo(openDialog.FileName);
             File_Name.Text = file.Name;
@@ -52,9 +54,9 @@ namespace WpfApp2
         { 
             var controller =  await this.ShowProgressAsync("Подождите...", "Идет загрузка прайслиста!");
             controller.SetIndeterminate();
+            controller.SetProgress(.75);
 
             ExcelImport import = new ExcelImport();
-            controller.SetProgress(.75);
 
             import.OpenClick(chosed_supplier, file);
             
