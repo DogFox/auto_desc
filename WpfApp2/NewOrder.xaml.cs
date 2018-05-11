@@ -90,8 +90,7 @@ namespace WpfApp2
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                var column = e.Column as DataGridBoundColumn;
-                if (column != null)
+                if (e.Column is DataGridBoundColumn column)
                 {
                     var bindingPath = (column.Binding as Binding).Path.Path;
                     if (bindingPath == "price")
